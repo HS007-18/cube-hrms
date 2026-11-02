@@ -207,22 +207,22 @@ export function LeavePage() {
                   <Card key={balance.leave_type_id} className="p-5">
                     <div className="flex items-start justify-between gap-3">
                       <div>
-                        <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-slate-muted">
+                        <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-text-muted">
                           {balance.leave_type_name}
                         </p>
-                        <p className="numeric mt-2 text-3xl font-semibold leading-none text-pine-950">
+                        <p className="numeric mt-2 text-3xl font-semibold leading-none text-on-background">
                           {formatDays(remaining)}
-                          <span className="ml-1 text-[12px] font-medium text-slate-muted">left</span>
+                          <span className="ml-1 text-[12px] font-medium text-text-muted">left</span>
                         </p>
                       </div>
-                      <span className="flex size-9 items-center justify-center rounded-xl bg-gold-100 text-gold-600">
+                      <span className="flex size-9 items-center justify-center rounded-xl bg-primary-light text-primary">
                         <CalendarDays className="size-4" aria-hidden />
                       </span>
                     </div>
-                    <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-pine-900/8">
-                      <div className="h-full rounded-full bg-gold-400" style={{ width: `${percent}%` }} />
+                    <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-on-background/8">
+                      <div className="h-full rounded-full bg-primary-light" style={{ width: `${percent}%` }} />
                     </div>
-                    <p className="mt-2 text-[11px] text-slate-muted">
+                    <p className="mt-2 text-[11px] text-text-muted">
                       {formatDays(used)} used of {formatDays(total)} days in {balance.year}
                     </p>
                   </Card>
@@ -248,7 +248,7 @@ export function LeavePage() {
             />
             <div className="mt-4">
               {myRequests.isLoading ? (
-                <p className="px-6 py-10 text-center text-[13px] text-slate-muted">Loading requests…</p>
+                <p className="px-6 py-10 text-center text-[13px] text-text-muted">Loading requests…</p>
               ) : myRequests.isError ? (
                 <ErrorState
                   title="Requests unavailable"
@@ -258,7 +258,7 @@ export function LeavePage() {
               ) : myRequests.data && myRequests.data.length > 0 ? (
                 <div className="overflow-x-auto">
                   <table className="w-full min-w-[680px] text-left text-[13px]">
-                    <thead className="border-y border-pine-900/8 bg-white/40 text-[10px] font-bold uppercase tracking-[0.14em] text-slate-muted">
+                    <thead className="border-y border-on-background/10 bg-surface/40 text-[10px] font-bold uppercase tracking-[0.14em] text-text-muted">
                       <tr>
                         <th className="px-5 py-3">Type</th>
                         <th className="px-4 py-3">Dates</th>
@@ -268,17 +268,17 @@ export function LeavePage() {
                         <th className="px-5 py-3 text-right">Action</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-pine-900/6">
+                    <tbody className="divide-y divide-on-background/10">
                       {myRequests.data.map((request) => (
-                        <tr key={request.id} className="transition-colors hover:bg-white/45">
-                          <td className="whitespace-nowrap px-5 py-3 font-semibold text-pine-900">
+                        <tr key={request.id} className="transition-colors hover:bg-surface">
+                          <td className="whitespace-nowrap px-5 py-3 font-semibold text-on-background">
                             {request.leave_type_name}
                           </td>
-                          <td className="whitespace-nowrap px-4 py-3 text-slate-ink">
+                          <td className="whitespace-nowrap px-4 py-3 text-on-background">
                             {formatDate(request.from_date)} – {formatDate(request.to_date)}
                           </td>
-                          <td className="whitespace-nowrap px-4 py-3 text-slate-ink">{formatDays(request.days)}</td>
-                          <td className="max-w-[16rem] truncate px-4 py-3 text-slate-muted">
+                          <td className="whitespace-nowrap px-4 py-3 text-on-background">{formatDays(request.days)}</td>
+                          <td className="max-w-[16rem] truncate px-4 py-3 text-text-muted">
                             {request.reason ?? '—'}
                           </td>
                           <td className="px-4 py-3">
@@ -289,14 +289,14 @@ export function LeavePage() {
                               <Button
                                 variant="ghost"
                                 size="sm"
-                                className="text-clay-600"
+                                className="text-error"
                                 loading={cancel.isPending && cancel.variables === request.id}
                                 onClick={() => cancel.mutate(request.id)}
                               >
                                 Cancel
                               </Button>
                             ) : (
-                              <span className="text-[11px] text-slate-muted">
+                              <span className="text-[11px] text-text-muted">
                                 {request.review_comment ?? '—'}
                               </span>
                             )}
@@ -352,7 +352,7 @@ export function LeavePage() {
           />
           <div className="mt-4">
             {approvals.isLoading ? (
-              <p className="px-6 py-10 text-center text-[13px] text-slate-muted">Loading approvals…</p>
+              <p className="px-6 py-10 text-center text-[13px] text-text-muted">Loading approvals…</p>
             ) : approvals.isError ? (
               <ErrorState
                 title="Approvals unavailable"
@@ -362,7 +362,7 @@ export function LeavePage() {
             ) : approvals.data && approvals.data.length > 0 ? (
               <div className="overflow-x-auto">
                 <table className="w-full min-w-[760px] text-left text-[13px]">
-                  <thead className="border-y border-pine-900/8 bg-white/40 text-[10px] font-bold uppercase tracking-[0.14em] text-slate-muted">
+                  <thead className="border-y border-on-background/10 bg-surface/40 text-[10px] font-bold uppercase tracking-[0.14em] text-text-muted">
                     <tr>
                       <th className="px-5 py-3">Employee</th>
                       <th className="px-4 py-3">Type</th>
@@ -373,23 +373,23 @@ export function LeavePage() {
                       <th className="px-5 py-3 text-right">Action</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-pine-900/6">
+                  <tbody className="divide-y divide-on-background/10">
                     {approvals.data.map((request) => (
-                      <tr key={request.id} className="transition-colors hover:bg-white/45">
+                      <tr key={request.id} className="transition-colors hover:bg-surface">
                         <td className="px-5 py-3">
                           <div className="flex items-center gap-2.5">
                             <Avatar name={request.employee_name} size="sm" />
-                            <span className="whitespace-nowrap text-[12px] font-semibold text-pine-900">
+                            <span className="whitespace-nowrap text-[12px] font-semibold text-on-background">
                               {request.employee_name}
                             </span>
                           </div>
                         </td>
-                        <td className="whitespace-nowrap px-4 py-3 text-slate-ink">{request.leave_type_name}</td>
-                        <td className="whitespace-nowrap px-4 py-3 text-slate-ink">
+                        <td className="whitespace-nowrap px-4 py-3 text-on-background">{request.leave_type_name}</td>
+                        <td className="whitespace-nowrap px-4 py-3 text-on-background">
                           {formatDate(request.from_date)} – {formatDate(request.to_date)}
                         </td>
-                        <td className="whitespace-nowrap px-4 py-3 text-slate-ink">{formatDays(request.days)}</td>
-                        <td className="max-w-[14rem] truncate px-4 py-3 text-slate-muted">
+                        <td className="whitespace-nowrap px-4 py-3 text-on-background">{formatDays(request.days)}</td>
+                        <td className="max-w-[14rem] truncate px-4 py-3 text-text-muted">
                           {request.reason ?? '—'}
                         </td>
                         <td className="px-4 py-3">
@@ -411,7 +411,7 @@ export function LeavePage() {
                               <Button
                                 size="sm"
                                 variant="ghost"
-                                className="text-clay-600"
+                                className="text-error"
                                 onClick={() => {
                                   setDenyTarget(request)
                                   setDenyComment('')
@@ -422,7 +422,7 @@ export function LeavePage() {
                               </Button>
                             </div>
                           ) : (
-                            <p className="max-w-[12rem] truncate text-right text-[11px] text-slate-muted">
+                            <p className="max-w-[12rem] truncate text-right text-[11px] text-text-muted">
                               {request.review_comment ?? '—'}
                             </p>
                           )}
@@ -465,7 +465,7 @@ export function LeavePage() {
             {types.data && types.data.length > 0 ? (
               <div className="overflow-x-auto">
                 <table className="w-full min-w-[620px] text-left text-[13px]">
-                  <thead className="border-y border-pine-900/8 bg-white/40 text-[10px] font-bold uppercase tracking-[0.14em] text-slate-muted">
+                  <thead className="border-y border-on-background/10 bg-surface/40 text-[10px] font-bold uppercase tracking-[0.14em] text-text-muted">
                     <tr>
                       <th className="px-5 py-3">Type</th>
                       <th className="px-4 py-3">Code</th>
@@ -475,18 +475,18 @@ export function LeavePage() {
                       <th className="px-5 py-3">Status</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-pine-900/6">
+                  <tbody className="divide-y divide-on-background/10">
                     {types.data.map((type) => (
-                      <tr key={type.id} className="transition-colors hover:bg-white/45">
-                        <td className="whitespace-nowrap px-5 py-3 font-semibold text-pine-900">{type.name}</td>
-                        <td className="px-4 py-3 font-mono text-[11px] text-slate-muted">
+                      <tr key={type.id} className="transition-colors hover:bg-surface">
+                        <td className="whitespace-nowrap px-5 py-3 font-semibold text-on-background">{type.name}</td>
+                        <td className="px-4 py-3 font-mono text-[11px] text-text-muted">
                           {type.code}
                         </td>
-                        <td className="whitespace-nowrap px-4 py-3 text-slate-ink">
+                        <td className="whitespace-nowrap px-4 py-3 text-on-background">
                           {formatDays(type.annual_quota_days)} days
                         </td>
-                        <td className="whitespace-nowrap px-4 py-3 text-slate-ink">{type.is_paid ? 'Yes' : 'No'}</td>
-                        <td className="whitespace-nowrap px-4 py-3 text-slate-ink">
+                        <td className="whitespace-nowrap px-4 py-3 text-on-background">{type.is_paid ? 'Yes' : 'No'}</td>
+                        <td className="whitespace-nowrap px-4 py-3 text-on-background">
                           {type.carry_forward ? 'Yes' : 'No'}
                         </td>
                         <td className="px-5 py-3">
@@ -590,9 +590,9 @@ export function LeavePage() {
             </Field>
           </div>
 
-          <div className="rounded-xl border border-pine-900/8 bg-white/45 px-3.5 py-2.5">
-            <p className="text-[11px] text-slate-muted">
-              <span className="font-semibold text-pine-900">
+          <div className="rounded-xl border border-on-background/10 bg-surface px-3.5 py-2.5">
+            <p className="text-[11px] text-text-muted">
+              <span className="font-semibold text-on-background">
                 {requestedDays} working day{requestedDays === 1 ? '' : 's'}
               </span>{' '}
               selected. {leaveTypeId ? 'This will be deducted on approval.' : 'Choose a leave type to continue.'}
@@ -726,7 +726,7 @@ export function LeavePage() {
             />
           </Field>
           <div className="grid gap-3 sm:grid-cols-2">
-            <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-pine-900/8 bg-white/40 p-3">
+            <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-on-background/10 bg-surface/40 p-3">
               <input
                 type="checkbox"
                 checked={typePaid}
@@ -734,11 +734,11 @@ export function LeavePage() {
                 className="mt-0.5 size-4 accent-[#12332a]"
               />
               <span>
-                <span className="block text-[12px] font-semibold text-pine-900">Paid leave</span>
-                <span className="block text-[10px] text-slate-muted">Counts as paid time off.</span>
+                <span className="block text-[12px] font-semibold text-on-background">Paid leave</span>
+                <span className="block text-[10px] text-text-muted">Counts as paid time off.</span>
               </span>
             </label>
-            <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-pine-900/8 bg-white/40 p-3">
+            <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-on-background/10 bg-surface/40 p-3">
               <input
                 type="checkbox"
                 checked={typeCarryForward}
@@ -746,8 +746,8 @@ export function LeavePage() {
                 className="mt-0.5 size-4 accent-[#12332a]"
               />
               <span>
-                <span className="block text-[12px] font-semibold text-pine-900">Carry forward</span>
-                <span className="block text-[10px] text-slate-muted">Unused days roll to next year.</span>
+                <span className="block text-[12px] font-semibold text-on-background">Carry forward</span>
+                <span className="block text-[10px] text-text-muted">Unused days roll to next year.</span>
               </span>
             </label>
           </div>

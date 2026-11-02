@@ -21,7 +21,7 @@ export function PageHeader({ eyebrow, title, description, actions, className }: 
         {eyebrow ? <p className="eyebrow mb-2">{eyebrow}</p> : null}
         <h1 className="text-[clamp(1.9rem,3vw,2.5rem)] leading-[1.05]">{title}</h1>
         {description ? (
-          <p className="mt-2 max-w-2xl text-sm leading-relaxed text-slate-muted">{description}</p>
+          <p className="mt-2 max-w-2xl text-sm leading-relaxed text-text-muted">{description}</p>
         ) : null}
       </div>
       {actions ? <div className="flex shrink-0 flex-wrap items-center gap-2">{actions}</div> : null}

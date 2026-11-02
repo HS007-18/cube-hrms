@@ -56,8 +56,8 @@ export function ProfilePage() {
         <Card className="p-6">
           <div className="flex flex-col items-center text-center">
             <Avatar name={user.full_name} size="xl" />
-            <h2 className="mt-4 font-display text-2xl text-pine-950">{user.full_name}</h2>
-            <p className="mt-1 flex items-center gap-1.5 text-[12px] text-slate-muted">
+            <h2 className="mt-4 font-display text-2xl text-on-background">{user.full_name}</h2>
+            <p className="mt-1 flex items-center gap-1.5 text-[12px] text-text-muted">
               <Mail className="size-3.5" aria-hidden />
               {user.email}
             </p>
@@ -72,31 +72,31 @@ export function ProfilePage() {
             </div>
           </div>
 
-          <div className="mt-6 space-y-3 border-t border-pine-900/8 pt-5">
+          <div className="mt-6 space-y-3 border-t border-on-background/10 pt-5">
             <div className="flex items-center justify-between gap-3 text-[12px]">
-              <span className="flex items-center gap-2 text-slate-muted">
+              <span className="flex items-center gap-2 text-text-muted">
                 <Building2 className="size-3.5" aria-hidden />
                 Workspace
               </span>
-              <span className="font-semibold text-pine-900">
+              <span className="font-semibold text-on-background">
                 {user.tenant_name ?? 'Platform console'}
               </span>
             </div>
             <div className="flex items-center justify-between gap-3 text-[12px]">
-              <span className="flex items-center gap-2 text-slate-muted">
+              <span className="flex items-center gap-2 text-text-muted">
                 <UserRound className="size-3.5" aria-hidden />
                 Employee ID
               </span>
-              <span className="font-mono text-[11px] font-semibold text-pine-900">
+              <span className="font-mono text-[11px] font-semibold text-on-background">
                 {record?.employee_code ?? user.employee_id ?? '—'}
               </span>
             </div>
             <div className="flex items-center justify-between gap-3 text-[12px]">
-              <span className="flex items-center gap-2 text-slate-muted">
+              <span className="flex items-center gap-2 text-text-muted">
                 <CalendarDays className="size-3.5" aria-hidden />
                 Joined
               </span>
-              <span className="font-semibold text-pine-900">
+              <span className="font-semibold text-on-background">
                 {record ? formatDate(record.date_of_joining) : '—'}
               </span>
             </div>
@@ -111,9 +111,9 @@ export function ProfilePage() {
                 title="CUBE administrator"
                 description="This account sits above tenant row-level security and is limited to tenant administration."
               />
-              <div className="mt-4 flex items-start gap-3 rounded-xl border border-gold-200 bg-gold-100/50 p-4">
-                <ShieldCheck className="mt-0.5 size-4 shrink-0 text-gold-600" aria-hidden />
-                <p className="text-[12px] leading-relaxed text-gold-600">
+              <div className="mt-4 flex items-start gap-3 rounded-xl border border-gold-200 bg-primary-light/50 p-4">
+                <ShieldCheck className="mt-0.5 size-4 shrink-0 text-primary" aria-hidden />
+                <p className="text-[12px] leading-relaxed text-primary">
                   Platform administrators cannot open tenant HR endpoints such as the employee
                   directory, attendance, or leave. Those actions belong to the tenant’s own HR team.
                 </p>
@@ -126,7 +126,7 @@ export function ProfilePage() {
                 title="No employee record linked"
                 description="Your login works, but there is no people record attached to it yet."
               />
-              <p className="mt-4 rounded-xl border border-pine-900/8 bg-white/45 px-3.5 py-3 text-[12px] leading-relaxed text-slate-muted">
+              <p className="mt-4 rounded-xl border border-on-background/10 bg-surface px-3.5 py-3 text-[12px] leading-relaxed text-text-muted">
                 Ask an HR administrator to add you to the directory or link your account. Leave
                 balances and attendance need an employee record.
               </p>
@@ -182,10 +182,10 @@ export function ProfilePage() {
               title="Session & access"
               description="Access tokens last 30 minutes and refresh securely in the background."
             />
-            <div className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-pine-900/8 bg-white/45 px-3.5 py-3">
+            <div className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-on-background/10 bg-surface px-3.5 py-3">
               <div>
-                <p className="text-[12px] font-semibold text-pine-900">Active session</p>
-                <p className="mt-0.5 text-[11px] text-slate-muted">
+                <p className="text-[12px] font-semibold text-on-background">Active session</p>
+                <p className="mt-0.5 text-[11px] text-text-muted">
                   Signing out revokes every refresh token issued to this account.
                 </p>
               </div>
@@ -213,10 +213,10 @@ function Detail({
   icon?: ReactNode
 }) {
   return (
-    <div className="border-b border-pine-900/6 pb-3">
-      <dt className="text-[10px] font-bold uppercase tracking-[0.14em] text-slate-muted">{label}</dt>
+    <div className="border-b border-on-background/10 pb-3">
+      <dt className="text-[10px] font-bold uppercase tracking-[0.14em] text-text-muted">{label}</dt>
       <dd
-        className={`mt-1 flex items-center gap-1.5 text-[13px] font-medium text-pine-900 ${
+        className={`mt-1 flex items-center gap-1.5 text-[13px] font-medium text-on-background ${
           mono ? 'font-mono text-[12px]' : ''
         }`}
       >

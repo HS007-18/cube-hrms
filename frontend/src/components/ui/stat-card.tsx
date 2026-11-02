@@ -7,9 +7,9 @@ type Tone = 'pine' | 'gold' | 'sage' | 'clay'
 
 const tones: Record<Tone, string> = {
   pine: 'bg-pine-100/80 text-pine-800',
-  gold: 'bg-gold-100 text-gold-600',
+  gold: 'bg-primary-light text-primary',
   sage: 'bg-sage-50 text-sage-600',
-  clay: 'bg-clay-50 text-clay-600',
+  clay: 'bg-error-light text-error',
 }
 
 interface StatCardProps {
@@ -25,13 +25,13 @@ export function StatCard({ label, value, hint, icon: Icon, tone = 'pine' }: Stat
     <Card className="group relative overflow-hidden p-5">
       <div className="flex items-start justify-between gap-4">
         <div className="min-w-0">
-          <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-slate-muted">
+          <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-text-muted">
             {label}
           </p>
-          <p className="numeric mt-2 text-[1.9rem] font-semibold leading-none text-pine-950">
+          <p className="numeric mt-2 text-[1.9rem] font-semibold leading-none text-on-background">
             {value}
           </p>
-          {hint ? <p className="mt-2 text-[12px] leading-snug text-slate-muted">{hint}</p> : null}
+          {hint ? <p className="mt-2 text-[12px] leading-snug text-text-muted">{hint}</p> : null}
         </div>
         <span
           className={cn(

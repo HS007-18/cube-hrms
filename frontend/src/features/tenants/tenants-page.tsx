@@ -196,7 +196,7 @@ export function TenantsPage() {
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
           <div className="relative flex-1">
             <Search
-              className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-slate-muted"
+              className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-text-muted"
               aria-hidden
             />
             <Input
@@ -237,14 +237,14 @@ export function TenantsPage() {
             <Card key={tenant.id} className="p-5">
               <div className="flex items-start justify-between gap-3">
                 <div className="flex min-w-0 items-start gap-3">
-                  <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-pine-950 font-display text-[15px] font-semibold text-gold-400">
+                  <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-on-background font-display text-[15px] font-semibold text-primary-light">
                     {tenant.name.slice(0, 1).toUpperCase()}
                   </span>
                   <div className="min-w-0">
-                    <p className="truncate font-display text-[17px] font-medium text-pine-950">
+                    <p className="truncate font-display text-[17px] font-medium text-on-background">
                       {tenant.name}
                     </p>
-                    <p className="truncate font-mono text-[10px] text-slate-muted">{tenant.slug}</p>
+                    <p className="truncate font-mono text-[10px] text-text-muted">{tenant.slug}</p>
                   </div>
                 </div>
                 <StatusBadge status={tenant.status} />
@@ -262,8 +262,8 @@ export function TenantsPage() {
                 </Badge>
               </div>
 
-              <div className="mt-4 flex items-center justify-between gap-2 border-t border-pine-900/8 pt-3">
-                <p className="truncate text-[11px] text-slate-muted">
+              <div className="mt-4 flex items-center justify-between gap-2 border-t border-on-background/10 pt-3">
+                <p className="truncate text-[11px] text-text-muted">
                   {tenant.contact_email ?? 'No contact email'}
                 </p>
                 <Button variant="secondary" size="sm" onClick={() => setSelectedId(tenant.id)}>
@@ -398,8 +398,8 @@ export function TenantsPage() {
             </Field>
           </div>
 
-          <div className="rounded-xl border border-pine-900/8 bg-white/40 p-4">
-            <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-gold-600">
+          <div className="rounded-xl border border-on-background/10 bg-surface/40 p-4">
+            <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-primary">
               Owner account
             </p>
             <div className="mt-3 grid gap-4 sm:grid-cols-2">
@@ -421,7 +421,7 @@ export function TenantsPage() {
                 />
               </Field>
             </div>
-            <p className="mt-3 text-[11px] leading-relaxed text-slate-muted">
+            <p className="mt-3 text-[11px] leading-relaxed text-text-muted">
               The owner receives the HR administrator role. A temporary password is generated and
               shown once after creation.
             </p>
@@ -448,25 +448,25 @@ export function TenantsPage() {
         }
       >
         <div className="space-y-3">
-          <div className="rounded-xl border border-pine-900/8 bg-white/55 p-3">
-            <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-slate-muted">
+          <div className="rounded-xl border border-on-background/10 bg-surface p-3">
+            <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-text-muted">
               Workspace
             </p>
-            <p className="mt-1 text-[13px] font-semibold text-pine-900">{credential?.tenantName}</p>
+            <p className="mt-1 text-[13px] font-semibold text-on-background">{credential?.tenantName}</p>
           </div>
-          <div className="rounded-xl border border-pine-900/8 bg-white/55 p-3">
-            <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-slate-muted">
+          <div className="rounded-xl border border-on-background/10 bg-surface p-3">
+            <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-text-muted">
               Owner email
             </p>
-            <p className="mt-1 break-all text-[13px] font-semibold text-pine-900">
+            <p className="mt-1 break-all text-[13px] font-semibold text-on-background">
               {credential?.email}
             </p>
           </div>
-          <div className="rounded-xl border border-gold-200 bg-gold-100/60 p-3">
-            <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-gold-600">
+          <div className="rounded-xl border border-gold-200 bg-primary-light/60 p-3">
+            <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-primary">
               Temporary password
             </p>
-            <p className="numeric mt-1 font-mono text-[15px] font-semibold text-pine-950">
+            <p className="numeric mt-1 font-mono text-[15px] font-semibold text-on-background">
               {credential?.password}
             </p>
           </div>
@@ -524,7 +524,7 @@ export function TenantsPage() {
                   </Button>
                 ) : null}
                 {detail.data.status !== 'cancelled' ? (
-                  <Button variant="ghost" className="text-clay-600" onClick={() => setCancelTarget(detail.data ?? null)}>
+                  <Button variant="ghost" className="text-error" onClick={() => setCancelTarget(detail.data ?? null)}>
                     Cancel tenant
                   </Button>
                 ) : null}
@@ -534,7 +534,7 @@ export function TenantsPage() {
         }
       >
         {detail.isLoading ? (
-          <p className="py-8 text-center text-[13px] text-slate-muted">Loading tenant…</p>
+          <p className="py-8 text-center text-[13px] text-text-muted">Loading tenant…</p>
         ) : detail.isError || !detail.data ? (
           <ErrorState
             title="Tenant unavailable"
@@ -582,13 +582,13 @@ function TenantDetailView({ tenant }: { tenant: TenantDetail }) {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center gap-3 rounded-xl border border-pine-900/8 bg-white/45 p-4">
-        <span className="flex size-11 items-center justify-center rounded-xl bg-pine-950 font-display text-lg font-semibold text-gold-400">
+      <div className="flex items-center gap-3 rounded-xl border border-on-background/10 bg-surface p-4">
+        <span className="flex size-11 items-center justify-center rounded-xl bg-on-background font-display text-lg font-semibold text-primary-light">
           {tenant.name.slice(0, 1).toUpperCase()}
         </span>
         <div className="min-w-0">
-          <p className="truncate font-display text-lg text-pine-950">{tenant.name}</p>
-          <p className="truncate font-mono text-[10px] text-slate-muted">
+          <p className="truncate font-display text-lg text-on-background">{tenant.name}</p>
+          <p className="truncate font-mono text-[10px] text-text-muted">
             {tenant.slug}
             {tenant.domain ? ` · ${tenant.domain}` : ''}
           </p>
@@ -597,17 +597,17 @@ function TenantDetailView({ tenant }: { tenant: TenantDetail }) {
 
       <dl className="grid gap-x-6 gap-y-3 sm:grid-cols-2">
         {rows.map((row) => (
-          <div key={row.label} className="border-b border-pine-900/6 pb-2">
-            <dt className="text-[10px] font-bold uppercase tracking-[0.14em] text-slate-muted">
+          <div key={row.label} className="border-b border-on-background/10 pb-2">
+            <dt className="text-[10px] font-bold uppercase tracking-[0.14em] text-text-muted">
               {row.label}
             </dt>
-            <dd className="mt-1 text-[13px] font-medium text-pine-900">{row.value}</dd>
+            <dd className="mt-1 text-[13px] font-medium text-on-background">{row.value}</dd>
           </div>
         ))}
       </dl>
 
       {tenant.status === 'pending' ? (
-        <p className="rounded-xl border border-gold-200 bg-gold-100/50 px-3.5 py-2.5 text-[11px] leading-relaxed text-gold-600">
+        <p className="rounded-xl border border-gold-200 bg-primary-light/50 px-3.5 py-2.5 text-[11px] leading-relaxed text-primary">
           Provisioning activates the owner account and seeds default departments, designations, and
           leave types. The owner can sign in immediately afterwards.
         </p>

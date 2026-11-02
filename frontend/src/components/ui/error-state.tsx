@@ -15,11 +15,11 @@ export function ErrorState({
 }: ErrorStateProps) {
   return (
     <Card className="flex flex-col items-center justify-center px-6 py-14 text-center">
-      <span className="flex size-11 items-center justify-center rounded-2xl bg-clay-50 text-clay-600">
+      <span className="flex size-11 items-center justify-center rounded-2xl bg-error-light text-error">
         <CircleAlert className="size-5" aria-hidden />
       </span>
-      <h3 className="mt-4 text-base font-semibold text-pine-900">{title}</h3>
-      <p className="mt-1.5 max-w-sm text-[13px] leading-relaxed text-slate-muted">{message}</p>
+      <h3 className="mt-4 text-base font-semibold text-on-background">{title}</h3>
+      <p className="mt-1.5 max-w-sm text-[13px] leading-relaxed text-text-muted">{message}</p>
       {onRetry ? (
         <Button variant="secondary" className="mt-5" onClick={onRetry}>
           Try again

@@ -170,19 +170,19 @@ export function AttendancePage() {
         }
       />
 
-      <Card className="overflow-hidden border-0 bg-pine-950 p-0 text-ivory-100">
+      <Card className="overflow-hidden border-0 bg-on-background p-0 text-on-background">
         <div className="grid gap-6 p-6 sm:p-8 lg:grid-cols-[1.2fr_1fr] lg:items-center">
           <div>
-            <p className="eyebrow !text-gold-400">Today · {formatDate(today, { weekday: 'long' })}</p>
+            <p className="eyebrow !text-primary-light">Today · {formatDate(today, { weekday: 'long' })}</p>
             <div className="mt-3 flex flex-wrap items-baseline gap-x-4 gap-y-1">
-              <p className="numeric font-display text-[clamp(2.6rem,5vw,4rem)] font-normal leading-none text-ivory-50">
+              <p className="numeric font-display text-[clamp(2.6rem,5vw,4rem)] font-normal leading-none text-on-background">
                 {clockTime}
               </p>
-              <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-ivory-100/40">
+              <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-on-background/40">
                 IST
               </span>
             </div>
-            <p className="mt-3 max-w-md text-[13px] leading-relaxed text-ivory-100/55">
+            <p className="mt-3 max-w-md text-[13px] leading-relaxed text-on-background/55">
               {todayRecord?.clock_out
                 ? `Your day is closed at ${formatTime(todayRecord.clock_out)} with ${formatMinutes(todayRecord.work_minutes)} recorded.`
                 : todayRecord?.clock_in
@@ -194,19 +194,19 @@ export function AttendancePage() {
           <div className="rounded-2xl border border-white/10 bg-white/6 p-5">
             <div className="flex items-center justify-between gap-3">
               <div>
-                <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-ivory-100/40">
+                <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-on-background/40">
                   Today’s record
                 </p>
-                <p className="numeric mt-1 text-xl font-semibold text-ivory-50">
+                <p className="numeric mt-1 text-xl font-semibold text-on-background">
                   {formatTime(todayRecord?.clock_in)}
-                  <span className="mx-2 text-sm font-normal text-ivory-100/35">→</span>
+                  <span className="mx-2 text-sm font-normal text-on-background/35">→</span>
                   {formatTime(todayRecord?.clock_out)}
                 </p>
               </div>
               {todayRecord ? (
                 <StatusBadge status={todayRecord.status} />
               ) : (
-                <span className="rounded-full border border-white/12 px-2.5 py-0.5 text-[11px] font-semibold text-ivory-100/50">
+                <span className="rounded-full border border-white/12 px-2.5 py-0.5 text-[11px] font-semibold text-on-background/50">
                   Not started
                 </span>
               )}
@@ -215,7 +215,7 @@ export function AttendancePage() {
             <div className="mt-4 flex flex-wrap gap-2">
               {!todayRecord?.clock_in ? (
                 <Button
-                  className="flex-1 bg-gold-400 text-pine-950 hover:bg-gold-200"
+                  className="flex-1 bg-primary-light text-on-background hover:bg-gold-200"
                   loading={clockIn.isPending}
                   onClick={() => clockIn.mutate()}
                 >
@@ -225,7 +225,7 @@ export function AttendancePage() {
               ) : null}
               {todayRecord?.clock_in && !todayRecord?.clock_out ? (
                 <Button
-                  className="flex-1 bg-ivory-50 text-pine-950 hover:bg-white"
+                  className="flex-1 bg-surface text-on-background hover:bg-surface-hover"
                   loading={clockOut.isPending}
                   onClick={() => clockOut.mutate()}
                 >
@@ -234,14 +234,14 @@ export function AttendancePage() {
                 </Button>
               ) : null}
               {todayRecord?.clock_out ? (
-                <p className="flex w-full items-center justify-center gap-2 rounded-xl border border-white/10 px-3 py-2 text-[12px] font-semibold text-ivory-100/60">
-                  <CheckCircle2 className="size-4 text-gold-400" aria-hidden />
+                <p className="flex w-full items-center justify-center gap-2 rounded-xl border border-white/10 px-3 py-2 text-[12px] font-semibold text-on-background/60">
+                  <CheckCircle2 className="size-4 text-primary-light" aria-hidden />
                   Attendance complete for today
                 </p>
               ) : null}
             </div>
             {todayRecord?.notes ? (
-              <p className="mt-3 text-[11px] leading-relaxed text-ivory-100/40">{todayRecord.notes}</p>
+              <p className="mt-3 text-[11px] leading-relaxed text-on-background/40">{todayRecord.notes}</p>
             ) : null}
           </div>
         </div>
@@ -263,7 +263,7 @@ export function AttendancePage() {
             </>
           )}
         </div>
-        <label className="flex items-center gap-2 text-[11px] font-semibold text-slate-muted">
+        <label className="flex items-center gap-2 text-[11px] font-semibold text-text-muted">
           Month
           <Input
             type="month"
@@ -285,7 +285,7 @@ export function AttendancePage() {
           />
           <div className="mt-4">
             {mine.isLoading ? (
-              <p className="px-6 py-10 text-center text-[13px] text-slate-muted">Loading records…</p>
+              <p className="px-6 py-10 text-center text-[13px] text-text-muted">Loading records…</p>
             ) : mineRecords.length > 0 ? (
               <RecordTable
                 records={mineRecords}
@@ -320,7 +320,7 @@ export function AttendancePage() {
           />
           <div className="mt-4">
             {team.isLoading ? (
-              <p className="px-6 py-10 text-center text-[13px] text-slate-muted">Loading records…</p>
+              <p className="px-6 py-10 text-center text-[13px] text-text-muted">Loading records…</p>
             ) : team.isError ? (
               <ErrorState
                 title="Team attendance unavailable"
@@ -425,7 +425,7 @@ function RecordTable({
     <>
       <div className="hidden overflow-x-auto md:block">
         <table className="w-full text-left text-[13px]">
-          <thead className="border-y border-pine-900/8 bg-white/40 text-[10px] font-bold uppercase tracking-[0.14em] text-slate-muted">
+          <thead className="border-y border-on-background/10 bg-surface/40 text-[10px] font-bold uppercase tracking-[0.14em] text-text-muted">
             <tr>
               {showEmployee ? <th className="px-5 py-3">Employee</th> : null}
               <th className="px-5 py-3">Date</th>
@@ -437,33 +437,33 @@ function RecordTable({
               {canCorrect ? <th className="px-5 py-3 text-right">Action</th> : null}
             </tr>
           </thead>
-          <tbody className="divide-y divide-pine-900/6">
+          <tbody className="divide-y divide-on-background/10">
             {records.map((record) => (
-              <tr key={record.id} className="transition-colors hover:bg-white/45">
+              <tr key={record.id} className="transition-colors hover:bg-surface">
                 {showEmployee ? (
                   <td className="px-5 py-3">
                     <div className="flex items-center gap-2.5">
                       <Avatar name={record.employee_name} size="sm" />
-                      <span className="text-[12px] font-semibold text-pine-900">
+                      <span className="text-[12px] font-semibold text-on-background">
                         {record.employee_name ?? `Employee #${record.employee_id}`}
                       </span>
                     </div>
                   </td>
                 ) : null}
-                <td className="px-5 py-3 text-slate-ink">
+                <td className="px-5 py-3 text-on-background">
                   {formatDate(record.work_date, { weekday: 'short' })}
                 </td>
-                <td className="px-4 py-3 font-mono text-[12px] text-slate-ink">
+                <td className="px-4 py-3 font-mono text-[12px] text-on-background">
                   {formatTime(record.clock_in)}
                 </td>
-                <td className="px-4 py-3 font-mono text-[12px] text-slate-ink">
+                <td className="px-4 py-3 font-mono text-[12px] text-on-background">
                   {formatTime(record.clock_out)}
                 </td>
-                <td className="px-4 py-3 text-slate-ink">{formatMinutes(record.work_minutes)}</td>
+                <td className="px-4 py-3 text-on-background">{formatMinutes(record.work_minutes)}</td>
                 <td className="px-4 py-3">
                   <StatusBadge status={record.status} />
                 </td>
-                <td className="max-w-[14rem] truncate px-4 py-3 text-[11px] text-slate-muted">
+                <td className="max-w-[14rem] truncate px-4 py-3 text-[11px] text-text-muted">
                   {record.notes ?? '—'}
                 </td>
                 {canCorrect ? (
@@ -480,20 +480,20 @@ function RecordTable({
         </table>
       </div>
 
-      <ul className="divide-y divide-pine-900/6 md:hidden">
+      <ul className="divide-y divide-on-background/10 md:hidden">
         {records.map((record) => (
           <li key={record.id} className="p-4">
             <div className="flex items-start justify-between gap-3">
               <div className="min-w-0">
                 {showEmployee ? (
-                  <p className="truncate text-[13px] font-semibold text-pine-900">
+                  <p className="truncate text-[13px] font-semibold text-on-background">
                     {record.employee_name ?? `Employee #${record.employee_id}`}
                   </p>
                 ) : null}
-                <p className="text-[12px] font-semibold text-pine-900">
+                <p className="text-[12px] font-semibold text-on-background">
                   {formatDate(record.work_date, { weekday: 'short' })}
                 </p>
-                <p className="mt-1 text-[11px] text-slate-muted">
+                <p className="mt-1 text-[11px] text-text-muted">
                   {formatTime(record.clock_in)} → {formatTime(record.clock_out)} ·{' '}
                   {formatMinutes(record.work_minutes)}
                 </p>
@@ -501,7 +501,7 @@ function RecordTable({
               <StatusBadge status={record.status} />
             </div>
             {record.notes ? (
-              <p className="mt-2 text-[11px] leading-relaxed text-slate-muted">{record.notes}</p>
+              <p className="mt-2 text-[11px] leading-relaxed text-text-muted">{record.notes}</p>
             ) : null}
             {canCorrect ? (
               <Button variant="ghost" size="sm" className="mt-2" onClick={() => onCorrect(record)}>
@@ -526,11 +526,11 @@ function MetricPill({
   value: string
 }) {
   return (
-    <div className="flex items-center gap-2.5 rounded-xl border border-pine-900/8 bg-white/45 px-3.5 py-2">
-      <Icon className="size-4 text-gold-600" aria-hidden />
+    <div className="flex items-center gap-2.5 rounded-xl border border-on-background/10 bg-surface px-3.5 py-2">
+      <Icon className="size-4 text-primary" aria-hidden />
       <div>
-        <p className="text-[9px] font-bold uppercase tracking-[0.14em] text-slate-muted">{label}</p>
-        <p className="numeric text-[13px] font-semibold text-pine-900">{value}</p>
+        <p className="text-[9px] font-bold uppercase tracking-[0.14em] text-text-muted">{label}</p>
+        <p className="numeric text-[13px] font-semibold text-on-background">{value}</p>
       </div>
     </div>
   )

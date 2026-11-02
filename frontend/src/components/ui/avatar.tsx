@@ -3,10 +3,10 @@ import { initials } from '@/lib/format'
 
 const palettes = [
   'bg-pine-100 text-pine-800',
-  'bg-gold-100 text-gold-600',
+  'bg-primary-light text-primary',
   'bg-sage-50 text-sage-600',
-  'bg-ivory-200 text-pine-900',
-  'bg-clay-50 text-clay-600',
+  'bg-primary-light text-on-background',
+  'bg-error-light text-error',
 ]
 
 const sizes = {

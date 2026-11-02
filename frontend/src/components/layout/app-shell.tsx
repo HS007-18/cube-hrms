@@ -20,7 +20,7 @@ export function AppShell() {
         <div className="fixed inset-0 z-40 lg:hidden">
           <button
             type="button"
-            className="absolute inset-0 bg-pine-950/50 backdrop-blur-sm"
+            className="absolute inset-0 bg-on-background/50 backdrop-blur-sm"
             onClick={() => setMobileOpen(false)}
             aria-label="Close navigation"
           />
@@ -28,7 +28,7 @@ export function AppShell() {
             <button
               type="button"
               onClick={() => setMobileOpen(false)}
-              className="absolute right-3 top-4 z-10 rounded-lg p-2 text-ivory-100/60 transition hover:bg-white/8 hover:text-ivory-50"
+              className="absolute right-3 top-4 z-10 rounded-lg p-2 text-on-background/60 transition hover:bg-surface/10 hover:text-on-background"
               aria-label="Close navigation"
             >
               <X className="size-4" />

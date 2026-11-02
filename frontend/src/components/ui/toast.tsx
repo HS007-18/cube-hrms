@@ -27,8 +27,8 @@ const ToastContext = createContext<ToastApi | null>(null)
 
 const tones: Record<ToastTone, { icon: typeof Info; className: string }> = {
   success: { icon: CheckCircle2, className: 'text-[#2f6247]' },
-  error: { icon: AlertTriangle, className: 'text-clay-600' },
-  info: { icon: Info, className: 'text-pine-700' },
+  error: { icon: AlertTriangle, className: 'text-error' },
+  info: { icon: Info, className: 'text-text-muted' },
 }
 
 export function ToastProvider({ children }: { children: ReactNode }) {
@@ -71,13 +71,13 @@ export function ToastProvider({ children }: { children: ReactNode }) {
           return (
             <div
               key={toast.id}
-              className="glass pointer-events-auto flex items-start gap-3 rounded-xl px-4 py-3 text-[13px] font-medium text-slate-ink shadow-lg"
+              className="glass pointer-events-auto flex items-start gap-3 rounded-xl px-4 py-3 text-[13px] font-medium text-on-background shadow-lg"
             >
               <Icon className={cn('mt-0.5 size-4 shrink-0', className)} aria-hidden />
               <p className="min-w-0 flex-1 leading-snug">{toast.message}</p>
               <button
                 type="button"
-                className="rounded p-0.5 text-slate-muted transition hover:bg-pine-900/6 hover:text-pine-900"
+                className="rounded p-0.5 text-text-muted transition hover:bg-on-background/6 hover:text-on-background"
                 onClick={() => dismiss(toast.id)}
                 aria-label="Dismiss notification"
               >

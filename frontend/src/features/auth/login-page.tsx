@@ -49,7 +49,7 @@ export function LoginPage() {
         <Field label="Work email" htmlFor="email">
           <div className="relative">
             <Mail
-              className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-slate-muted"
+              className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-text-muted"
               aria-hidden
             />
             <Input
@@ -69,7 +69,7 @@ export function LoginPage() {
         <Field label="Password" htmlFor="password">
           <div className="relative">
             <LockKeyhole
-              className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-slate-muted"
+              className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-text-muted"
               aria-hidden
             />
             <Input
@@ -86,7 +86,7 @@ export function LoginPage() {
             <button
               type="button"
               onClick={() => setShowPassword((current) => !current)}
-              className="absolute right-2 top-1/2 -translate-y-1/2 rounded-lg p-1.5 text-slate-muted transition hover:bg-pine-900/6 hover:text-pine-900"
+              className="absolute right-2 top-1/2 -translate-y-1/2 rounded-lg p-1.5 text-text-muted transition hover:bg-on-background/6 hover:text-on-background"
               aria-label={showPassword ? 'Hide password' : 'Show password'}
             >
               {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
@@ -96,7 +96,7 @@ export function LoginPage() {
 
         {error ? (
           <div
-            className="rounded-xl border border-clay-600/20 bg-clay-50 px-3.5 py-2.5 text-[12px] font-medium text-clay-600"
+            className="rounded-xl border border-clay-600/20 bg-error-light px-3.5 py-2.5 text-[12px] font-medium text-error"
             role="alert"
           >
             {error}
@@ -109,8 +109,8 @@ export function LoginPage() {
       </form>
 
       {import.meta.env.DEV && import.meta.env.VITE_ENABLE_DEMO_ACCOUNTS !== 'false' ? (
-        <div className="mt-8 rounded-2xl border border-pine-900/8 bg-white/40 p-4">
-          <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-slate-muted">
+        <div className="mt-8 rounded-2xl border border-on-background/10 bg-surface/40 p-4">
+          <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-text-muted">
             Demo accounts
           </p>
           <div className="mt-3 grid gap-1.5 sm:grid-cols-2">
@@ -123,16 +123,16 @@ export function LoginPage() {
                   setPassword(account.password)
                   setError('')
                 }}
-                className="rounded-lg px-2.5 py-2 text-left transition hover:bg-pine-900/5"
+                className="rounded-lg px-2.5 py-2 text-left transition hover:bg-on-background/5"
               >
-                <span className="block text-[11px] font-semibold text-pine-900">
+                <span className="block text-[11px] font-semibold text-on-background">
                   {account.label}
                 </span>
-                <span className="block truncate text-[10px] text-slate-muted">{account.email}</span>
+                <span className="block truncate text-[10px] text-text-muted">{account.email}</span>
               </button>
             ))}
           </div>
-          <p className="mt-2 px-2.5 text-[10px] leading-relaxed text-slate-muted">
+          <p className="mt-2 px-2.5 text-[10px] leading-relaxed text-text-muted">
             Demo credentials are seeded for local development only.
           </p>
         </div>

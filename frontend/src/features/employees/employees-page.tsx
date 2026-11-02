@@ -166,7 +166,7 @@ export function EmployeesPage() {
         <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
           <div className="relative flex-1">
             <Search
-              className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-slate-muted"
+              className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-text-muted"
               aria-hidden
             />
             <Input
@@ -198,7 +198,7 @@ export function EmployeesPage() {
                 </option>
               ))}
             </Select>
-            <label className="flex cursor-pointer items-center gap-2 text-[12px] font-medium text-slate-muted">
+            <label className="flex cursor-pointer items-center gap-2 text-[12px] font-medium text-text-muted">
               <input
                 type="checkbox"
                 checked={showInactive}
@@ -232,7 +232,7 @@ export function EmployeesPage() {
           <Card className="overflow-hidden">
             <div className="hidden overflow-x-auto lg:block">
               <table className="w-full text-left text-[13px]">
-                <thead className="border-b border-pine-900/8 bg-white/40 text-[10px] font-bold uppercase tracking-[0.14em] text-slate-muted">
+                <thead className="border-b border-on-background/10 bg-surface/40 text-[10px] font-bold uppercase tracking-[0.14em] text-text-muted">
                   <tr>
                     <th className="px-5 py-3">Employee</th>
                     <th className="px-4 py-3">Code</th>
@@ -243,7 +243,7 @@ export function EmployeesPage() {
                     <th className="px-5 py-3">Status</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-pine-900/6">
+                <tbody className="divide-y divide-on-background/10">
                   {employees.data.items.map((employee) => (
                     <EmployeeRow key={employee.id} employee={employee} />
                   ))}
@@ -251,23 +251,23 @@ export function EmployeesPage() {
               </table>
             </div>
 
-            <ul className="divide-y divide-pine-900/6 lg:hidden">
+            <ul className="divide-y divide-on-background/10 lg:hidden">
               {employees.data.items.map((employee) => (
                 <li key={employee.id} className="flex gap-3 p-4">
                   <Avatar name={employee.full_name} />
                   <div className="min-w-0 flex-1">
                     <div className="flex items-start justify-between gap-2">
                       <div className="min-w-0">
-                        <p className="truncate text-[13px] font-semibold text-pine-900">
+                        <p className="truncate text-[13px] font-semibold text-on-background">
                           {employee.full_name}
                         </p>
-                        <p className="truncate text-[11px] text-slate-muted">
+                        <p className="truncate text-[11px] text-text-muted">
                           {employee.email ?? 'No email on record'}
                         </p>
                       </div>
                       <StatusBadge status={employee.is_active ? 'active' : 'inactive'} />
                     </div>
-                    <p className="mt-2 text-[11px] text-slate-muted">
+                    <p className="mt-2 text-[11px] text-text-muted">
                       {employee.employee_code} · {employee.department_name ?? 'No department'} ·{' '}
                       {employee.designation_title ?? 'No designation'}
                     </p>
@@ -276,8 +276,8 @@ export function EmployeesPage() {
               ))}
             </ul>
 
-            <div className="flex flex-wrap items-center justify-between gap-3 border-t border-pine-900/8 bg-white/30 px-5 py-3">
-              <p className="text-[11px] text-slate-muted">
+            <div className="flex flex-wrap items-center justify-between gap-3 border-t border-on-background/10 bg-white/30 px-5 py-3">
+              <p className="text-[11px] text-text-muted">
                 Showing {employees.data.offset + 1}–
                 {Math.min(employees.data.offset + PAGE_SIZE, employees.data.total)} of{' '}
                 {employees.data.total}
@@ -466,7 +466,7 @@ export function EmployeesPage() {
             </Select>
           </Field>
 
-          <div className="rounded-xl border border-pine-900/8 bg-white/40 p-4">
+          <div className="rounded-xl border border-on-background/10 bg-surface/40 p-4">
             <label className="flex cursor-pointer items-start gap-3">
               <input
                 type="checkbox"
@@ -475,10 +475,10 @@ export function EmployeesPage() {
                 className="mt-0.5 size-4 accent-[#12332a]"
               />
               <span>
-                <span className="block text-[13px] font-semibold text-pine-900">
+                <span className="block text-[13px] font-semibold text-on-background">
                   Create a login account
                 </span>
-                <span className="mt-0.5 block text-[11px] leading-relaxed text-slate-muted">
+                <span className="mt-0.5 block text-[11px] leading-relaxed text-text-muted">
                   Leave the password blank to generate a temporary one. It is shown once after
                   creation.
                 </span>
@@ -539,19 +539,19 @@ export function EmployeesPage() {
         }
       >
         <div className="space-y-3">
-          <div className="rounded-xl border border-pine-900/8 bg-white/55 p-3">
-            <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-slate-muted">
+          <div className="rounded-xl border border-on-background/10 bg-surface p-3">
+            <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-text-muted">
               Email
             </p>
-            <p className="mt-1 break-all text-[13px] font-semibold text-pine-900">
+            <p className="mt-1 break-all text-[13px] font-semibold text-on-background">
               {credentialsEmail}
             </p>
           </div>
-          <div className="rounded-xl border border-gold-200 bg-gold-100/60 p-3">
-            <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-gold-600">
+          <div className="rounded-xl border border-gold-200 bg-primary-light/60 p-3">
+            <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-primary">
               Temporary password
             </p>
-            <p className="numeric mt-1 font-mono text-[15px] font-semibold text-pine-950">
+            <p className="numeric mt-1 font-mono text-[15px] font-semibold text-on-background">
               {createdCredential?.password}
             </p>
           </div>
@@ -563,23 +563,23 @@ export function EmployeesPage() {
 
 function EmployeeRow({ employee }: { employee: Employee }) {
   return (
-    <tr className="transition-colors hover:bg-white/45">
+    <tr className="transition-colors hover:bg-surface">
       <td className="px-5 py-3.5">
         <div className="flex items-center gap-3">
           <Avatar name={employee.full_name} size="sm" />
           <div className="min-w-0">
-            <p className="truncate text-[13px] font-semibold text-pine-900">{employee.full_name}</p>
-            <p className="truncate text-[11px] text-slate-muted">
+            <p className="truncate text-[13px] font-semibold text-on-background">{employee.full_name}</p>
+            <p className="truncate text-[11px] text-text-muted">
               {employee.email ?? 'No email on record'}
             </p>
           </div>
         </div>
       </td>
-      <td className="whitespace-nowrap px-4 py-3.5 font-mono text-[11px] text-slate-muted">{employee.employee_code}</td>
-      <td className="px-4 py-3.5 text-slate-ink">{employee.department_name ?? '—'}</td>
-      <td className="px-4 py-3.5 text-slate-ink">{employee.designation_title ?? '—'}</td>
-      <td className="px-4 py-3.5 text-slate-ink">{employee.manager_name ?? '—'}</td>
-      <td className="whitespace-nowrap px-4 py-3.5 text-slate-muted">{formatDate(employee.date_of_joining)}</td>
+      <td className="whitespace-nowrap px-4 py-3.5 font-mono text-[11px] text-text-muted">{employee.employee_code}</td>
+      <td className="px-4 py-3.5 text-on-background">{employee.department_name ?? '—'}</td>
+      <td className="px-4 py-3.5 text-on-background">{employee.designation_title ?? '—'}</td>
+      <td className="px-4 py-3.5 text-on-background">{employee.manager_name ?? '—'}</td>
+      <td className="whitespace-nowrap px-4 py-3.5 text-text-muted">{formatDate(employee.date_of_joining)}</td>
       <td className="px-5 py-3.5">
         <div className="flex items-center gap-2">
           <StatusBadge status={employee.is_active ? 'active' : 'inactive'} />

@@ -20,7 +20,7 @@ export function CardHeader({ title, description, action, eyebrow, className }: C
         {eyebrow ? <p className="eyebrow mb-1.5">{eyebrow}</p> : null}
         <h2 className="text-lg leading-tight">{title}</h2>
         {description ? (
-          <p className="mt-1 text-[13px] leading-relaxed text-slate-muted">{description}</p>
+          <p className="mt-1 text-[13px] leading-relaxed text-text-muted">{description}</p>
         ) : null}
       </div>
       {action ? <div className="shrink-0">{action}</div> : null}

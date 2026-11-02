@@ -2,16 +2,20 @@ import { Loader2 } from 'lucide-react'
 import type { ButtonHTMLAttributes, ReactNode } from 'react'
 import { cn } from '@/lib/cn'
 
-type Variant = 'primary' | 'secondary' | 'ghost' | 'danger'
+type Variant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger'
 type Size = 'sm' | 'md' | 'lg' | 'icon'
 
 const variants: Record<Variant, string> = {
   primary:
-    'bg-primary-600 text-on-primary shadow-[0_10px_24px_-16px_rgba(98,0,238,.9)] hover:bg-primary-variant active:bg-primary-variant',
+    'glass-strong text-on-primary hover:bg-primary-light active:bg-primary-light shadow-soft transition-all duration-150',
   secondary:
-    'bg-secondary-600 text-on-secondary shadow-[0_10px_24px_-16px_rgba(3,218,198,.9)] hover:bg-secondary-variant active:bg-secondary-variant',
-  ghost: 'text-on-background hover:bg-on-background/6 active:bg-on-background/10',
-  danger: 'bg-error-600 text-on-error hover:bg-[#851a18] active:bg-[#741514]',
+    'glass text-on-secondary hover:bg-secondary-light active:bg-secondary-light shadow-soft transition-all duration-150',
+  outline:
+    'border border-on-background/10 bg-transparent text-on-background hover:bg-surface-hover active:bg-surface-hover shadow-soft transition-all duration-150',
+  ghost:
+    'bg-transparent text-text-muted hover:bg-surface-hover active:bg-surface-hover shadow-soft transition-all duration-150',
+  danger:
+    'bg-error text-on-error shadow-[0_10px_24px_-16px_rgba(220,38,38,0.3)] hover:bg-error/90 active:bg-error/90 transition-all duration-150',
 }
 
 const sizes: Record<Size, string> = {
@@ -25,7 +29,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: Variant
   size?: Size
   loading?: boolean
-  children?: ReactNode
+  className?: string
 }
 
 export function Button({
@@ -40,7 +44,7 @@ export function Button({
   return (
     <button
       className={cn(
-        'inline-flex select-none items-center justify-center font-semibold transition-colors duration-150 disabled:pointer-events-none disabled:opacity-55',
+        'inline-flex select-none items-center justify-center font-medium transition-all duration-150 disabled:pointer-events-none disabled:opacity-55',
         variants[variant],
         sizes[size],
         className,

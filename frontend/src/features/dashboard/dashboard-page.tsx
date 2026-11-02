@@ -139,16 +139,16 @@ export function DashboardPage() {
 
   return (
     <div className="space-y-6">
-      <Card className="overflow-hidden border-0 bg-pine-950 p-0 text-ivory-100 shadow-[0_30px_80px_-50px_rgba(12,36,30,.9)]">
+      <Card className="overflow-hidden border-0 bg-on-background p-0 text-on-background shadow-[0_30px_80px_-50px_rgba(12,36,30,.9)]">
         <div className="flex flex-col gap-8 p-6 sm:p-8 lg:flex-row lg:items-end lg:justify-between">
           <div className="min-w-0">
-            <p className="eyebrow !text-gold-400">
+            <p className="eyebrow !text-primary-light">
               {formatDate(summary.data.date, { weekday: 'long', day: 'numeric', month: 'long' })}
             </p>
-            <h1 className="mt-3 max-w-xl font-display text-[clamp(2rem,3.6vw,3rem)] font-normal leading-[1.02] text-ivory-50">
+            <h1 className="mt-3 max-w-xl font-display text-[clamp(2rem,3.6vw,3rem)] font-normal leading-[1.02] text-on-background">
               {greeting()}, {firstName}.
             </h1>
-            <p className="mt-3 max-w-lg text-[13px] leading-relaxed text-ivory-100/55">
+            <p className="mt-3 max-w-lg text-[13px] leading-relaxed text-on-background/55">
               {user?.role === 'hr_admin'
                 ? `A calm view of ${user.tenant_name ?? 'your company'} — headcount, attendance, and the approvals waiting on you.`
                 : user?.role === 'manager'
@@ -159,7 +159,7 @@ export function DashboardPage() {
           <div className="flex flex-wrap items-center gap-2">
             <Button
               variant="secondary"
-              className="border-white/15 bg-white/8 text-ivory-50 hover:bg-white/14"
+              className="border-white/15 bg-surface/10 text-on-background hover:bg-surface-hover/14"
               onClick={() => navigate('/attendance')}
             >
               <Clock3 className="size-4" aria-hidden />
@@ -168,7 +168,7 @@ export function DashboardPage() {
                 : 'Open attendance'}
             </Button>
             <Button
-              className="bg-gold-400 text-pine-950 hover:bg-gold-200"
+              className="bg-primary-light text-on-background hover:bg-gold-200"
               onClick={() => navigate('/leave')}
             >
               Apply for leave
@@ -176,9 +176,9 @@ export function DashboardPage() {
             </Button>
           </div>
         </div>
-        <div className="flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-white/8 px-6 py-3 text-[11px] text-ivory-100/45 sm:px-8">
+        <div className="flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-white/8 px-6 py-3 text-[11px] text-on-background/45 sm:px-8">
           <span className="flex items-center gap-1.5">
-            <span className="size-1.5 rounded-full bg-gold-400" aria-hidden />
+            <span className="size-1.5 rounded-full bg-primary-light" aria-hidden />
             {user ? roleLabel(user.role) : 'Workspace'}
           </span>
           <span>{user?.tenant_name ?? 'CUBE platform'}</span>
@@ -220,17 +220,17 @@ export function DashboardPage() {
               />
               <div className="mt-5">
                 {pending.isLoading ? (
-                  <p className="py-10 text-center text-[13px] text-slate-muted">Loading requests…</p>
+                  <p className="py-10 text-center text-[13px] text-text-muted">Loading requests…</p>
                 ) : pending.data && pending.data.length > 0 ? (
-                  <ul className="divide-y divide-pine-900/8">
+                  <ul className="divide-y divide-on-background/10">
                     {pending.data.slice(0, 4).map((request) => (
                       <li key={request.id} className="flex flex-wrap items-center gap-3 py-3.5 first:pt-0">
                         <Avatar name={request.employee_name} size="sm" />
                         <div className="min-w-0 flex-1">
-                          <p className="truncate text-[13px] font-semibold text-pine-900">
+                          <p className="truncate text-[13px] font-semibold text-on-background">
                             {request.employee_name}
                           </p>
-                          <p className="mt-0.5 text-[11px] text-slate-muted">
+                          <p className="mt-0.5 text-[11px] text-text-muted">
                             {request.leave_type_name} · {formatDate(request.from_date)} –{' '}
                             {formatDate(request.to_date)} · {formatDays(request.days)} day
                             {Number(request.days) === 1 ? '' : 's'}
@@ -250,7 +250,7 @@ export function DashboardPage() {
                           <Button
                             size="sm"
                             variant="ghost"
-                            className="text-clay-600"
+                            className="text-error"
                             onClick={() => {
                               setDenyTarget(request)
                               setDenyComment('')
@@ -287,19 +287,19 @@ export function DashboardPage() {
               />
               <div className="mt-5">
                 {myRequests.isLoading ? (
-                  <p className="py-10 text-center text-[13px] text-slate-muted">Loading requests…</p>
+                  <p className="py-10 text-center text-[13px] text-text-muted">Loading requests…</p>
                 ) : myRequests.data && myRequests.data.length > 0 ? (
-                  <ul className="divide-y divide-pine-900/8">
+                  <ul className="divide-y divide-on-background/10">
                     {myRequests.data.slice(0, 4).map((request) => (
                       <li key={request.id} className="flex flex-wrap items-center gap-3 py-3.5 first:pt-0">
-                        <span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-gold-100 text-gold-600">
+                        <span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-primary-light text-primary">
                           <CalendarDays className="size-4" aria-hidden />
                         </span>
                         <div className="min-w-0 flex-1">
-                          <p className="text-[13px] font-semibold text-pine-900">
+                          <p className="text-[13px] font-semibold text-on-background">
                             {request.leave_type_name}
                           </p>
-                          <p className="mt-0.5 text-[11px] text-slate-muted">
+                          <p className="mt-0.5 text-[11px] text-text-muted">
                             {formatDate(request.from_date)} – {formatDate(request.to_date)} ·{' '}
                             {formatDays(request.days)} day{Number(request.days) === 1 ? '' : 's'}
                           </p>
@@ -324,21 +324,21 @@ export function DashboardPage() {
         <div className="space-y-4">
           <Card className="p-5">
             <CardHeader eyebrow="Today" title="Attendance" />
-            <div className="mt-4 rounded-xl border border-pine-900/8 bg-white/45 p-4">
+            <div className="mt-4 rounded-xl border border-on-background/10 bg-surface p-4">
               <div className="flex items-center justify-between gap-3">
                 <div>
-                  <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-slate-muted">
+                  <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-text-muted">
                     {todayRecord?.clock_in ? 'Clocked in' : 'Not clocked in'}
                   </p>
-                  <p className="numeric mt-1 text-2xl font-semibold text-pine-950">
+                  <p className="numeric mt-1 text-2xl font-semibold text-on-background">
                     {formatTime(todayRecord?.clock_in)}
-                    <span className="mx-1.5 text-base font-normal text-slate-muted">–</span>
+                    <span className="mx-1.5 text-base font-normal text-text-muted">–</span>
                     {formatTime(todayRecord?.clock_out)}
                   </p>
                 </div>
                 {todayRecord ? <StatusBadge status={todayRecord.status} /> : <Badge tone="neutral">No record</Badge>}
               </div>
-              <p className="mt-2 text-[11px] text-slate-muted">
+              <p className="mt-2 text-[11px] text-text-muted">
                 {todayRecord?.work_minutes
                   ? `${formatMinutes(todayRecord.work_minutes)} recorded today`
                   : todayRecord?.clock_in
@@ -369,7 +369,7 @@ export function DashboardPage() {
             />
             <div className="mt-4 space-y-3.5">
               {balances.isLoading ? (
-                <p className="text-[13px] text-slate-muted">Loading balances…</p>
+                <p className="text-[13px] text-text-muted">Loading balances…</p>
               ) : balances.data && balances.data.length > 0 ? (
                 balances.data.slice(0, 4).map((balance) => {
                   const total = Number(balance.total_days) || 0
@@ -378,19 +378,19 @@ export function DashboardPage() {
                   return (
                     <div key={balance.leave_type_id}>
                       <div className="flex items-baseline justify-between gap-2">
-                        <p className="truncate text-[12px] font-semibold text-pine-900">
+                        <p className="truncate text-[12px] font-semibold text-on-background">
                           {balance.leave_type_name}
                         </p>
-                        <p className="numeric shrink-0 text-[12px] text-slate-muted">
-                          <span className="font-semibold text-pine-900">
+                        <p className="numeric shrink-0 text-[12px] text-text-muted">
+                          <span className="font-semibold text-on-background">
                             {formatDays(balance.remaining_days)}
                           </span>{' '}
                           / {formatDays(balance.total_days)}
                         </p>
                       </div>
-                      <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-pine-900/8">
+                      <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-on-background/8">
                         <div
-                          className="h-full rounded-full bg-gold-400"
+                          className="h-full rounded-full bg-primary-light"
                           style={{ width: `${percent}%` }}
                         />
                       </div>
@@ -398,7 +398,7 @@ export function DashboardPage() {
                   )
                 })
               ) : (
-                <p className="text-[13px] text-slate-muted">No leave types configured yet.</p>
+                <p className="text-[13px] text-text-muted">No leave types configured yet.</p>
               )}
             </div>
           </Card>

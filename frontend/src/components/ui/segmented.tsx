@@ -18,7 +18,7 @@ export function Segmented<T extends string>({
   return (
     <div
       className={cn(
-        'inline-flex flex-wrap items-center gap-1 rounded-xl border border-pine-900/8 bg-white/45 p-1',
+        'inline-flex flex-wrap items-center gap-1 rounded-xl border border-on-background/10 bg-surface p-1',
         className,
       )}
       role="tablist"
@@ -36,8 +36,8 @@ export function Segmented<T extends string>({
             className={cn(
               'rounded-lg px-3 py-1.5 text-[12px] font-semibold transition-colors',
               active
-                ? 'bg-pine-900 text-ivory-50 shadow-sm'
-                : 'text-slate-muted hover:bg-white/70 hover:text-pine-900',
+                ? 'bg-on-background text-on-background shadow-sm'
+                : 'text-text-muted hover:bg-surface hover:text-on-background',
             )}
           >
             {option.label}

@@ -5,24 +5,24 @@ export type BadgeTone = 'success' | 'pending' | 'danger' | 'neutral' | 'info'
 
 const tones: Record<BadgeTone, { badge: string; dot: string }> = {
   success: {
-    badge: 'border-secondary-600/20 bg-secondary-600/10 text-secondary-600',
-    dot: 'bg-secondary-600',
+    badge: 'border-secondary-light/50 bg-secondary-light text-secondary',
+    dot: 'bg-secondary',
   },
   pending: {
-    badge: 'border-primary-600/20 bg-primary-600/10 text-primary-600',
-    dot: 'bg-primary-600',
+    badge: 'border-primary-light/50 bg-primary-light text-primary',
+    dot: 'bg-primary',
   },
   danger: {
-    badge: 'border-error-600/20 bg-error-600/10 text-error-600',
-    dot: 'bg-error-600',
+    badge: 'border-error-light/50 bg-error-light text-error',
+    dot: 'bg-error',
   },
   neutral: {
-    badge: 'border-on-surface/10 bg-on-surface/5 text-on-background',
-    dot: 'bg-on-background/70',
+    badge: 'border-on-background/10 bg-surface-hover text-on-background',
+    dot: 'bg-text-muted',
   },
   info: {
-    badge: 'border-secondary-variant/20 bg-secondary-variant/10 text-secondary-variant',
-    dot: 'bg-secondary-variant',
+    badge: 'border-secondary-light/50 bg-secondary-light text-secondary',
+    dot: 'bg-secondary',
   },
 }
 

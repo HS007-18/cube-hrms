@@ -60,7 +60,7 @@ export function Dialog({
       ref={ref}
       aria-labelledby="dialog-title"
       className={cn(
-        'm-auto w-[calc(100vw-2rem)] overflow-hidden rounded-2xl border border-on-background/10 bg-surface/95 p-0 text-on-background shadow-[0_40px_120px_-40px_rgba(0,0,0,.6)] backdrop:bg-primary-variant/20 backdrop:backdrop-blur-sm',
+        'm-auto w-[calc(100vw-2rem)] overflow-hidden rounded-2xl border border-on-background/10 bg-surface/95 p-0 text-on-background shadow-lift backdrop:bg-on-background/10 backdrop:backdrop-blur-sm',
         widths[size],
       )}
     >
@@ -70,7 +70,7 @@ export function Dialog({
             {title}
           </h2>
           {description ? (
-            <p className="mt-1 text-[13px] leading-relaxed text-on-background">{description}</p>
+            <p className="mt-1 text-[13px] leading-relaxed text-text-muted">{description}</p>
           ) : null}
         </div>
         <Button variant="ghost" size="icon" onClick={onClose} aria-label="Close dialog">
@@ -79,7 +79,7 @@ export function Dialog({
       </div>
       <div className="max-h-[70vh] overflow-y-auto px-6 py-5">{children}</div>
       {footer ? (
-        <div className="flex flex-wrap items-center justify-end gap-2 border-t border-on-background/8 bg-white/35 px-6 py-4">
+        <div className="flex flex-wrap items-center justify-end gap-2 border-t border-on-background/8 bg-surface/40 px-6 py-4">
           {footer}
         </div>
       ) : null}

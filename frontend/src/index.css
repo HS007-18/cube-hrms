@@ -4,77 +4,41 @@
   --font-sans: 'Manrope', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-display: 'Fraunces', 'Iowan Old Style', Georgia, serif;
 
-  /* Primary palette */
-  --color-primary-600: #6200EE;
-  --color-primary-variant: #3700B3;
+  /* Professional minimal palette */
+  --color-primary: #4F46E5;
+  --color-primary-hover: #4338CA;
+  --color-primary-light: #EEF2FF;
   --color-on-primary: #FFFFFF;
 
-  /* Secondary palette */
-  --color-secondary-600: #03DAC6;
-  --color-secondary-variant: #018786;
-  --color-on-secondary: #000000;
+  --color-secondary: #0D9488;
+  --color-secondary-light: #CCFBF1;
+  --color-on-secondary: #FFFFFF;
 
-  /* Background / Surface */
-  --color-background: #FFFFFF;
+  --color-background: #F8FAFC;
   --color-surface: #FFFFFF;
-  --color-on-background: #000000;
-  --color-on-surface: #000000;
+  --color-surface-hover: #F1F5F9;
+  --color-on-background: #0F172A;
+  --color-on-surface: #0F172A;
+  --color-text-muted: #64748B;
 
-  /* Error */
-  --color-error-600: #B00020;
+  --color-error: #DC2626;
+  --color-error-light: #FEF2F2;
   --color-on-error: #FFFFFF;
 
-  /* Legacy compat (kept for any remaining references) */
-  --color-ivory-50: #fcfaf5;
-  --color-ivory-100: #f7f2e8;
-  --color-ivory-200: #efe7d8;
-  --color-ivory-300: #e2d6c1;
+  /* Liquid morphism / glassmorphism */
+  --glass: rgba(255, 255, 255, 0.65);
+  --glass-strong: rgba(255, 255, 255, 0.85);
+  --glass-border: rgba(255, 255, 255, 0.5);
+  --glass-shadow: 0 20px 40px -10px rgba(15, 23, 42, 0.08);
 
-  --color-pine-950: #0c241e;
-  --color-pine-900: #12332a;
-  --color-pine-800: #194437;
-  --color-pine-700: #215446;
-  --color-pine-600: #2b6a58;
-  --color-pine-500: #3a806b;
-  --color-pine-200: #b9cfc4;
-  --color-pine-100: #dce8e1;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+  --radius-3xl: 2rem;
 
-  --color-gold-600: #966b32;
-  --color-gold-500: #b98a4b;
-  --color-gold-400: #cba36a;
-  --color-gold-200: #ecdcbf;
-  --color-gold-100: #f5ecdb;
-
-  --color-sage-50: #edf2ed;
-  --color-sage-600: #40624c;
-
-  --color-clay-50: #f7e9e5;
-  --color-clay-600: #9a4638;
-
-  --color-slate-ink: #24332d;
-  --color-slate-muted: #64716b;
-
-  --shadow-glass:
-    0 1px 0 rgba(255, 255, 255, 0.72) inset,
-    0 24px 60px -42px rgba(12, 36, 30, 0.55);
-  --shadow-lift:
-    0 1px 0 rgba(255, 255, 255, 0.8) inset,
-    0 18px 40px -24px rgba(12, 36, 30, 0.35);
-
-  --radius-4xl: 1.75rem;
+  --shadow-soft: 0 4px 20px -4px rgba(15, 23, 42, 0.06);
+  --shadow-lift: 0 12px 40px -12px rgba(15, 23, 42, 0.1);
 
   --animate-rise: rise 0.36s cubic-bezier(0.22, 0.7, 0.3, 1) both;
-}
-
-@keyframes rise {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
 @layer base {
@@ -87,7 +51,6 @@
     min-height: 100vh;
     background-color: var(--color-background);
     background-image: none;
-    background-attachment: fixed;
     color: var(--color-on-background);
     font-family: var(--font-sans);
     font-feature-settings: 'ss01' on;
@@ -95,9 +58,7 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
-  h1,
-  h2,
-  h3 {
+  h1, h2, h3 {
     font-family: var(--font-display);
     font-weight: 500;
     letter-spacing: -0.015em;
@@ -105,12 +66,12 @@
   }
 
   ::selection {
-    background: var(--color-secondary-600);
+    background: var(--color-secondary);
     color: var(--color-on-secondary);
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-primary-600);
+    outline: 2px solid var(--color-primary);
     outline-offset: 2px;
   }
 
@@ -120,7 +81,7 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    background: rgba(18, 51, 42, 0.16);
+    background: rgba(15, 23, 42, 0.1);
     border-radius: 999px;
     border: 3px solid transparent;
     background-clip: content-box;
@@ -128,18 +89,19 @@
 }
 
 @utility glass {
-  background-color: rgba(255, 255, 255, 0.62);
-  backdrop-filter: blur(22px) saturate(135%);
-  -webkit-backdrop-filter: blur(22px) saturate(135%);
-  border: 1px solid rgba(18, 51, 42, 0.09);
-  box-shadow: var(--shadow-glass);
+  background-color: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(20px) saturate(120%);
+  -webkit-backdrop-filter: blur(20px) saturate(120%);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  box-shadow: var(--glass-shadow);
 }
 
-@utility glass-quiet {
-  background-color: rgba(255, 255, 255, 0.46);
-  backdrop-filter: blur(16px) saturate(125%);
-  -webkit-backdrop-filter: blur(16px) saturate(125%);
-  border: 1px solid rgba(18, 51, 42, 0.07);
+@utility glass-strong {
+  background-color: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(28px) saturate(140%);
+  -webkit-backdrop-filter: blur(28px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: var(--glass-shadow);
 }
 
 @utility eyebrow {
@@ -147,7 +109,7 @@
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--color-primary-600);
+  color: var(--color-primary);
 }
 
 @utility numeric {
