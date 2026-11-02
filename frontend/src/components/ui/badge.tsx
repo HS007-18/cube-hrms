@@ -5,24 +5,24 @@ export type BadgeTone = 'success' | 'pending' | 'danger' | 'neutral' | 'info'
 
 const tones: Record<BadgeTone, { badge: string; dot: string }> = {
   success: {
-    badge: 'border-secondary-light/50 bg-secondary-light text-secondary',
-    dot: 'bg-secondary',
+    badge: 'border-cube-secondary-light/50 bg-cube-secondary-light text-cube-secondary',
+    dot: 'bg-cube-secondary',
   },
   pending: {
-    badge: 'border-primary-light/50 bg-primary-light text-primary',
-    dot: 'bg-primary',
+    badge: 'border-cube-primary-light/50 bg-cube-primary-light text-cube-primary',
+    dot: 'bg-cube-primary',
   },
   danger: {
-    badge: 'border-error-light/50 bg-error-light text-error',
-    dot: 'bg-error',
+    badge: 'border-cube-error-light/50 bg-cube-error-light text-cube-error',
+    dot: 'bg-cube-error',
   },
   neutral: {
-    badge: 'border-on-background/10 bg-surface-hover text-on-background',
-    dot: 'bg-text-muted',
+    badge: 'border-cube-border bg-cube-surface-hover text-cube-on-background',
+    dot: 'bg-cube-text-muted',
   },
   info: {
-    badge: 'border-secondary-light/50 bg-secondary-light text-secondary',
-    dot: 'bg-secondary',
+    badge: 'border-cube-secondary-light/50 bg-cube-secondary-light text-cube-secondary',
+    dot: 'bg-cube-secondary',
   },
 }
 
@@ -58,7 +58,7 @@ export function Badge({ children, tone = 'neutral', dot = true, className }: Bad
   return (
     <span
       className={cn(
-        'inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-[11px] font-semibold capitalize',
+        'inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-[11px] font-semibold capitalize transition-colors',
         palette.badge,
         className,
       )}

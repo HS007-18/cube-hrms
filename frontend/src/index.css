@@ -1,42 +1,13 @@
 @import 'tailwindcss';
+@import './styles/colors.css';
 
 @theme {
   --font-sans: 'Manrope', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-display: 'Fraunces', 'Iowan Old Style', Georgia, serif;
 
-  /* Professional minimal palette */
-  --color-primary: #4F46E5;
-  --color-primary-hover: #4338CA;
-  --color-primary-light: #EEF2FF;
-  --color-on-primary: #FFFFFF;
-
-  --color-secondary: #0D9488;
-  --color-secondary-light: #CCFBF1;
-  --color-on-secondary: #FFFFFF;
-
-  --color-background: #F8FAFC;
-  --color-surface: #FFFFFF;
-  --color-surface-hover: #F1F5F9;
-  --color-on-background: #0F172A;
-  --color-on-surface: #0F172A;
-  --color-text-muted: #64748B;
-
-  --color-error: #DC2626;
-  --color-error-light: #FEF2F2;
-  --color-on-error: #FFFFFF;
-
-  /* Liquid morphism / glassmorphism */
-  --glass: rgba(255, 255, 255, 0.65);
-  --glass-strong: rgba(255, 255, 255, 0.85);
-  --glass-border: rgba(255, 255, 255, 0.5);
-  --glass-shadow: 0 20px 40px -10px rgba(15, 23, 42, 0.08);
-
   --radius-xl: 1rem;
   --radius-2xl: 1.5rem;
   --radius-3xl: 2rem;
-
-  --shadow-soft: 0 4px 20px -4px rgba(15, 23, 42, 0.06);
-  --shadow-lift: 0 12px 40px -12px rgba(15, 23, 42, 0.1);
 
   --animate-rise: rise 0.36s cubic-bezier(0.22, 0.7, 0.3, 1) both;
 }
@@ -49,9 +20,9 @@
   body {
     margin: 0;
     min-height: 100vh;
-    background-color: var(--color-background);
+    background-color: var(--cube-background);
     background-image: none;
-    color: var(--color-on-background);
+    color: var(--cube-on-background);
     font-family: var(--font-sans);
     font-feature-settings: 'ss01' on;
     -webkit-font-smoothing: antialiased;
@@ -62,16 +33,16 @@
     font-family: var(--font-display);
     font-weight: 500;
     letter-spacing: -0.015em;
-    color: var(--color-on-background);
+    color: var(--cube-on-background);
   }
 
   ::selection {
-    background: var(--color-secondary);
-    color: var(--color-on-secondary);
+    background: var(--cube-secondary);
+    color: var(--cube-on-secondary);
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-primary);
+    outline: 2px solid var(--cube-primary);
     outline-offset: 2px;
   }
 
@@ -88,20 +59,21 @@
   }
 }
 
+/* ── Liquid Morphism Utilities ── */
 @utility glass {
-  background-color: rgba(255, 255, 255, 0.65);
+  background-color: var(--cube-glass);
   backdrop-filter: blur(20px) saturate(120%);
   -webkit-backdrop-filter: blur(20px) saturate(120%);
-  border: 1px solid rgba(255, 255, 255, 0.45);
-  box-shadow: var(--glass-shadow);
+  border: 1px solid var(--cube-glass-border);
+  box-shadow: var(--cube-glass-shadow);
 }
 
 @utility glass-strong {
-  background-color: rgba(255, 255, 255, 0.85);
+  background-color: var(--cube-glass-strong);
   backdrop-filter: blur(28px) saturate(140%);
   -webkit-backdrop-filter: blur(28px) saturate(140%);
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  box-shadow: var(--glass-shadow);
+  border: 1px solid var(--cube-glass-border);
+  box-shadow: var(--cube-glass-shadow);
 }
 
 @utility eyebrow {
@@ -109,10 +81,23 @@
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--color-primary);
+  color: var(--cube-primary);
 }
 
 @utility numeric {
   font-variant-numeric: tabular-nums;
   letter-spacing: -0.02em;
+}
+
+/* ── Hover & Transition Utilities ── */
+@utility hover-lift {
+  transition: var(--cube-transition-base);
+}
+
+@utility press-scale:active {
+  transform: scale(0.98);
+}
+
+@utility fade-in {
+  animation: var(--animate-rise);
 }

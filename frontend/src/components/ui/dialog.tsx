@@ -60,17 +60,17 @@ export function Dialog({
       ref={ref}
       aria-labelledby="dialog-title"
       className={cn(
-        'm-auto w-[calc(100vw-2rem)] overflow-hidden rounded-2xl border border-on-background/10 bg-surface/95 p-0 text-on-background shadow-lift backdrop:bg-on-background/10 backdrop:backdrop-blur-sm',
+        'm-auto w-[calc(100vw-2rem)] overflow-hidden rounded-2xl border border-cube-border bg-cube-surface p-0 text-cube-on-background shadow-lift',
         widths[size],
       )}
     >
-      <div className="flex items-start justify-between gap-6 border-b border-on-background/8 px-6 py-5">
+      <div className="flex items-start justify-between gap-6 border-b border-cube-border/30 px-6 py-5">
         <div>
-          <h2 id="dialog-title" className="text-xl">
+          <h2 id="dialog-title" className="text-xl text-cube-on-background">
             {title}
           </h2>
           {description ? (
-            <p className="mt-1 text-[13px] leading-relaxed text-text-muted">{description}</p>
+            <p className="mt-1 text-[13px] leading-relaxed text-cube-text-muted">{description}</p>
           ) : null}
         </div>
         <Button variant="ghost" size="icon" onClick={onClose} aria-label="Close dialog">
@@ -79,7 +79,7 @@ export function Dialog({
       </div>
       <div className="max-h-[70vh] overflow-y-auto px-6 py-5">{children}</div>
       {footer ? (
-        <div className="flex flex-wrap items-center justify-end gap-2 border-t border-on-background/8 bg-surface/40 px-6 py-4">
+        <div className="flex flex-wrap items-center justify-end gap-2 border-t border-cube-border/30 bg-cube-surface px-6 py-4">
           {footer}
         </div>
       ) : null}

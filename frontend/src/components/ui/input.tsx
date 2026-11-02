@@ -8,7 +8,7 @@ import React, {
 import { cn } from '@/lib/cn'
 
 const controlClass =
-  'w-full rounded-xl border border-on-background/10 bg-surface px-3 text-sm text-on-surface shadow-[0_1px_0_rgba(255,255,255,.8)_inset] transition-all duration-150 placeholder:text-text-muted/60 hover:border-on-background/20 focus:border-primary focus:bg-surface focus:outline-none focus:ring-2 focus:ring-primary/20 disabled:cursor-not-allowed disabled:opacity-50'
+  'w-full rounded-xl border border-cube-border bg-cube-surface px-3 text-sm text-cube-on-surface shadow-[0_1px_0_rgba(255,255,255,.8)_inset] transition-all duration-150 placeholder:text-cube-text-muted/60 hover:border-cube-on-background/40 focus:border-cube-primary focus:bg-cube-surface focus:outline-none focus:ring-2 focus:ring-cube-primary/20 disabled:cursor-not-allowed disabled:opacity-50'
 
 interface FieldProps {
   label: string
@@ -24,19 +24,19 @@ export function Field({ label, htmlFor, hint, error, required, children, classNa
   return (
     <div className={cn('space-y-1.5', className)}>
       <label
-        className="flex items-center gap-1 text-[12px] font-semibold text-on-background"
+        className="flex items-center gap-1 text-[12px] font-semibold text-cube-on-background"
         htmlFor={htmlFor}
       >
         {label}
-        {required ? <span className="text-primary">*</span> : null}
+        {required ? <span className="text-cube-primary">*</span> : null}
       </label>
       {children}
       {error ? (
-        <p className="text-[11px] font-medium text-error" role="alert">
+        <p className="text-[11px] font-medium text-cube-error" role="alert">
           {error}
         </p>
       ) : hint ? (
-        <p className="text-[11px] leading-relaxed text-text-muted">{hint}</p>
+        <p className="text-[11px] leading-relaxed text-cube-text-muted">{hint}</p>
       ) : null}
     </div>
   )
@@ -92,21 +92,21 @@ export function Select({ className, children, placeholder, ...props }: SelectPro
           controlClass,
           'h-10 flex items-center justify-between pr-9',
           open
-            ? 'border-primary focus:border-primary'
-            : 'focus:border-primary',
+            ? 'border-cube-primary focus:border-cube-primary'
+            : 'focus:border-cube-primary',
           className,
         )}
         aria-expanded={open}
       >
         <span>{placeholder}</span>
         <span>
-          {open ? <ChevronUp className="size-4 text-text-muted" /> : <ChevronDown className="size-4 text-text-muted" />}
+          {open ? <ChevronUp className="size-4 text-cube-text-muted" /> : <ChevronDown className="size-4 text-cube-text-muted" />}
         </span>
       </button>
 
       {open && (
         <div
-          className="absolute z-50 mt-1 w-full rounded-xl border border-on-background/10 bg-surface shadow-[0_20px_40px_-10px_rgba(0,0,0,.08)] overflow-y-auto max-h-48"
+          className="absolute z-50 mt-1 w-full rounded-xl border border-cube-border bg-cube-surface shadow-[0_20px_40px_-10px_rgba(0,0,0,.08)] overflow-y-auto max-h-48"
           role="listbox"
         >
           {optionElements.map((option, index) => {
@@ -122,10 +122,10 @@ export function Select({ className, children, placeholder, ...props }: SelectPro
                 className={cn(
                   'w-full text-left px-3 py-2.5 text-sm transition',
                   isDisabled
-                    ? 'text-on-background/50 cursor-not-allowed'
+                    ? 'text-cube-on-background/50 cursor-not-allowed'
                     : String(option.props.value) === String(props.value)
-                    ? 'bg-primary text-on-primary font-medium'
-                    : 'text-on-background hover:bg-surface-hover',
+                    ? 'bg-cube-primary text-cube-on-primary font-medium'
+                    : 'text-cube-on-background hover:bg-cube-surface-hover',
                 )}
               >
                 {option.props.children}

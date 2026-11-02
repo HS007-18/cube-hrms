@@ -68,18 +68,18 @@ export function SidebarContent({ user, onNavigate }: SidebarProps) {
   const { logout } = useAuth()
 
   return (
-    <div className="flex h-full flex-col bg-on-background text-on-background">
+    <div className="flex h-full flex-col bg-cube-on-background text-cube-on-background">
       <div className="flex items-center gap-3 px-6 pb-5 pt-6">
         <BrandMark />
         <BrandWordmark />
       </div>
 
-      <div className="mx-6 mb-4 h-px bg-surface/10" />
+      <div className="mx-6 mb-4 h-px bg-cube-surface/10" />
 
       <nav className="flex-1 space-y-6 overflow-y-auto px-3 pb-4" aria-label="Main navigation">
         {visibleSections(user).map((section) => (
           <div key={section.label}>
-            <p className="mb-2 px-3 text-[9px] font-bold uppercase tracking-[0.24em] text-on-background/35">
+            <p className="mb-2 px-3 text-[9px] font-bold uppercase tracking-[0.24em] text-cube-primary-light">
               {section.label}
             </p>
             <div className="space-y-1">
@@ -92,8 +92,8 @@ export function SidebarContent({ user, onNavigate }: SidebarProps) {
                     cn(
                       'group relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-[13px] font-semibold transition-colors',
                       isActive
-                        ? 'bg-surface/10 text-on-background'
-                        : 'text-on-background/55 hover:bg-surface-hover/5 hover:text-on-background',
+                        ? 'bg-cube-surface/10 text-cube-on-background'
+                        : 'text-cube-on-background/60 hover:bg-cube-surface-hover hover:text-cube-on-background',
                     )
                   }
                 >
@@ -101,7 +101,7 @@ export function SidebarContent({ user, onNavigate }: SidebarProps) {
                     <>
                       <span
                         className={cn(
-                          'absolute left-0 top-1/2 h-5 w-[3px] -translate-y-1/2 rounded-r-full bg-primary-light transition-opacity',
+                          'absolute left-0 top-1/2 h-5 w-[3px] -translate-y-1/2 rounded-r-full bg-cube-primary-light transition-opacity',
                           isActive ? 'opacity-100' : 'opacity-0',
                         )}
                         aria-hidden
@@ -109,7 +109,7 @@ export function SidebarContent({ user, onNavigate }: SidebarProps) {
                       <item.icon
                         className={cn(
                           'size-[17px] transition-colors',
-                          isActive ? 'text-primary-light' : 'text-on-background/45 group-hover:text-on-background/75',
+                          isActive ? 'text-cube-primary-light' : 'text-cube-on-background/60 group-hover:text-cube-on-background/75',
                         )}
                         aria-hidden
                       />
@@ -123,26 +123,28 @@ export function SidebarContent({ user, onNavigate }: SidebarProps) {
         ))}
       </nav>
 
-      <div className="border-t border-white/8 px-4 py-4">
+      <div className="border-t border-cube-border px-4 py-4">
         <div className="flex items-center gap-3 rounded-xl px-2 py-2">
           <Avatar name={user.full_name} size="sm" />
           <div className="min-w-0 flex-1">
-            <p className="truncate text-[12px] font-semibold text-on-background">{user.full_name}</p>
-            <p className="truncate text-[10px] text-on-background/45">
+            <p className="truncate text-[12px] font-semibold text-cube-on-background">
+              {user.full_name}
+            </p>
+            <p className="truncate text-[10px] text-cube-text-muted">
               {user.tenant_name ?? 'CUBE platform'}
             </p>
           </div>
           <button
             type="button"
             onClick={() => void logout()}
-            className="rounded-lg p-2 text-on-background/45 transition hover:bg-surface-hover/6 hover:text-on-background"
+            className="rounded-lg p-2 text-cube-on-background/60 transition hover:bg-cube-surface-hover/6 hover:text-cube-on-background"
             aria-label="Sign out"
             title="Sign out"
           >
             <LogOut className="size-4" />
           </button>
         </div>
-        <p className="mt-2 px-2 text-[9px] uppercase tracking-[0.2em] text-on-background/25">
+        <p className="mt-2 px-2 text-[9px] uppercase tracking-[0.2em] text-cube-on-background/45">
           {roleLabel(user.role)} · v0.1
         </p>
       </div>
