@@ -44,7 +44,7 @@ export function Button({
   return (
     <button
       className={cn(
-        'inline-flex select-none items-center justify-center font-medium transition-all duration-150 disabled:pointer-events-none disabled:opacity-55 hover-lift hover-lift:hover press-scale:active',
+        'inline-flex select-none items-center justify-center font-medium transition-all duration-150 disabled:pointer-events-none disabled:opacity-55 hover-lift hover-lift:hover active:scale-95',
         variants[variant],
         sizes[size],
         className,

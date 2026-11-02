@@ -94,7 +94,7 @@
   transition: var(--cube-transition-base);
 }
 
-@utility press-scale:active {
+@utility press-scale {
   transform: scale(0.98);
 }
 
