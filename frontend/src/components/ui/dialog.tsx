@@ -60,17 +60,17 @@ export function Dialog({
       ref={ref}
       aria-labelledby="dialog-title"
       className={cn(
-        'm-auto w-[calc(100vw-2rem)] overflow-hidden rounded-2xl border border-white/60 bg-ivory-50/95 p-0 text-slate-ink shadow-[0_40px_120px_-40px_rgba(12,36,30,.6)] backdrop:bg-pine-950/45 backdrop:backdrop-blur-sm',
+        'm-auto w-[calc(100vw-2rem)] overflow-hidden rounded-2xl border border-on-background/10 bg-surface/95 p-0 text-on-background shadow-[0_40px_120px_-40px_rgba(0,0,0,.6)] backdrop:bg-primary-variant/20 backdrop:backdrop-blur-sm',
         widths[size],
       )}
     >
-      <div className="flex items-start justify-between gap-6 border-b border-pine-900/8 px-6 py-5">
+      <div className="flex items-start justify-between gap-6 border-b border-on-background/8 px-6 py-5">
         <div>
           <h2 id="dialog-title" className="text-xl">
             {title}
           </h2>
           {description ? (
-            <p className="mt-1 text-[13px] leading-relaxed text-slate-muted">{description}</p>
+            <p className="mt-1 text-[13px] leading-relaxed text-on-background">{description}</p>
           ) : null}
         </div>
         <Button variant="ghost" size="icon" onClick={onClose} aria-label="Close dialog">
@@ -79,7 +79,7 @@ export function Dialog({
       </div>
       <div className="max-h-[70vh] overflow-y-auto px-6 py-5">{children}</div>
       {footer ? (
-        <div className="flex flex-wrap items-center justify-end gap-2 border-t border-pine-900/8 bg-white/35 px-6 py-4">
+        <div className="flex flex-wrap items-center justify-end gap-2 border-t border-on-background/8 bg-white/35 px-6 py-4">
           {footer}
         </div>
       ) : null}

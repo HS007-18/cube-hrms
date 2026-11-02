@@ -5,24 +5,24 @@ export type BadgeTone = 'success' | 'pending' | 'danger' | 'neutral' | 'info'
 
 const tones: Record<BadgeTone, { badge: string; dot: string }> = {
   success: {
-    badge: 'border-[#cfe0d3] bg-[#e9f1ea] text-[#2f6247]',
-    dot: 'bg-[#3d7a5b]',
+    badge: 'border-secondary-600/20 bg-secondary-600/10 text-secondary-600',
+    dot: 'bg-secondary-600',
   },
   pending: {
-    badge: 'border-gold-200 bg-gold-100 text-gold-600',
-    dot: 'bg-gold-500',
+    badge: 'border-primary-600/20 bg-primary-600/10 text-primary-600',
+    dot: 'bg-primary-600',
   },
   danger: {
-    badge: 'border-[#ecd2cb] bg-clay-50 text-clay-600',
-    dot: 'bg-clay-600',
+    badge: 'border-error-600/20 bg-error-600/10 text-error-600',
+    dot: 'bg-error-600',
   },
   neutral: {
-    badge: 'border-pine-900/10 bg-pine-900/5 text-slate-muted',
-    dot: 'bg-slate-muted/70',
+    badge: 'border-on-surface/10 bg-on-surface/5 text-on-background',
+    dot: 'bg-on-background/70',
   },
   info: {
-    badge: 'border-[#d5e0e2] bg-[#eaf0f1] text-[#3d5c63]',
-    dot: 'bg-[#547b84]',
+    badge: 'border-secondary-variant/20 bg-secondary-variant/10 text-secondary-variant',
+    dot: 'bg-secondary-variant',
   },
 }
 

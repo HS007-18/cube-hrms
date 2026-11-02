@@ -4,6 +4,27 @@
   --font-sans: 'Manrope', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-display: 'Fraunces', 'Iowan Old Style', Georgia, serif;
 
+  /* Primary palette */
+  --color-primary-600: #6200EE;
+  --color-primary-variant: #3700B3;
+  --color-on-primary: #FFFFFF;
+
+  /* Secondary palette */
+  --color-secondary-600: #03DAC6;
+  --color-secondary-variant: #018786;
+  --color-on-secondary: #000000;
+
+  /* Background / Surface */
+  --color-background: #FFFFFF;
+  --color-surface: #FFFFFF;
+  --color-on-background: #000000;
+  --color-on-surface: #000000;
+
+  /* Error */
+  --color-error-600: #B00020;
+  --color-on-error: #FFFFFF;
+
+  /* Legacy compat (kept for any remaining references) */
   --color-ivory-50: #fcfaf5;
   --color-ivory-100: #f7f2e8;
   --color-ivory-200: #efe7d8;
@@ -64,12 +85,10 @@
   body {
     margin: 0;
     min-height: 100vh;
-    background-color: var(--color-ivory-100);
-    background-image:
-      radial-gradient(ellipse 70% 45% at 8% -8%, rgba(203, 163, 106, 0.16), transparent 60%),
-      radial-gradient(ellipse 55% 40% at 100% 0%, rgba(33, 84, 70, 0.1), transparent 55%);
+    background-color: var(--color-background);
+    background-image: none;
     background-attachment: fixed;
-    color: var(--color-slate-ink);
+    color: var(--color-on-background);
     font-family: var(--font-sans);
     font-feature-settings: 'ss01' on;
     -webkit-font-smoothing: antialiased;
@@ -82,16 +101,16 @@
     font-family: var(--font-display);
     font-weight: 500;
     letter-spacing: -0.015em;
-    color: var(--color-pine-950);
+    color: var(--color-on-background);
   }
 
   ::selection {
-    background: var(--color-gold-200);
-    color: var(--color-pine-950);
+    background: var(--color-secondary-600);
+    color: var(--color-on-secondary);
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-gold-500);
+    outline: 2px solid var(--color-primary-600);
     outline-offset: 2px;
   }
 
@@ -128,7 +147,7 @@
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--color-gold-600);
+  color: var(--color-primary-600);
 }
 
 @utility numeric {

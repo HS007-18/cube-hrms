@@ -8,7 +8,7 @@ import React, {
 import { cn } from '@/lib/cn'
 
 const controlClass =
-  'w-full rounded-xl border border-pine-900/12 bg-white/70 px-3 text-sm text-slate-ink shadow-[0_1px_0_rgba(255,255,255,.8)_inset] transition placeholder:text-slate-muted/55 hover:border-pine-900/20 focus:border-gold-400 focus:bg-white/90 focus:outline-none focus:ring-4 focus:ring-gold-500/12 disabled:cursor-not-allowed disabled:opacity-60'
+  'w-full rounded-xl border border-on-background/10 bg-surface/70 px-3 text-sm text-on-background shadow-[0_1px_0_rgba(255,255,255,.8)_inset] transition placeholder:text-on-background/55 hover:border-on-background/20 focus:border-primary-600 focus:bg-surface/90 focus:outline-none focus:ring-4 focus:ring-primary-600/12 disabled:cursor-not-allowed disabled:opacity-60'
 
 interface FieldProps {
   label: string
@@ -24,19 +24,19 @@ export function Field({ label, htmlFor, hint, error, required, children, classNa
   return (
     <div className={cn('space-y-1.5', className)}>
       <label
-        className="flex items-center gap-1 text-[12px] font-semibold text-pine-900"
+        className="flex items-center gap-1 text-[12px] font-semibold text-on-background"
         htmlFor={htmlFor}
       >
         {label}
-        {required ? <span className="text-gold-600">*</span> : null}
+        {required ? <span className="text-primary-600">*</span> : null}
       </label>
       {children}
       {error ? (
-        <p className="text-[11px] font-medium text-clay-600" role="alert">
+        <p className="text-[11px] font-medium text-error-600" role="alert">
           {error}
         </p>
       ) : hint ? (
-        <p className="text-[11px] leading-relaxed text-slate-muted">{hint}</p>
+        <p className="text-[11px] leading-relaxed text-on-background/70">{hint}</p>
       ) : null}
     </div>
   )
@@ -92,21 +92,21 @@ export function Select({ className, children, placeholder, ...props }: SelectPro
           controlClass,
           'h-10 flex items-center justify-between pr-9',
           open
-            ? 'border-gold-400 focus:border-gold-400'
-            : 'focus:border-gold-400',
+            ? 'border-primary-600 focus:border-primary-600'
+            : 'focus:border-primary-600',
           className,
         )}
         aria-expanded={open}
       >
         <span>{placeholder}</span>
         <span>
-          {open ? <ChevronUp className="size-4 text-slate-muted" /> : <ChevronDown className="size-4 text-slate-muted" />}
+          {open ? <ChevronUp className="size-4 text-on-background/70" /> : <ChevronDown className="size-4 text-on-background/70" />}
         </span>
       </button>
 
       {open && (
         <div
-          className="absolute z-50 mt-1 w-full rounded-xl border border-pine-900/20 bg-white/95 shadow-[0_20px_40px_-10px_rgba(12,36,30,.3)] overflow-y-auto max-h-48"
+          className="absolute z-50 mt-1 w-full rounded-xl border border-on-background/10 bg-surface/95 shadow-[0_20px_40px_-10px_rgba(0,0,0,.3)] overflow-y-auto max-h-48"
           role="listbox"
         >
           {optionElements.map((option, index) => {
@@ -122,10 +122,10 @@ export function Select({ className, children, placeholder, ...props }: SelectPro
                 className={cn(
                   'w-full text-left px-3 py-2.5 text-sm transition',
                   isDisabled
-                    ? 'text-slate-muted/50 cursor-not-allowed'
+                    ? 'text-on-background/50 cursor-not-allowed'
                     : String(option.props.value) === String(props.value)
-                    ? 'bg-gold-100 text-pine-900 font-medium'
-                    : 'text-slate-ink hover:bg-pine-50',
+                    ? 'bg-primary-600 text-on-primary font-medium'
+                    : 'text-on-background hover:bg-on-background/6',
                 )}
               >
                 {option.props.children}
