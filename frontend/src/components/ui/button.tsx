@@ -7,15 +7,15 @@ type Size = 'sm' | 'md' | 'lg' | 'icon'
 
 const variants: Record<Variant, string> = {
   primary:
-    'bg-primary text-on-primary hover:bg-primary-hover active:bg-primary-hover shadow-soft transition-all duration-150',
+    'bg-primary text-on-primary hover:bg-primary-hover active:bg-primary-hover shadow-soft transition-all duration-150 hover-lift hover-lift:hover press-scale:active',
   secondary:
-    'bg-secondary text-on-secondary hover:bg-secondary-hover active:bg-secondary-hover shadow-soft transition-all duration-150',
+    'bg-secondary text-on-secondary hover:bg-secondary-hover active:bg-secondary-hover shadow-soft transition-all duration-150 hover-lift hover-lift:hover press-scale:active',
   outline:
-    'border border-on-background/20 bg-transparent text-on-background hover:bg-surface-hover active:bg-surface-hover shadow-soft transition-all duration-150',
+    'border border-on-background/20 bg-transparent text-on-background hover:bg-surface-hover active:bg-surface-hover shadow-soft transition-all duration-150 hover-lift hover-lift:hover press-scale:active',
   ghost:
-    'bg-transparent text-text-muted hover:bg-surface-hover hover:text-on-background shadow-soft transition-all duration-150',
+    'bg-transparent text-text-muted hover:bg-surface-hover hover:text-on-background shadow-soft transition-all duration-150 hover-lift hover-lift:hover press-scale:active',
   danger:
-    'bg-error text-on-error hover:bg-error/90 active:bg-error/90 transition-all duration-150',
+    'bg-error text-on-error hover:bg-error/90 active:bg-error/90 transition-all duration-150 hover-lift hover-lift:hover press-scale:active',
 }
 
 const sizes: Record<Size, string> = {
@@ -44,7 +44,7 @@ export function Button({
   return (
     <button
       className={cn(
-        'inline-flex select-none items-center justify-center font-medium transition-all duration-150 disabled:pointer-events-none disabled:opacity-55 hover-lift hover-lift:hover active:scale-95',
+        'inline-flex select-none items-center justify-center font-medium transition-all duration-150 disabled:pointer-events-none disabled:opacity-55',
         variants[variant],
         sizes[size],
         className,
