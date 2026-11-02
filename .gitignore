@@ -1,0 +1,33 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+.venv/
+env/
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# --- Node ---
+node_modules/
+dist/
+.vite/
+coverage/
+
+# --- Env / secrets ---
+.env
+.env.local
+
+# --- Runtime ---
+*.log
+backend/.venv/
+frontend/.vite/
+
+# --- Tooling / OS ---
+.DS_Store
+.idea/
+.vscode/
+.playwright-mcp/
+
+# --- Audit artifacts (generated, not committed) ---
+security-audit/

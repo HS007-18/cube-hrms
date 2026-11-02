@@ -1,0 +1,1 @@
+"""CUBE HRMS backend package."""
