@@ -1,9 +1,9 @@
-import { ChevronDown } from 'lucide-react'
-import type {
-  InputHTMLAttributes,
-  ReactNode,
-  SelectHTMLAttributes,
-  TextareaHTMLAttributes,
+import { ChevronDown, ChevronUp } from 'lucide-react'
+import React, {
+  type InputHTMLAttributes,
+  type ReactNode,
+  type SelectHTMLAttributes,
+  type TextareaHTMLAttributes,
 } from 'react'
 import { cn } from '@/lib/cn'
 
@@ -55,18 +55,91 @@ interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
 }
 
 export function Select({ className, children, placeholder, ...props }: SelectProps) {
+  const [open, setOpen] = React.useState(false)
+  const selectRef = React.useRef<HTMLDivElement>(null)
+
+  React.useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (selectRef.current && !selectRef.current.contains(event.target as Node)) {
+        setOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
+
+  const optionElements = React.Children.toArray(children) as React.ReactElement<{
+    value: string | number
+    children: ReactNode
+    disabled?: boolean
+  }>[]
+
+  const handleOptionSelect = (value: string | number) => {
+    setOpen(false)
+    if (props.onChange) {
+      props.onChange({
+        target: { value },
+      } as React.ChangeEvent<HTMLSelectElement>)
+    }
+  }
+
   return (
-    <div className="relative">
-      <select
-        className={cn(controlClass, 'h-10 appearance-none pr-9', className)}
-        {...props}
+    <div ref={selectRef} className="relative w-full">
+      <button
+        type="button"
+        onClick={() => setOpen(!open)}
+        className={cn(
+          controlClass,
+          'h-10 flex items-center justify-between pr-9',
+          open
+            ? 'border-gold-400 focus:border-gold-400'
+            : 'focus:border-gold-400',
+          className,
+        )}
+        aria-expanded={open}
       >
-        {placeholder ? <option value="">{placeholder}</option> : null}
-        {children}
-      </select>
-      <ChevronDown
-        className="pointer-events-none absolute right-3 top-1/2 size-4 -translate-y-1/2 text-slate-muted"
-        aria-hidden
+        <span>{placeholder}</span>
+        <span>
+          {open ? <ChevronUp className="size-4 text-slate-muted" /> : <ChevronDown className="size-4 text-slate-muted" />}
+        </span>
+      </button>
+
+      {open && (
+        <div
+          className="absolute z-50 mt-1 w-full rounded-xl border border-pine-900/20 bg-white/95 shadow-[0_20px_40px_-10px_rgba(12,36,30,.3)] overflow-y-auto max-h-48"
+          role="listbox"
+        >
+          {optionElements.map((option, index) => {
+            const isDisabled = option.props.disabled
+            return (
+              <button
+                key={index}
+                type="button"
+                disabled={isDisabled}
+                onClick={() => handleOptionSelect(option.props.value)}
+                role="option"
+                aria-selected={String(option.props.value) === String(props.value)}
+                className={cn(
+                  'w-full text-left px-3 py-2.5 text-sm transition',
+                  isDisabled
+                    ? 'text-slate-muted/50 cursor-not-allowed'
+                    : String(option.props.value) === String(props.value)
+                    ? 'bg-gold-100 text-pine-900 font-medium'
+                    : 'text-slate-ink hover:bg-pine-50',
+                )}
+              >
+                {option.props.children}
+              </button>
+            )
+          })}
+        </div>
+      )}
+      <input
+        type="hidden"
+        defaultValue={props.defaultValue}
+        {...(props.value !== undefined && { value: props.value })}
+        {...(props.name && { name: props.name })}
+        {...(props.required && { required: true })}
       />
     </div>
   )
