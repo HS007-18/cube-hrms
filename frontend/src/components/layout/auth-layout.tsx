@@ -54,7 +54,7 @@ export function AuthLayout({
 
       <section className="flex min-h-screen items-center justify-center px-4 py-12 sm:px-8">
         <div className="w-full max-w-[420px]">
-          <div className="mb-8 flex items-center gap-3 lg:hidden">
+          <div className="mb-12 flex items-center gap-3 lg:hidden">
             <span className="flex size-10 items-center justify-center rounded-xl bg-cube-background ring-1 ring-cube-primary/10">
               <img src="/cube-icon.webp" alt="CUBE" className="size-6" />
             </span>
@@ -66,10 +66,10 @@ export function AuthLayout({
             </div>
           </div>
 
-          <p className="eyebrow">Welcome back</p>
-          <h2 className="mt-3 text-[clamp(2rem,4vw,2.6rem)] leading-[1.02]">{title}</h2>
-          <p className="mt-3 text-sm leading-relaxed text-cube-text-muted">{subtitle}</p>
-          <div className="mt-8">{children}</div>
+          <p className="eyebrow mb-6">Welcome back</p>
+          <h2 className="mt-0 text-[clamp(2rem,4vw,2.6rem)] leading-[1.02] text-cube-on-background">{title}</h2>
+          <p className="mt-4 text-sm leading-relaxed text-cube-text-muted">{subtitle}</p>
+          <div className="mt-10">{children}</div>
         </div>
       </section>
     </div>
