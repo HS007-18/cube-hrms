@@ -40,7 +40,7 @@ services:
     image: minio/minio:latest
     command: ["server", "/data", "--console-address", ":9001"]
     environment:
-      MINIO_ROOT_USER: ${MINIO_ACCESS_KEY:-cube}
+      MINIO_ROOT_USER: ${MINIO_ACCESS_KEY:?MINIO_ACCESS_KEY is required}
       MINIO_ROOT_PASSWORD: ${MINIO_SECRET_KEY:?MINIO_SECRET_KEY is required}
     ports:
       - "127.0.0.1:9010:9000"
@@ -61,7 +61,9 @@ services:
       MIGRATION_DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-cube}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-cube_hrms}
       REDIS_URL: redis://redis:6379/0
       MINIO_ENDPOINT: minio:9000
-      CORS_ORIGINS: '["http://localhost:8081","http://127.0.0.1:8081"]'
+      # Origins are interpolated so production only edits .env — never a
+      # wildcard: credentialed CORS + "*" would expose the API cross-site.
+      CORS_ORIGINS: '${CORS_ORIGINS:-["http://localhost:8081","http://127.0.0.1:8081"]}'
     ports:
       - "127.0.0.1:8080:8000"
     depends_on:

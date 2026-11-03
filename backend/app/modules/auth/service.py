@@ -9,6 +9,7 @@ from app.core.security import (
     create_access_token,
     create_refresh_token,
     decode_token,
+    hash_password,
     refresh_token_expiry,
     verify_password,
 )
@@ -18,6 +19,10 @@ from app.modules.auth.schemas import UserProfile
 from app.modules.employees.models import Employee
 from app.modules.tenants.models import Tenant
 
+# Verified for unknown accounts too (see authenticate), so login latency does
+# not reveal whether an email is registered.
+_DUMMY_HASH = hash_password("unregistered-account-placeholder")
+
 
 async def authenticate(email: str, password: str) -> User:
     normalized = email.strip().lower()
@@ -25,7 +30,11 @@ async def authenticate(email: str, password: str) -> User:
         user = (
             await session.execute(select(User).where(func.lower(User.email) == normalized))
         ).scalar_one_or_none()
-        if user is None or not verify_password(password, user.hashed_password):
+        # Always run argon2 — against a dummy hash when the account does not
+        # exist — so response timing cannot be used to enumerate emails.
+        hashed = user.hashed_password if user is not None else _DUMMY_HASH
+        password_ok = verify_password(password, hashed)
+        if user is None or not password_ok:
             raise unauthorized("Incorrect email or password")
         if not user.is_active:
             raise forbidden("This account has been deactivated")

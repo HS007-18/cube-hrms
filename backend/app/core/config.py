@@ -1,3 +1,4 @@
+import logging
 from functools import lru_cache
 from pathlib import Path
 
@@ -6,6 +7,14 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 # Secrets that are acceptable only while developing locally. Anything else
 # aborts startup so a misconfigured production box never runs with weak keys.
 INSECURE_SECRETS = {"dev-only-secret-change-me", "change-me", "secret"}
+
+# Only these modes may run with weak secrets or non-Secure cookies.
+DEVELOPMENT_MODES = {"development", "test"}
+ALLOWED_ENVIRONMENTS = DEVELOPMENT_MODES | {"staging", "production"}
+# HMAC-SHA2 only: "none" or asymmetric algorithms must never be selectable
+# via environment, or every token becomes forgeable / downgradable.
+ALLOWED_JWT_ALGORITHMS = {"HS256", "HS384", "HS512"}
+MIN_PRODUCTION_SECRET_LENGTH = 32
 
 ENV_FILES = (str(Path(__file__).resolve().parents[3] / ".env"), ".env")
 
@@ -17,7 +26,9 @@ class Settings(BaseSettings):
 
     app_name: str = "CUBE HRMS"
     app_version: str = "0.1.0"
-    environment: str = "development"
+    # Required on purpose: a missing ENVIRONMENT must crash startup instead of
+    # silently defaulting to development (which disables the guards below).
+    environment: str
     api_prefix: str = "/api/v1"
 
     database_url: str = "postgresql+asyncpg://cube_app:cube_app_dev_password@127.0.0.1:5433/cube_hrms"
@@ -50,9 +61,34 @@ class Settings(BaseSettings):
     default_timezone: str = "Asia/Kolkata"
 
     def validate_runtime(self) -> None:
-        if self.environment != "development" and self.jwt_secret in INSECURE_SECRETS:
+        if self.environment not in ALLOWED_ENVIRONMENTS:
             raise RuntimeError(
-                "JWT_SECRET must be set to a strong, unique value outside development"
+                "ENVIRONMENT must be one of "
+                f"{sorted(ALLOWED_ENVIRONMENTS)}, got {self.environment!r}"
+            )
+        if self.jwt_algorithm not in ALLOWED_JWT_ALGORITHMS:
+            raise RuntimeError(
+                "JWT_ALGORITHM must be one of "
+                f"{sorted(ALLOWED_JWT_ALGORITHMS)}, got {self.jwt_algorithm!r}"
+            )
+        if self.environment in DEVELOPMENT_MODES:
+            # Loud by design: a production box running in development mode
+            # would serve non-Secure cookies and accept weak JWT secrets.
+            logging.getLogger("cube.hrms").warning(
+                "Running in %s mode: development-only behavior is active "
+                "(weak-secret guard relaxed, non-Secure cookies, demo seed "
+                "allowed). Set ENVIRONMENT=production for deployments.",
+                self.environment,
+            )
+            return
+        # Staging/production: refuse weak keys outright (length floor also
+        # rejects the example secret even if INSECURE_SECRETS were bypassed).
+        weak = self.jwt_secret in INSECURE_SECRETS
+        if weak or len(self.jwt_secret) < MIN_PRODUCTION_SECRET_LENGTH:
+            raise RuntimeError(
+                "JWT_SECRET must be a strong, unique value of at least "
+                f"{MIN_PRODUCTION_SECRET_LENGTH} characters outside development "
+                "(generate one with: openssl rand -base64 48)"
             )
 
 

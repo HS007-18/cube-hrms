@@ -7,6 +7,7 @@ from zoneinfo import ZoneInfo
 
 from sqlalchemy import func, select
 
+from app.core.config import DEVELOPMENT_MODES, get_settings
 from app.core.db import session_scope
 from app.core.security import hash_password
 from app.modules.attendance.models import AttendanceRecord
@@ -210,6 +211,13 @@ async def _add_leave_request(
 
 
 async def seed() -> None:
+    """Insert demo tenants/users. Refuses to run outside development/test so
+    known demo credentials can never be created on a production database."""
+    if get_settings().environment not in DEVELOPMENT_MODES:
+        raise RuntimeError(
+            f"Refusing to seed with ENVIRONMENT={get_settings().environment!r}; "
+            "demo credentials are development/test only"
+        )
     async with session_scope(is_platform_admin=True) as session:
         existing = (await session.execute(select(func.count()).select_from(Tenant))).scalar_one()
         if existing:
