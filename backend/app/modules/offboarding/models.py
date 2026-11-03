@@ -51,12 +51,12 @@ class Offboarding(Base):
     status: Mapped[str] = mapped_column(
         String(20), nullable=False, default="initiated", index=True
     )
-    exit_interview_scheduled: Mapped[bool] = None
+    exit_interview_scheduled: Mapped[bool | None] = None
     exit_interview_notes: Mapped[str | None] = None
     final_settlement_amount: Mapped[int | None] = None
     settlement_details: Mapped[str | None] = None
-    asset_returned: bool = None
-    access_revoked: bool = None
+    asset_returned: Mapped[bool | None] = None
+    access_revoked: Mapped[bool | None] = None
     completed_at: Mapped[datetime | None] = None
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now(), nullable=False

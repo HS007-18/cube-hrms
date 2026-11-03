@@ -56,7 +56,7 @@ class Subscription(Base):
     payment_method: Mapped[str | None] = None
     payment_provider: Mapped[str | None] = None  # stripe, razorpay, etc.
     external_subscription_id: Mapped[str | None] = None  # provider's subscription ID
-    metadata: Mapped[dict | None] = None
+    meta_data: Mapped[str | None] = mapped_column(Text, default=None, nullable=True)  # JSON
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now(), nullable=False
     )

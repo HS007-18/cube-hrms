@@ -1,11 +1,13 @@
 import enum
 from datetime import datetime
+from typing import Optional, Dict
 
 from sqlalchemy import (
     DateTime,
     ForeignKey,
     Integer,
     String,
+    Text,
     func,
 )
 from sqlalchemy.orm import Mapped, mapped_column
@@ -42,8 +44,8 @@ class PlatformAuditLog(Base):
     action: Mapped[str] = mapped_column(String(50), nullable=False, index=True)
     entity_type: Mapped[str | None] = mapped_column(String(100))
     entity_id: Mapped[str | None] = mapped_column(String(100))
-    old_values: Mapped[dict | None] = None
-    new_values: Mapped[dict | None] = None
+    old_values: Mapped[str | None] = mapped_column(Text, default=None, nullable=True)  # JSON
+    new_values: Mapped[str | None] = mapped_column(Text, default=None, nullable=True)  # JSON
     ip_address: Mapped[str | None] = None
     user_agent: Mapped[str | None] = None
     request_id: Mapped[str | None] = None

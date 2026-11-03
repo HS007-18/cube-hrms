@@ -40,7 +40,7 @@ class SystemHealthCheck(Base):
     component: Mapped[str] = mapped_column(String(100), nullable=False)
     status: Mapped[str] = mapped_column(String(20), nullable=False, index=True)
     message: Mapped[str | None] = None
-    details: Mapped[dict | None] = None
+    details: Mapped[str | None] = mapped_column(Text, default=None, nullable=True)  # JSON
     duration_ms: Mapped[int | None] = None
     checked_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now(), nullable=False, index=True
@@ -54,7 +54,7 @@ class SystemMetric(Base):
     metric_name: Mapped[str] = mapped_column(String(100), nullable=False, index=True)
     metric_value: Mapped[float] = None
     unit: Mapped[str | None] = None
-    tags: Mapped[dict | None] = None
+    tags: Mapped[str | None] = mapped_column(Text, default=None, nullable=True)  # JSON
     recorded_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now(), nullable=False, index=True
     )

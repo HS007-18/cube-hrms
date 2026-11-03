@@ -45,7 +45,7 @@ class Announcement(Base):
     target_department_id: Mapped[int | None] = mapped_column(
         ForeignKey("departments.id", ondelete="SET NULL"), index=True
     )
-    target_user_ids: Mapped[list[int] | None] = None  # JSON array of user IDs
+    target_user_ids: Mapped[str | None] = mapped_column(Text, default=None, nullable=True)  # JSON array of user IDs
     is_pinned: bool = False
     is_active: bool = True
     publish_at: Mapped[datetime | None] = None
