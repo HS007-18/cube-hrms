@@ -30,6 +30,14 @@
   --cube-border: #E2E8F0;
   --cube-border-hover: #CBD5E1;
 
+  /* Missing brand colors referenced by components */
+  --cube-navy-primary: #031B32;
+  --cube-navy-secondary: #0F172A;
+  --cube-blue-deep: #1E40AF;
+  --cube-blue-electric: #087FF5;
+  --cube-cyan: #06B6D4;
+  --cube-purple: #7C3AED;
+
   --cube-glass: rgba(255, 255, 255, 0.70);
   --cube-glass-strong: rgba(255, 255, 255, 0.90);
   --cube-glass-border: rgba(255, 255, 255, 0.55);
