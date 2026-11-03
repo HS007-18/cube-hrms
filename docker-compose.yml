@@ -56,6 +56,8 @@ services:
       DATABASE_URL: postgresql+asyncpg://${APP_DB_USER:-cube_app}:${APP_DB_PASSWORD}@db:5432/${POSTGRES_DB:-cube_hrms}
       # Schema migrations run as the DB owner; the API keeps using the
       # least-privilege app role so Postgres row-level security is enforced.
+      # NOTE: credentials are interpolated into a URL — keep POSTGRES_PASSWORD
+      # URL-safe (letters, digits, _ - only) or percent-encode it.
       MIGRATION_DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-cube}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-cube_hrms}
       REDIS_URL: redis://redis:6379/0
       MINIO_ENDPOINT: minio:9000

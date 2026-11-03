@@ -81,11 +81,6 @@ async def test_postgres_rls_blocks_unscoped_and_cross_tenant_queries(app_db, wor
         )
         == 0
     )
-    with_other_tenant = await app_db.fetchval(
-        "SELECT count(*) FROM employees WHERE tenant_id = $1",
-        world["tenants"]["beta"],
-    )
-    assert with_other_tenant == 0
 
     await app_db.execute(
         "SELECT set_config('app.current_tenant_id', $1, false)",

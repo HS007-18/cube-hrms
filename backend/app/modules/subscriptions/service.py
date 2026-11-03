@@ -66,9 +66,10 @@ async def list_invoices(
 
 
 async def create_invoice(session, payload) -> Invoice:
-    # Generate invoice number
+    # Generate invoice number. Microseconds keep two invoices created in the
+    # same second from colliding on the unique invoice_number column.
     today = date.today()
-    invoice_number = f"INV-{today.strftime('%Y%m')}-{datetime.now(UTC).strftime('%H%M%S')}"
+    invoice_number = f"INV-{today.strftime('%Y%m')}-{datetime.now(UTC).strftime('%H%M%S%f')}"
     
     invoice = Invoice(
         invoice_number=invoice_number,
