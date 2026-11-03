@@ -1,5 +1,5 @@
 import { Loader2 } from 'lucide-react'
-import type { ButtonHTMLAttributes } from 'react'
+import type { ButtonHTMLAttributes, ReactNode } from 'react'
 import { cn } from '@/lib/cn'
 
 type Variant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger'
@@ -7,15 +7,15 @@ type Size = 'sm' | 'md' | 'lg' | 'icon'
 
 const variants: Record<Variant, string> = {
   primary:
-    'bg-cube-blue-electric text-white font-semibold hover:bg-cube-blue-deep active:bg-cube-blue-deep shadow-[0_4px_14px_rgba(8,127,245,0.3)] transition-all duration-150 hover-lift hover:-translate-y-0.5 active:press-scale',
+    'bg-[var(--cube-primary)] text-[var(--cube-on-primary)] hover:bg-[var(--cube-primary-hover)] active:bg-[var(--cube-primary-hover)] shadow-soft transition-all duration-150 hover-lift hover-lift:hover press-scale:active',
   secondary:
-    'border border-[#E2E8F0] bg-white text-[#111D36] font-semibold hover:bg-[#F8FAFC] hover:border-[#CBD5E1] shadow-sm transition-all duration-150 hover-lift hover:-translate-y-0.5 active:press-scale',
+    'bg-[var(--cube-secondary)] text-[var(--cube-on-secondary)] hover:bg-[var(--cube-secondary-hover)] active:bg-[var(--cube-secondary-hover)] shadow-soft transition-all duration-150 hover-lift hover-lift:hover press-scale:active',
   outline:
-    'border border-[#CBD5E1] bg-transparent text-[#111D36] font-semibold hover:bg-black/5 transition-all duration-150 hover-lift active:press-scale',
+    'border border-[var(--cube-border)] bg-transparent text-[var(--cube-on-background)] hover:bg-[var(--cube-surface-hover)] active:bg-[var(--cube-surface-hover)] shadow-soft transition-all duration-150 hover-lift hover-lift:hover press-scale:active',
   ghost:
-    'bg-transparent text-[#64748B] font-semibold hover:bg-black/5 hover:text-[#111D36] transition-all duration-150 active:press-scale',
+    'bg-transparent text-[var(--cube-text-muted)] hover:bg-[var(--cube-surface-hover)] hover:text-[var(--cube-on-background)] shadow-soft transition-all duration-150 hover-lift hover-lift:hover press-scale:active',
   danger:
-    'bg-cube-error text-white font-semibold hover:bg-red-700 active:bg-red-800 shadow-sm transition-all duration-150 hover-lift hover:-translate-y-0.5 active:press-scale',
+    'bg-[var(--cube-error)] text-[var(--cube-on-error)] hover:bg-[var(--cube-error)]/90 active:bg-[var(--cube-error)]/90 transition-all duration-150 hover-lift hover-lift:hover press-scale:active',
 }
 
 const sizes: Record<Size, string> = {
@@ -44,7 +44,7 @@ export function Button({
   return (
     <button
       className={cn(
-        'inline-flex select-none items-center justify-center font-sans font-semibold text-[14px] leading-none transition-all duration-150 disabled:pointer-events-none disabled:opacity-55',
+        'inline-flex select-none items-center justify-center font-medium transition-all duration-150 disabled:pointer-events-none disabled:opacity-55',
         variants[variant],
         sizes[size],
         className,

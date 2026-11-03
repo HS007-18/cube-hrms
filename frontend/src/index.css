@@ -1,10 +1,53 @@
 @import 'tailwindcss';
-@import './styles/colors.css';
 
 @theme {
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   --font-heading: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-display: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* Professional minimal palette */
+  --cube-primary: #2563EB;
+  --cube-primary-hover: #1D4ED8;
+  --cube-primary-light: #EFF6FF;
+  --cube-on-primary: #FFFFFF;
+
+  --cube-secondary: #0F766E;
+  --cube-secondary-hover: #0E7490;
+  --cube-secondary-light: #CCFBF1;
+  --cube-on-secondary: #FFFFFF;
+
+  --cube-background: #F8FAFC;
+  --cube-surface: #FFFFFF;
+  --cube-surface-hover: #F1F5F9;
+  --cube-on-background: #0F172A;
+  --cube-on-surface: #0F172A;
+  --cube-text-muted: #64748B;
+
+  --cube-error: #DC2626;
+  --cube-error-light: #FEF2F2;
+  --cube-on-error: #FFFFFF;
+
+  --cube-border: #E2E8F0;
+  --cube-border-hover: #CBD5E1;
+
+  --cube-glass: rgba(255, 255, 255, 0.70);
+  --cube-glass-strong: rgba(255, 255, 255, 0.90);
+  --cube-glass-border: rgba(255, 255, 255, 0.55);
+  --cube-glass-shadow: 0 20px 40px -10px rgba(15, 23, 42, 0.08);
+
+  --cube-radius-sm: 0.5rem;
+  --cube-radius-md: 0.75rem;
+  --cube-radius-lg: 1rem;
+  --cube-radius-xl: 1.5rem;
+  --cube-radius-2xl: 2rem;
+
+  --cube-shadow-soft: 0 4px 20px -4px rgba(15, 23, 42, 0.06);
+  --cube-shadow-lift: 0 12px 40px -12px rgba(15, 23, 42, 0.1);
+  --cube-shadow-card: 0 1px 3px 0 rgba(15, 23, 42, 0.1), 0 1px 2px -1px rgba(15, 23, 42, 0.1);
+
+  --cube-transition-fast: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  --cube-transition-base: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --cube-transition-slow: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 
   --radius-xl: 1rem;
   --radius-2xl: 1.25rem;
