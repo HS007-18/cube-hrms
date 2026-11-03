@@ -9,6 +9,7 @@ import {
   Search,
   ShieldCheck,
   Users,
+  X,
 } from 'lucide-react'
 import { useState, type FormEvent } from 'react'
 import { Badge, StatusBadge } from '@/components/ui/badge'
@@ -192,7 +193,7 @@ export function TenantsPage() {
         <StatCard label="Employees" value={employeeTotal} hint="Active records across tenants" icon={Users} tone="clay" />
       </div>
 
-      <Card className="p-4">
+      <Card className="p-4 relative z-20 overflow-visible">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
           <div className="relative flex-1">
             <Search
@@ -201,12 +202,22 @@ export function TenantsPage() {
             />
             <Input
               type="search"
-              placeholder="Search by tenant name or slug"
-              className="pl-9"
+              placeholder="Search by tenant name, slug, or contact email"
+              className="pl-9 pr-9"
               value={search}
               onChange={(event) => setSearch(event.target.value)}
               aria-label="Search tenants"
             />
+            {search ? (
+              <button
+                type="button"
+                onClick={() => setSearch('')}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-text-muted hover:text-on-background transition"
+                aria-label="Clear search"
+              >
+                <X className="size-4" />
+              </button>
+            ) : null}
           </div>
           <Select
             aria-label="Filter tenants by status"
@@ -215,6 +226,7 @@ export function TenantsPage() {
             className="w-full sm:w-48"
             placeholder="All statuses"
           >
+            <option value="">All statuses</option>
             <option value="pending">Pending</option>
             <option value="active">Active</option>
             <option value="suspended">Suspended</option>
@@ -234,24 +246,24 @@ export function TenantsPage() {
       ) : tenants.data && tenants.data.items.length > 0 ? (
         <div className="grid gap-4 lg:grid-cols-2">
           {tenants.data.items.map((tenant) => (
-            <Card key={tenant.id} className="p-5">
+            <Card key={tenant.id} className="p-5 transition hover:shadow-[0_12px_36px_rgba(7,86,185,0.08)]">
               <div className="flex items-start justify-between gap-3">
                 <div className="flex min-w-0 items-start gap-3">
-                  <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-on-background font-display text-[15px] font-semibold text-primary-light">
+                  <span className="flex size-11 shrink-0 items-center justify-center rounded-2xl bg-cube-navy-primary font-sans text-[16px] font-bold text-cube-cyan ring-1 ring-cube-cyan/20">
                     {tenant.name.slice(0, 1).toUpperCase()}
                   </span>
                   <div className="min-w-0">
-                    <p className="truncate font-display text-[17px] font-medium text-on-background">
+                    <h3 className="truncate text-card-heading text-[#111D36]">
                       {tenant.name}
-                    </p>
-                    <p className="truncate font-mono text-[10px] text-text-muted">{tenant.slug}</p>
+                    </h3>
+                    <p className="truncate font-mono text-[11px] text-[#64748B]">{tenant.slug}</p>
                   </div>
                 </div>
                 <StatusBadge status={tenant.status} />
               </div>
 
               <div className="mt-4 flex flex-wrap items-center gap-2">
-                <Badge tone={planTone[tenant.plan] ?? 'neutral'} dot={false}>
+                <Badge tone={planTone[tenant.plan] ?? 'cyan'} dot={false}>
                   {tenant.plan} plan
                 </Badge>
                 <Badge tone="neutral" dot={false}>
@@ -262,11 +274,11 @@ export function TenantsPage() {
                 </Badge>
               </div>
 
-              <div className="mt-4 flex items-center justify-between gap-2 border-t border-on-background/10 pt-3">
-                <p className="truncate text-[11px] text-text-muted">
+              <div className="mt-4 flex items-center justify-between gap-2 border-t border-[#E2E8F0] pt-3">
+                <p className="truncate text-[11.5px] text-[#64748B]">
                   {tenant.contact_email ?? 'No contact email'}
                 </p>
-                <Button variant="secondary" size="sm" onClick={() => setSelectedId(tenant.id)}>
+                <Button variant="secondary" size="sm" className="font-semibold text-cube-blue-electric hover:text-cube-blue-deep" onClick={() => setSelectedId(tenant.id)}>
                   Manage
                 </Button>
               </div>

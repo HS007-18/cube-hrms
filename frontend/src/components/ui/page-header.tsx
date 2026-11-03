@@ -13,18 +13,26 @@ export function PageHeader({ eyebrow, title, description, actions, className }: 
   return (
     <header
       className={cn(
-        'flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between',
+        'flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between pb-1',
         className,
       )}
     >
       <div className="min-w-0">
-        {eyebrow ? <p className="eyebrow mb-2">{eyebrow}</p> : null}
-        <h1 className="text-[clamp(1.9rem,3vw,2.5rem)] leading-[1.05]">{title}</h1>
+        {eyebrow ? (
+          <p className="mb-1 text-[11.5px] font-medium uppercase tracking-[0.12em] text-cube-blue-deep">
+            {eyebrow}
+          </p>
+        ) : null}
+        <h1 className="text-page-heading text-cube-on-background">
+          {title}
+        </h1>
         {description ? (
-          <p className="mt-2 max-w-2xl text-sm leading-relaxed text-text-muted">{description}</p>
+          <p className="mt-1.5 max-w-2xl text-[14px] leading-relaxed text-cube-text-muted">
+            {description}
+          </p>
         ) : null}
       </div>
-      {actions ? <div className="flex shrink-0 flex-wrap items-center gap-2">{actions}</div> : null}
+      {actions ? <div className="flex shrink-0 flex-wrap items-center gap-2.5">{actions}</div> : null}
     </header>
   )
 }

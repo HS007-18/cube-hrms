@@ -109,8 +109,8 @@ export function LoginPage() {
       </form>
 
       {import.meta.env.DEV && import.meta.env.VITE_ENABLE_DEMO_ACCOUNTS !== 'false' ? (
-        <div className="mt-8 rounded-2xl border border-cube-border bg-cube-surface p-4">
-          <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-cube-text-muted">
+        <div className="mt-8 rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] p-4">
+          <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#64748B]">
             Demo accounts
           </p>
           <div className="mt-3 grid gap-1.5 sm:grid-cols-2">
@@ -123,17 +123,17 @@ export function LoginPage() {
                   setPassword(account.password)
                   setError('')
                 }}
-                className="rounded-lg px-2.5 py-2 text-left transition hover:bg-cube-surface-hover"
+                className="rounded-xl px-2.5 py-2 text-left transition hover:bg-white hover:shadow-sm border border-transparent hover:border-[#E2E8F0]"
               >
-                <span className="block text-[11px] font-semibold text-cube-on-background">
+                <span className="block text-[11.5px] font-bold text-[#111D36]">
                   {account.label}
                 </span>
-                <span className="block truncate text-[10px] text-cube-text-muted">{account.email}</span>
+                <span className="block truncate text-[10.5px] text-[#64748B]">{account.email}</span>
               </button>
             ))}
           </div>
-          <p className="mt-2 px-2.5 text-[10px] leading-relaxed text-cube-text-muted">
-            Demo credentials are seeded for local development only.
+          <p className="mt-2.5 px-1 text-[10.5px] leading-relaxed text-[#64748B]">
+            Demo credentials are pre-seeded for instantaneous local access.
           </p>
         </div>
       ) : null}

@@ -1,63 +1,96 @@
 /* ==========================================================================
-   CUBE HRMS — Universal Color Schema (Clear Interface)
-   Single source of truth — all UI components inherit from here
+   CUBE AI SOLUTIONS — Futuristic Enterprise HRMS Universal Color System
+   Single source of truth for Cube Human Capital Platform
    ========================================================================== */
 
 :root {
-  /* ── Primary (Indigo) ── */
-  --cube-primary: #2563EB;
-  --cube-primary-hover: #1D4ED8;
-  --cube-primary-light: #EFF6FF;
+  /* ── Core Brand Palette ── */
+  --cube-navy-primary: #031B32;
+  --cube-navy-secondary: #062746;
+  --cube-blue-deep: #0756B9;
+  --cube-blue-electric: #087FF5;
+  --cube-cyan: #08D9F5;
+  --cube-purple: #7957F5;
+
+  /* ── Functional Primary & Secondary ── */
+  --cube-primary: #087FF5;
+  --cube-primary-hover: #0756B9;
+  --cube-primary-light: #EBF5FF;
   --cube-on-primary: #FFFFFF;
 
-  /* ── Secondary (Teal) ── */
-  --cube-secondary: #0F766E;
-  --cube-secondary-hover: #0E7490;
-  --cube-secondary-light: #CCFBF1;
+  --cube-secondary: #0756B9;
+  --cube-secondary-hover: #031B32;
+  --cube-secondary-light: #E0F2FE;
   --cube-on-secondary: #FFFFFF;
 
-  /* ── Background / Surface ── */
-  --cube-background: #F8FAFC;
+  /* ── Canvas Background & Surfaces ── */
+  --cube-background: #F0F5FF;
   --cube-surface: #FFFFFF;
-  --cube-surface-hover: #F1F5F9;
-  --cube-on-background: #0F172A;
-  --cube-on-surface: #0F172A;
+  --cube-surface-hover: #F8FAFC;
+  --cube-on-background: #111D36;
+  --cube-on-surface: #111D36;
   --cube-text-muted: #64748B;
 
-  /* ── Error ── */
-  --cube-error: #DC2626;
+  /* ── Status Colors ── */
+  --cube-success: #16A36A;
+  --cube-success-light: #ECFDF5;
+  --cube-warning: #F59E0B;
+  --cube-warning-light: #FFFBEB;
+  --cube-error: #EF4444;
   --cube-error-light: #FEF2F2;
   --cube-on-error: #FFFFFF;
 
-  /* ── Borders ── */
+  /* ── Borders & Outlines ── */
   --cube-border: #E2E8F0;
   --cube-border-hover: #CBD5E1;
+  --cube-border-focus: #087FF5;
 
-  /* ── Liquid Morphism (Glassmorphism) ── */
-  --cube-glass: rgba(255, 255, 255, 0.70);
-  --cube-glass-strong: rgba(255, 255, 255, 0.90);
-  --cube-glass-border: rgba(255, 255, 255, 0.55);
-  --cube-glass-shadow: 0 20px 40px -10px rgba(15, 23, 42, 0.08);
+  /* ── Natural & Analytics Accent Tones ── */
+  --cube-pine-100: #E0F2FE;
+  --cube-pine-800: #0756B9;
+  --cube-sage-50: #ECFDF5;
+  --cube-sage-600: #16A36A;
+  --cube-gold-200: #FEF3C7;
+  --cube-gold-800: #D97706;
+  --cube-purple-100: #EDE9FE;
+  --cube-purple-800: #7957F5;
+  --cube-cyan-100: #CFFAFE;
+  --cube-cyan-800: #0891B2;
+  --cube-ivory-100: #F8FAFC;
+
+  /* ── Glassmorphism & Elevation ── */
+  --cube-glass: rgba(255, 255, 255, 0.95);
+  --cube-glass-strong: rgba(255, 255, 255, 0.98);
+  --cube-glass-border: rgba(226, 232, 240, 0.85);
+  --cube-glass-shadow: 0 8px 30px -4px rgba(7, 86, 185, 0.05), 0 2px 6px -1px rgba(0, 0, 0, 0.02);
 
   /* ── Radii ── */
   --cube-radius-sm: 0.5rem;
   --cube-radius-md: 0.75rem;
   --cube-radius-lg: 1rem;
-  --cube-radius-xl: 1.5rem;
-  --cube-radius-2xl: 2rem;
+  --cube-radius-xl: 1.25rem;
+  --cube-radius-2xl: 1.5rem;
 
   /* ── Shadows ── */
-  --cube-shadow-soft: 0 4px 20px -4px rgba(15, 23, 42, 0.06);
-  --cube-shadow-lift: 0 12px 40px -12px rgba(15, 23, 42, 0.1);
-  --cube-shadow-card: 0 1px 3px 0 rgba(15, 23, 42, 0.1), 0 1px 2px -1px rgba(15, 23, 42, 0.1);
+  --cube-shadow-soft: 0 4px 20px -4px rgba(7, 86, 185, 0.06);
+  --cube-shadow-lift: 0 12px 35px -10px rgba(7, 86, 185, 0.12);
+  --cube-shadow-glow: 0 0 20px rgba(8, 217, 245, 0.25);
+  --cube-shadow-card: 0 1px 3px 0 rgba(7, 86, 185, 0.04), 0 1px 2px -1px rgba(0, 0, 0, 0.02);
 
   /* ── Transitions ── */
   --cube-transition-fast: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
   --cube-transition-base: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   --cube-transition-slow: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* ── Universal Typography Variables ── */
+  --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-secondary: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-sans: var(--font-primary);
+  --font-heading: var(--font-secondary);
+  --font-display: var(--font-secondary);
 }
 
-/* ── Typography Scale ── */
+/* ── Typography Scale & Base Reset ── */
 @layer base {
   html {
     color-scheme: light;
@@ -67,44 +100,84 @@
     margin: 0;
     min-height: 100vh;
     background-color: var(--cube-background);
-    background-image: none;
+    background-image: radial-gradient(at 0% 0%, rgba(8, 217, 245, 0.03) 0px, transparent 50%),
+                      radial-gradient(at 100% 0%, rgba(8, 127, 245, 0.03) 0px, transparent 50%);
     color: var(--cube-on-background);
-    font-family: var(--font-sans);
-    font-feature-settings: 'ss01' on;
+    font-family: var(--font-primary);
+    font-size: 0.9375rem;
+    font-weight: 400;
+    line-height: 1.5;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
-  h1, h2, h3 {
-    font-family: var(--font-display);
-    font-weight: 500;
+  /* 1. Page headings: Plus Jakarta Sans, 700, 28–32px */
+  h1 {
+    font-family: var(--font-secondary);
+    font-weight: 700;
+    font-size: clamp(1.75rem, 2.5vw, 2rem);
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+    color: var(--cube-on-background);
+  }
+
+  /* 2. Section headings: Plus Jakarta Sans, 600, 20–24px */
+  h2 {
+    font-family: var(--font-secondary);
+    font-weight: 600;
+    font-size: clamp(1.25rem, 2vw, 1.5rem);
+    line-height: 1.3;
     letter-spacing: -0.015em;
     color: var(--cube-on-background);
   }
 
+  /* 3. Card headings: Inter, 600, 15–17px */
+  h3 {
+    font-family: var(--font-primary);
+    font-weight: 600;
+    font-size: 1rem;
+    line-height: 1.375;
+    letter-spacing: -0.01em;
+    color: var(--cube-on-background);
+  }
+
+  h4, h5, h6 {
+    font-family: var(--font-primary);
+    font-weight: 600;
+    font-size: 0.9375rem;
+    line-height: 1.4;
+    color: var(--cube-on-background);
+  }
+
+  /* 6. Buttons: Inter, 600, 14px */
+  button, [role="button"] {
+    font-family: var(--font-primary);
+  }
+
+  /* 7. Table headers: Inter, 600, 12–13px */
+  th {
+    font-family: var(--font-primary);
+    font-size: 0.78125rem;
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: 0.02em;
+    color: var(--cube-text-muted);
+  }
+
+  /* Tabular Numerals for attendance, salary, metrics, timestamps */
+  table, .tabular-nums, [data-tabular="true"] {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: 'tnum';
+  }
+
   ::selection {
-    background: var(--cube-secondary);
-    color: var(--cube-on-secondary);
+    background: rgba(8, 127, 245, 0.2);
+    color: var(--cube-navy-primary);
   }
 
   :focus-visible {
-    outline: 2px solid var(--cube-primary);
+    outline: 2px solid var(--cube-blue-electric);
     outline-offset: 2px;
-  }
-
-  ::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: rgba(15, 23, 42, 0.1);
-    border-radius: 999px;
-    border: 3px solid transparent;
-    background-clip: content-box;
-  }
-
-  ::-webkit-scrollbar-track {
-    background: transparent;
   }
 }

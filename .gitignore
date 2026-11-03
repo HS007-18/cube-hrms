@@ -31,3 +31,6 @@ frontend/.vite/
 
 # --- Audit artifacts (generated, not committed) ---
 security-audit/
+frontend/scripts/*.png
+frontend/audit_screenshots/
+frontend/redesign_screenshots/

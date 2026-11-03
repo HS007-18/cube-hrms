@@ -170,19 +170,23 @@ export function AttendancePage() {
         }
       />
 
-      <Card className="overflow-hidden border-0 bg-on-background p-0 text-on-background">
-        <div className="grid gap-6 p-6 sm:p-8 lg:grid-cols-[1.2fr_1fr] lg:items-center">
+      <Card className="relative overflow-hidden p-6 sm:p-8 bg-white border border-[#E2E8F0] shadow-[0_8px_30px_rgb(7,86,185,0.05)]">
+        <div className="pointer-events-none absolute -right-10 -top-10 h-56 w-80 bg-gradient-to-bl from-cube-cyan/15 via-cube-blue-electric/10 to-transparent rounded-full blur-2xl" />
+        <div className="relative z-10 grid gap-6 lg:grid-cols-[1.2fr_1fr] lg:items-center">
           <div>
-            <p className="eyebrow !text-primary-light">Today · {formatDate(today, { weekday: 'long' })}</p>
+            <div className="flex items-center gap-2 text-[10.5px] font-bold uppercase tracking-[0.16em] text-cube-blue-deep">
+              <Clock3 className="size-3.5 text-cube-blue-deep" aria-hidden />
+              <span>TODAY · {formatDate(today, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }).toUpperCase()}</span>
+            </div>
             <div className="mt-3 flex flex-wrap items-baseline gap-x-4 gap-y-1">
-              <p className="numeric font-display text-[clamp(2.6rem,5vw,4rem)] font-normal leading-none text-on-background">
+              <p className="font-sans text-[clamp(2.5rem,4.5vw,3.5rem)] font-extrabold leading-none text-[#111D36] tracking-tight">
                 {clockTime}
               </p>
-              <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-on-background/40">
+              <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#64748B]">
                 IST
               </span>
             </div>
-            <p className="mt-3 max-w-md text-[13px] leading-relaxed text-on-background/55">
+            <p className="mt-3.5 max-w-md text-[13.5px] leading-relaxed text-[#64748B]">
               {todayRecord?.clock_out
                 ? `Your day is closed at ${formatTime(todayRecord.clock_out)} with ${formatMinutes(todayRecord.work_minutes)} recorded.`
                 : todayRecord?.clock_in
@@ -191,57 +195,57 @@ export function AttendancePage() {
             </p>
           </div>
 
-          <div className="rounded-2xl border border-white/10 bg-white/6 p-5">
+          <div className="rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] p-5 shadow-sm">
             <div className="flex items-center justify-between gap-3">
               <div>
-                <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-on-background/40">
+                <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#64748B]">
                   Today’s record
                 </p>
-                <p className="numeric mt-1 text-xl font-semibold text-on-background">
+                <p className="mt-1 text-2xl font-extrabold text-[#111D36] tracking-tight">
                   {formatTime(todayRecord?.clock_in)}
-                  <span className="mx-2 text-sm font-normal text-on-background/35">→</span>
+                  <span className="mx-2 text-base font-normal text-[#94A3B8]">→</span>
                   {formatTime(todayRecord?.clock_out)}
                 </p>
               </div>
               {todayRecord ? (
                 <StatusBadge status={todayRecord.status} />
               ) : (
-                <span className="rounded-full border border-white/12 px-2.5 py-0.5 text-[11px] font-semibold text-on-background/50">
+                <span className="rounded-full border border-[#CBD5E1] bg-white px-2.5 py-0.5 text-[11px] font-semibold text-[#64748B]">
                   Not started
                 </span>
               )}
             </div>
 
-            <div className="mt-4 flex flex-wrap gap-2">
+            <div className="mt-5 flex flex-wrap gap-2.5">
               {!todayRecord?.clock_in ? (
                 <Button
-                  className="flex-1 bg-primary-light text-on-background hover:bg-gold-200"
+                  className="flex-1 bg-cube-blue-electric text-white font-semibold hover:bg-cube-blue-deep shadow-[0_4px_14px_rgba(8,127,245,0.3)] h-11 rounded-xl"
                   loading={clockIn.isPending}
                   onClick={() => clockIn.mutate()}
                 >
-                  <LogIn className="size-4" aria-hidden />
+                  <LogIn className="size-4 mr-1.5" aria-hidden />
                   Clock in
                 </Button>
               ) : null}
               {todayRecord?.clock_in && !todayRecord?.clock_out ? (
                 <Button
-                  className="flex-1 bg-surface text-on-background hover:bg-surface-hover"
+                  className="flex-1 bg-white border border-[#CBD5E1] text-[#111D36] font-semibold hover:bg-[#F1F5F9] shadow-sm h-11 rounded-xl"
                   loading={clockOut.isPending}
                   onClick={() => clockOut.mutate()}
                 >
-                  <LogOut className="size-4" aria-hidden />
+                  <LogOut className="size-4 mr-1.5" aria-hidden />
                   Clock out
                 </Button>
               ) : null}
               {todayRecord?.clock_out ? (
-                <p className="flex w-full items-center justify-center gap-2 rounded-xl border border-white/10 px-3 py-2 text-[12px] font-semibold text-on-background/60">
-                  <CheckCircle2 className="size-4 text-primary-light" aria-hidden />
+                <p className="flex w-full items-center justify-center gap-2 rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2.5 text-[12.5px] font-semibold text-emerald-800">
+                  <CheckCircle2 className="size-4 text-emerald-600" aria-hidden />
                   Attendance complete for today
                 </p>
               ) : null}
             </div>
             {todayRecord?.notes ? (
-              <p className="mt-3 text-[11px] leading-relaxed text-on-background/40">{todayRecord.notes}</p>
+              <p className="mt-3 text-[11px] leading-relaxed text-[#64748B]">{todayRecord.notes}</p>
             ) : null}
           </div>
         </div>
@@ -424,8 +428,8 @@ function RecordTable({
   return (
     <>
       <div className="hidden overflow-x-auto md:block">
-        <table className="w-full text-left text-[13px]">
-          <thead className="border-y border-on-background/10 bg-surface/40 text-[10px] font-bold uppercase tracking-[0.14em] text-text-muted">
+        <table className="w-full text-left text-[13.5px]">
+          <thead className="border-y border-[#E2E8F0] bg-[#F8FAFC] text-[12.5px] font-semibold uppercase tracking-[0.03em] text-[#64748B]">
             <tr>
               {showEmployee ? <th className="px-5 py-3">Employee</th> : null}
               <th className="px-5 py-3">Date</th>
@@ -450,16 +454,16 @@ function RecordTable({
                     </div>
                   </td>
                 ) : null}
-                <td className="px-5 py-3 text-on-background">
+                <td className="px-5 py-3 text-on-background tabular-nums">
                   {formatDate(record.work_date, { weekday: 'short' })}
                 </td>
-                <td className="px-4 py-3 font-mono text-[12px] text-on-background">
+                <td className="px-4 py-3 font-mono text-[12.5px] tabular-nums text-on-background">
                   {formatTime(record.clock_in)}
                 </td>
-                <td className="px-4 py-3 font-mono text-[12px] text-on-background">
+                <td className="px-4 py-3 font-mono text-[12.5px] tabular-nums text-on-background">
                   {formatTime(record.clock_out)}
                 </td>
-                <td className="px-4 py-3 text-on-background">{formatMinutes(record.work_minutes)}</td>
+                <td className="px-4 py-3 text-on-background tabular-nums">{formatMinutes(record.work_minutes)}</td>
                 <td className="px-4 py-3">
                   <StatusBadge status={record.status} />
                 </td>
@@ -526,11 +530,13 @@ function MetricPill({
   value: string
 }) {
   return (
-    <div className="flex items-center gap-2.5 rounded-xl border border-on-background/10 bg-surface px-3.5 py-2">
-      <Icon className="size-4 text-primary" aria-hidden />
+    <div className="flex items-center gap-3 rounded-2xl border border-[#E2E8F0] bg-white px-4 py-2.5 shadow-sm transition hover:border-[#CBD5E1]">
+      <span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-[#EBF5FF] text-cube-blue-electric">
+        <Icon className="size-4" aria-hidden />
+      </span>
       <div>
-        <p className="text-[9px] font-bold uppercase tracking-[0.14em] text-text-muted">{label}</p>
-        <p className="numeric text-[13px] font-semibold text-on-background">{value}</p>
+        <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#64748B]">{label}</p>
+        <p className="text-[14px] font-bold text-[#111D36]">{value}</p>
       </div>
     </div>
   )

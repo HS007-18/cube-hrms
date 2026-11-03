@@ -8,7 +8,7 @@ import React, {
 import { cn } from '@/lib/cn'
 
 const controlClass =
-  'w-full rounded-xl border border-cube-border bg-cube-surface px-3 text-sm text-cube-on-surface shadow-[0_1px_0_rgba(255,255,255,.8)_inset] transition-all duration-150 placeholder:text-cube-text-muted/60 hover:border-cube-on-background/40 focus:border-cube-primary focus:bg-cube-surface focus:outline-none focus:ring-2 focus:ring-cube-primary/20 disabled:cursor-not-allowed disabled:opacity-50'
+  'w-full rounded-xl border border-[#E2E8F0] bg-white px-3.5 text-sm text-[#111D36] transition-all duration-150 placeholder:text-[#94A3B8] hover:border-[#CBD5E1] focus:border-cube-blue-electric focus:bg-white focus:outline-none focus:ring-3 focus:ring-cube-blue-electric/15 disabled:cursor-not-allowed disabled:opacity-50'
 
 interface FieldProps {
   label: string
@@ -24,19 +24,19 @@ export function Field({ label, htmlFor, hint, error, required, children, classNa
   return (
     <div className={cn('space-y-1.5', className)}>
       <label
-        className="flex items-center gap-1 text-[12px] font-semibold text-cube-on-background"
+        className="flex items-center gap-1 font-sans text-[12px] font-medium text-[#111D36]"
         htmlFor={htmlFor}
       >
         {label}
-        {required ? <span className="text-cube-primary">*</span> : null}
+        {required ? <span className="text-cube-blue-electric">*</span> : null}
       </label>
       {children}
       {error ? (
-        <p className="text-[11px] font-medium text-cube-error" role="alert">
+        <p className="text-[11.5px] font-medium text-cube-error" role="alert">
           {error}
         </p>
       ) : hint ? (
-        <p className="text-[11px] leading-relaxed text-cube-text-muted">{hint}</p>
+        <p className="text-[11.5px] leading-relaxed text-[#64748B]">{hint}</p>
       ) : null}
     </div>
   )
@@ -74,32 +74,43 @@ export function Select({ className, children, placeholder, ...props }: SelectPro
     disabled?: boolean
   }>[]
 
+  const selectedOption = optionElements.find(
+    (opt) => String(opt?.props?.value ?? '') === String(props.value ?? ''),
+  )
+  const displayLabel = selectedOption
+    ? selectedOption.props.children
+    : (placeholder ?? 'Select…')
+
   const handleOptionSelect = (value: string | number) => {
     setOpen(false)
     if (props.onChange) {
       props.onChange({
-        target: { value },
-      } as React.ChangeEvent<HTMLSelectElement>)
+        target: { value: String(value), name: props.name },
+      } as unknown as React.ChangeEvent<HTMLSelectElement>)
     }
   }
 
   return (
-    <div ref={selectRef} className="relative w-full">
+    <div
+      ref={selectRef}
+      className={cn('relative', className || 'w-full', open && 'z-50')}
+    >
       <button
         type="button"
         onClick={() => setOpen(!open)}
         className={cn(
           controlClass,
-          'h-10 flex items-center justify-between pr-9',
+          'h-10 w-full flex items-center justify-between pr-9 text-left',
           open
             ? 'border-cube-primary focus:border-cube-primary'
             : 'focus:border-cube-primary',
-          className,
         )}
         aria-expanded={open}
       >
-        <span>{placeholder}</span>
-        <span>
+        <span className={cn('truncate', !selectedOption && !props.value && 'text-cube-text-muted/70')}>
+          {displayLabel}
+        </span>
+        <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2">
           {open ? <ChevronUp className="size-4 text-cube-text-muted" /> : <ChevronDown className="size-4 text-cube-text-muted" />}
         </span>
       </button>

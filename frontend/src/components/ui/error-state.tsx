@@ -18,8 +18,8 @@ export function ErrorState({
       <span className="flex size-11 items-center justify-center rounded-2xl bg-error-light text-error">
         <CircleAlert className="size-5" aria-hidden />
       </span>
-      <h3 className="mt-4 text-base font-semibold text-on-background">{title}</h3>
-      <p className="mt-1.5 max-w-sm text-[13px] leading-relaxed text-text-muted">{message}</p>
+      <h3 className="mt-4 font-sans text-[16px] font-semibold text-on-background">{title}</h3>
+      <p className="mt-1.5 max-w-sm text-[14px] leading-relaxed text-text-muted">{message}</p>
       {onRetry ? (
         <Button variant="secondary" className="mt-5" onClick={onRetry}>
           Try again

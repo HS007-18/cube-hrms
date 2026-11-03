@@ -28,7 +28,7 @@ export function AppShell() {
             <button
               type="button"
               onClick={() => setMobileOpen(false)}
-              className="absolute right-3 top-4 z-10 rounded-lg p-2 text-on-background/60 transition hover:bg-surface/10 hover:text-on-background"
+              className="absolute right-3 top-4 z-10 rounded-lg p-2 text-white/70 transition hover:bg-white/10 hover:text-white"
               aria-label="Close navigation"
             >
               <X className="size-4" />

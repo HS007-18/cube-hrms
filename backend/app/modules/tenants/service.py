@@ -71,7 +71,9 @@ async def list_tenants(
     if q:
         pattern = f"%{q.strip().lower()}%"
         filters.append(
-            func.lower(Tenant.name).like(pattern) | func.lower(Tenant.slug).like(pattern)
+            func.lower(Tenant.name).like(pattern)
+            | func.lower(Tenant.slug).like(pattern)
+            | (Tenant.contact_email.is_not(None) & func.lower(Tenant.contact_email).like(pattern))
         )
 
     total = (

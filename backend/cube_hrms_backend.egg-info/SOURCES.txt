@@ -10,6 +10,7 @@ app/core/db.py
 app/core/deps.py
 app/core/errors.py
 app/core/pagination.py
+app/core/rate_limit.py
 app/core/security.py
 app/modules/__init__.py
 app/modules/attendance/__init__.py
@@ -56,3 +57,10 @@ cube_hrms_backend.egg-info/SOURCES.txt
 cube_hrms_backend.egg-info/dependency_links.txt
 cube_hrms_backend.egg-info/requires.txt
 cube_hrms_backend.egg-info/top_level.txt
+tests/test_attendance.py
+tests/test_auth.py
+tests/test_dashboard.py
+tests/test_employees.py
+tests/test_leave.py
+tests/test_rbac_isolation.py
+tests/test_tenants.py

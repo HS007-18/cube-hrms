@@ -55,48 +55,48 @@ export function ProfilePage() {
       <div className="grid gap-4 lg:grid-cols-[1fr_1.5fr]">
         <Card className="p-6">
           <div className="flex flex-col items-center text-center">
-            <Avatar name={user.full_name} size="xl" />
-            <h2 className="mt-4 font-display text-2xl text-on-background">{user.full_name}</h2>
-            <p className="mt-1 flex items-center gap-1.5 text-[12px] text-text-muted">
+            <Avatar name={user.full_name} size="xl" className="size-20 bg-[#E2E8F0] text-[#031B32] font-extrabold text-2xl ring-4 ring-cube-blue-electric/20" />
+            <h2 className="mt-4 font-heading text-[22px] sm:text-[24px] font-semibold text-[#111D36]">{user.full_name}</h2>
+            <p className="mt-1 flex items-center gap-1.5 text-[13px] text-[#64748B]">
               <Mail className="size-3.5" aria-hidden />
               {user.email}
             </p>
             <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
-              <Badge tone={user.is_platform_admin ? 'pending' : 'info'} dot={false}>
-                <BadgeCheck className="size-3" aria-hidden />
+              <Badge tone={user.is_platform_admin ? 'pending' : 'cyan'} dot={false}>
+                <BadgeCheck className="size-3 mr-1" aria-hidden />
                 {roleLabel(user.role)}
               </Badge>
               <Badge tone="neutral" dot={false}>
-                {user.tenant_name ?? 'CUBE platform'}
+                {user.tenant_name ?? 'CubeAI Platform'}
               </Badge>
             </div>
           </div>
 
-          <div className="mt-6 space-y-3 border-t border-on-background/10 pt-5">
-            <div className="flex items-center justify-between gap-3 text-[12px]">
-              <span className="flex items-center gap-2 text-text-muted">
-                <Building2 className="size-3.5" aria-hidden />
+          <div className="mt-6 space-y-3 border-t border-[#E2E8F0] pt-5">
+            <div className="flex items-center justify-between gap-3 text-[12.5px]">
+              <span className="flex items-center gap-2 text-[#64748B]">
+                <Building2 className="size-3.5 text-cube-blue-deep" aria-hidden />
                 Workspace
               </span>
-              <span className="font-semibold text-on-background">
+              <span className="font-semibold text-[#111D36]">
                 {user.tenant_name ?? 'Platform console'}
               </span>
             </div>
-            <div className="flex items-center justify-between gap-3 text-[12px]">
-              <span className="flex items-center gap-2 text-text-muted">
-                <UserRound className="size-3.5" aria-hidden />
+            <div className="flex items-center justify-between gap-3 text-[12.5px]">
+              <span className="flex items-center gap-2 text-[#64748B]">
+                <UserRound className="size-3.5 text-cube-blue-deep" aria-hidden />
                 Employee ID
               </span>
-              <span className="font-mono text-[11px] font-semibold text-on-background">
+              <span className="font-mono text-[11px] font-semibold text-[#111D36]">
                 {record?.employee_code ?? user.employee_id ?? '—'}
               </span>
             </div>
-            <div className="flex items-center justify-between gap-3 text-[12px]">
-              <span className="flex items-center gap-2 text-text-muted">
-                <CalendarDays className="size-3.5" aria-hidden />
+            <div className="flex items-center justify-between gap-3 text-[12.5px]">
+              <span className="flex items-center gap-2 text-[#64748B]">
+                <CalendarDays className="size-3.5 text-cube-blue-deep" aria-hidden />
                 Joined
               </span>
-              <span className="font-semibold text-on-background">
+              <span className="font-semibold text-[#111D36]">
                 {record ? formatDate(record.date_of_joining) : '—'}
               </span>
             </div>
@@ -213,11 +213,11 @@ function Detail({
   icon?: ReactNode
 }) {
   return (
-    <div className="border-b border-on-background/10 pb-3">
-      <dt className="text-[10px] font-bold uppercase tracking-[0.14em] text-text-muted">{label}</dt>
+    <div className="border-b border-[#E2E8F0] pb-3">
+      <dt className="text-[11px] font-medium uppercase tracking-wider text-[#64748B]">{label}</dt>
       <dd
-        className={`mt-1 flex items-center gap-1.5 text-[13px] font-medium text-on-background ${
-          mono ? 'font-mono text-[12px]' : ''
+        className={`mt-1 flex items-center gap-1.5 font-sans text-[14px] font-semibold text-[#111D36] ${
+          mono ? 'font-mono text-[12px] tabular-nums' : ''
         }`}
       >
         {icon}

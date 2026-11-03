@@ -6,6 +6,7 @@ import {
   Search,
   UserPlus,
   Users,
+  X,
 } from 'lucide-react'
 import { useState, type FormEvent } from 'react'
 import { Avatar } from '@/components/ui/avatar'
@@ -162,17 +163,17 @@ export function EmployeesPage() {
         }
       />
 
-      <Card className="p-4">
+      <Card className="p-4 relative z-20 overflow-visible">
         <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
           <div className="relative flex-1">
             <Search
-              className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-text-muted"
+              className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-[#64748B]"
               aria-hidden
             />
             <Input
               type="search"
               placeholder="Search by name, email, or employee code"
-              className="pl-9"
+              className="pl-9 pr-9"
               value={search}
               onChange={(event) => {
                 setSearch(event.target.value)
@@ -180,6 +181,19 @@ export function EmployeesPage() {
               }}
               aria-label="Search employees"
             />
+            {search ? (
+              <button
+                type="button"
+                onClick={() => {
+                  setSearch('')
+                  setOffset(0)
+                }}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-[#64748B] hover:text-[#111D36] transition"
+                aria-label="Clear search"
+              >
+                <X className="size-4" />
+              </button>
+            ) : null}
           </div>
           <div className="flex flex-wrap items-center gap-3">
             <Select
@@ -192,13 +206,14 @@ export function EmployeesPage() {
               className="w-full sm:w-52"
               placeholder="All departments"
             >
+              <option value="">All departments</option>
               {departments.data?.map((department) => (
                 <option key={department.id} value={department.id}>
                   {department.name}
                 </option>
               ))}
             </Select>
-            <label className="flex cursor-pointer items-center gap-2 text-[12px] font-medium text-text-muted">
+            <label className="flex cursor-pointer items-center gap-2 text-[12.5px] font-medium text-[#64748B]">
               <input
                 type="checkbox"
                 checked={showInactive}
@@ -206,7 +221,7 @@ export function EmployeesPage() {
                   setShowInactive(event.target.checked)
                   setOffset(0)
                 }}
-                className="size-3.5 accent-[#12332a]"
+                className="size-3.5 rounded accent-cube-blue-electric"
               />
               Include inactive
             </label>
@@ -232,18 +247,18 @@ export function EmployeesPage() {
           <Card className="overflow-hidden">
             <div className="hidden overflow-x-auto lg:block">
               <table className="w-full text-left text-[13px]">
-                <thead className="border-b border-on-background/10 bg-surface/40 text-[10px] font-bold uppercase tracking-[0.14em] text-text-muted">
+                <thead className="border-b border-[#E2E8F0] bg-[#F8FAFC] text-[12.5px] font-semibold uppercase tracking-[0.03em] text-[#64748B]">
                   <tr>
-                    <th className="px-5 py-3">Employee</th>
-                    <th className="px-4 py-3">Code</th>
-                    <th className="px-4 py-3">Department</th>
-                    <th className="px-4 py-3">Designation</th>
-                    <th className="px-4 py-3">Reports to</th>
-                    <th className="px-4 py-3">Joined</th>
-                    <th className="px-5 py-3">Status</th>
+                    <th className="px-5 py-3.5">Employee</th>
+                    <th className="px-4 py-3.5">Code</th>
+                    <th className="px-4 py-3.5">Department</th>
+                    <th className="px-4 py-3.5">Designation</th>
+                    <th className="px-4 py-3.5">Reports to</th>
+                    <th className="px-4 py-3.5">Joined</th>
+                    <th className="px-5 py-3.5">Status</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-on-background/10">
+                <tbody className="divide-y divide-[#E2E8F0]">
                   {employees.data.items.map((employee) => (
                     <EmployeeRow key={employee.id} employee={employee} />
                   ))}
@@ -251,7 +266,7 @@ export function EmployeesPage() {
               </table>
             </div>
 
-            <ul className="divide-y divide-on-background/10 lg:hidden">
+            <ul className="divide-y divide-[#E2E8F0] lg:hidden">
               {employees.data.items.map((employee) => (
                 <li key={employee.id} className="flex gap-3 p-4">
                   <Avatar name={employee.full_name} />
@@ -278,9 +293,14 @@ export function EmployeesPage() {
 
             <div className="flex flex-wrap items-center justify-between gap-3 border-t border-on-background/10 bg-white/30 px-5 py-3">
               <p className="text-[11px] text-text-muted">
-                Showing {employees.data.offset + 1}–
-                {Math.min(employees.data.offset + PAGE_SIZE, employees.data.total)} of{' '}
-                {employees.data.total}
+                Showing{' '}
+                {employees.data.total === 0
+                  ? '0'
+                  : `${employees.data.offset + 1}–${Math.min(
+                      employees.data.offset + PAGE_SIZE,
+                      employees.data.total,
+                    )}`}{' '}
+                of {employees.data.total}
               </p>
               <div className="flex items-center gap-2">
                 <Button
@@ -563,27 +583,27 @@ export function EmployeesPage() {
 
 function EmployeeRow({ employee }: { employee: Employee }) {
   return (
-    <tr className="transition-colors hover:bg-surface">
+    <tr className="transition-colors hover:bg-[#F8FAFC]/80">
       <td className="px-5 py-3.5">
         <div className="flex items-center gap-3">
-          <Avatar name={employee.full_name} size="sm" />
+          <Avatar name={employee.full_name} size="sm" className="bg-[#E2E8F0] text-[#031B32] font-bold" />
           <div className="min-w-0">
-            <p className="truncate text-[13px] font-semibold text-on-background">{employee.full_name}</p>
-            <p className="truncate text-[11px] text-text-muted">
+            <p className="truncate text-[13.5px] font-semibold text-[#111D36]">{employee.full_name}</p>
+            <p className="truncate text-[11.5px] text-[#64748B]">
               {employee.email ?? 'No email on record'}
             </p>
           </div>
         </div>
       </td>
-      <td className="whitespace-nowrap px-4 py-3.5 font-mono text-[11px] text-text-muted">{employee.employee_code}</td>
-      <td className="px-4 py-3.5 text-on-background">{employee.department_name ?? '—'}</td>
-      <td className="px-4 py-3.5 text-on-background">{employee.designation_title ?? '—'}</td>
-      <td className="px-4 py-3.5 text-on-background">{employee.manager_name ?? '—'}</td>
-      <td className="whitespace-nowrap px-4 py-3.5 text-text-muted">{formatDate(employee.date_of_joining)}</td>
+      <td className="whitespace-nowrap px-4 py-3.5 font-mono text-[12px] tabular-nums text-[#64748B]">{employee.employee_code}</td>
+      <td className="px-4 py-3.5 text-[#111D36] font-medium">{employee.department_name ?? '—'}</td>
+      <td className="px-4 py-3.5 text-[#111D36]">{employee.designation_title ?? '—'}</td>
+      <td className="px-4 py-3.5 text-[#64748B]">{employee.manager_name ?? '—'}</td>
+      <td className="whitespace-nowrap px-4 py-3.5 text-[#64748B] text-[13px] tabular-nums">{formatDate(employee.date_of_joining)}</td>
       <td className="px-5 py-3.5">
         <div className="flex items-center gap-2">
           <StatusBadge status={employee.is_active ? 'active' : 'inactive'} />
-          {employee.has_account ? <Badge tone="neutral">Login</Badge> : null}
+          {employee.has_account ? <Badge tone="cyan" dot={false}>Login</Badge> : null}
         </div>
       </td>
     </tr>

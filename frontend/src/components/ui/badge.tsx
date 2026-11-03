@@ -1,28 +1,32 @@
 import type { ReactNode } from 'react'
 import { cn } from '@/lib/cn'
 
-export type BadgeTone = 'success' | 'pending' | 'danger' | 'neutral' | 'info'
+export type BadgeTone = 'success' | 'pending' | 'danger' | 'neutral' | 'info' | 'cyan'
 
 const tones: Record<BadgeTone, { badge: string; dot: string }> = {
   success: {
-    badge: 'border-cube-secondary-light/50 bg-cube-secondary-light text-cube-secondary',
-    dot: 'bg-cube-secondary',
+    badge: 'border-[#A7F3D0]/60 bg-[#ECFDF5] text-cube-success',
+    dot: 'bg-cube-success',
   },
   pending: {
-    badge: 'border-cube-primary-light/50 bg-cube-primary-light text-cube-primary',
-    dot: 'bg-cube-primary',
+    badge: 'border-[#FDE68A]/60 bg-[#FEF3C7] text-amber-700',
+    dot: 'bg-amber-500',
   },
   danger: {
-    badge: 'border-cube-error-light/50 bg-cube-error-light text-cube-error',
+    badge: 'border-[#FECACA]/60 bg-[#FEF2F2] text-cube-error',
     dot: 'bg-cube-error',
   },
   neutral: {
-    badge: 'border-cube-border bg-cube-surface-hover text-cube-on-background',
-    dot: 'bg-cube-text-muted',
+    badge: 'border-[#E2E8F0] bg-[#F1F5F9] text-[#64748B]',
+    dot: 'bg-[#94A3B8]',
   },
   info: {
-    badge: 'border-cube-secondary-light/50 bg-cube-secondary-light text-cube-secondary',
-    dot: 'bg-cube-secondary',
+    badge: 'border-[#BAE6FD]/60 bg-[#E0F2FE] text-[#0369A1]',
+    dot: 'bg-[#0284C7]',
+  },
+  cyan: {
+    badge: 'border-[#A5F3FC]/60 bg-[#CFFAFE] text-[#0891B2]',
+    dot: 'bg-cube-cyan',
   },
 }
 
@@ -54,21 +58,27 @@ interface BadgeProps {
 }
 
 export function Badge({ children, tone = 'neutral', dot = true, className }: BadgeProps) {
-  const palette = tones[tone]
+  const palette = tones[tone] ?? tones.neutral
   return (
     <span
       className={cn(
-        'inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-[11px] font-semibold capitalize transition-colors',
+        'inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 font-sans text-[11.5px] font-medium tracking-normal select-none',
         palette.badge,
         className,
       )}
     >
-      {dot ? <span className={cn('size-1.5 rounded-full', palette.dot)} aria-hidden /> : null}
+      {dot ? <span className={cn('size-1.5 rounded-full shrink-0', palette.dot)} aria-hidden /> : null}
       {children}
     </span>
   )
 }
 
-export function StatusBadge({ status }: { status: string }) {
-  return <Badge tone={statusToTone(status)}>{status.replaceAll('_', ' ')}</Badge>
+export function StatusBadge({ status, className }: { status?: string | null; className?: string }) {
+  const tone = statusToTone(status)
+  const label = (status ?? 'unknown').replace(/_/g, ' ')
+  return (
+    <Badge tone={tone} className={cn('capitalize', className)}>
+      {label}
+    </Badge>
+  )
 }
