@@ -1,13 +1,10 @@
 # Documents service
-from datetime import date, datetime
-from typing import Optional, List
+from datetime import UTC, date, datetime
 
-from sqlalchemy import select, func, or_, and_
-from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import select
 
 from app.core.errors import not_found
 from app.modules.documents.models import Document
-from app.modules.documents.schemas import DocumentCreate, DocumentUpdate
 
 
 async def list_documents(
@@ -68,7 +65,9 @@ async def upload_document(
     return document
 
 
-async def update_document(session, tenant_id: int, document_id: int, payload, user_id: int) -> Document:
+async def update_document(
+    session, tenant_id: int, document_id: int, payload, user_id: int
+) -> Document:
     stmt = select(Document).where(
         Document.id == document_id,
         Document.tenant_id == tenant_id,
@@ -79,7 +78,7 @@ async def update_document(session, tenant_id: int, document_id: int, payload, us
     
     for key, value in payload.model_dump(exclude_unset=True).items():
         setattr(document, key, value)
-    document.updated_at = datetime.utcnow()
+    document.updated_at = datetime.now(UTC)
     await session.flush()
     await session.refresh(document)
     return document

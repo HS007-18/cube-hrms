@@ -1,15 +1,14 @@
 from datetime import date, datetime
-from typing import Optional, List
 
 from pydantic import BaseModel, ConfigDict
 
 
 class OffboardingTaskBase(BaseModel):
     title: str
-    description: Optional[str] = None
+    description: str | None = None
     type: str
-    assigned_to: Optional[int] = None
-    due_date: Optional[date] = None
+    assigned_to: int | None = None
+    due_date: date | None = None
     display_order: int = 0
 
 
@@ -18,13 +17,13 @@ class OffboardingTaskCreate(OffboardingTaskBase):
 
 
 class OffboardingTaskUpdate(BaseModel):
-    title: Optional[str] = None
-    description: Optional[str] = None
-    type: Optional[str] = None
-    assigned_to: Optional[int] = None
-    due_date: Optional[date] = None
-    status: Optional[str] = None
-    display_order: Optional[int] = None
+    title: str | None = None
+    description: str | None = None
+    type: str | None = None
+    assigned_to: int | None = None
+    due_date: date | None = None
+    status: str | None = None
+    display_order: int | None = None
 
 
 class OffboardingTaskOut(OffboardingTaskBase):
@@ -33,12 +32,12 @@ class OffboardingTaskOut(OffboardingTaskBase):
     id: int
     tenant_id: int
     offboarding_id: int
-    assigned_to: Optional[int] = None
-    due_date: Optional[str] = None
+    assigned_to: int | None = None
+    due_date: date | None = None
     status: str
-    completed_at: Optional[str] = None
-    created_at: str
-    updated_at: str
+    completed_at: datetime | None = None
+    created_at: datetime
+    updated_at: datetime
 
 
 class OffboardingBase(BaseModel):
@@ -46,25 +45,25 @@ class OffboardingBase(BaseModel):
     type: str
     last_working_date: date
     notice_period_days: int = 30
-    reason: Optional[str] = None
+    reason: str | None = None
 
 
 class OffboardingCreate(OffboardingBase):
-    tasks: List[OffboardingTaskCreate] = []
+    tasks: list[OffboardingTaskCreate] = []
 
 
 class OffboardingUpdate(BaseModel):
-    type: Optional[str] = None
-    last_working_date: Optional[date] = None
-    notice_period_days: Optional[int] = None
-    reason: Optional[str] = None
-    status: Optional[str] = None
-    exit_interview_scheduled: Optional[bool] = None
-    exit_interview_notes: Optional[str] = None
-    final_settlement_amount: Optional[int] = None
-    settlement_details: Optional[str] = None
-    asset_returned: Optional[bool] = None
-    access_revoked: Optional[bool] = None
+    type: str | None = None
+    last_working_date: date | None = None
+    notice_period_days: int | None = None
+    reason: str | None = None
+    status: str | None = None
+    exit_interview_scheduled: bool | None = None
+    exit_interview_notes: str | None = None
+    final_settlement_amount: int | None = None
+    settlement_details: str | None = None
+    asset_returned: bool | None = None
+    access_revoked: bool | None = None
 
 
 class OffboardingOut(OffboardingBase):
@@ -74,16 +73,16 @@ class OffboardingOut(OffboardingBase):
     tenant_id: int
     initiated_by: int
     status: str
-    exit_interview_scheduled: Optional[bool] = None
-    exit_interview_notes: Optional[str] = None
-    final_settlement_amount: Optional[int] = None
-    settlement_details: Optional[str] = None
-    asset_returned: Optional[bool] = None
-    access_revoked: Optional[bool] = None
-    completed_at: Optional[str] = None
-    created_at: str
-    updated_at: str
+    exit_interview_scheduled: bool | None = None
+    exit_interview_notes: str | None = None
+    final_settlement_amount: int | None = None
+    settlement_details: str | None = None
+    asset_returned: bool | None = None
+    access_revoked: bool | None = None
+    completed_at: datetime | None = None
+    created_at: datetime
+    updated_at: datetime
 
 
 class OffboardingDetail(OffboardingOut):
-    tasks: List[OffboardingTaskOut] = []
+    tasks: list[OffboardingTaskOut] = []

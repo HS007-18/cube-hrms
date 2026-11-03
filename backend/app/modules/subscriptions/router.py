@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, Query, status
 
-from app.core.deps import AuthContext, require_platform_admin, require_tenant_user
+from app.core.deps import AuthContext, require_platform_admin
 from app.modules.subscriptions import service
 from app.modules.subscriptions.schemas import (
     InvoiceCreate,
@@ -88,4 +88,6 @@ async def pay_invoice(
     payment_reference: str,
     ctx: AuthContext = Depends(require_platform_admin),
 ):
-    return await service.pay_invoice(ctx.session, invoice_id, payment_method, payment_reference, ctx.user.id)
+    return await service.pay_invoice(
+        ctx.session, invoice_id, payment_method, payment_reference, ctx.user.id
+    )

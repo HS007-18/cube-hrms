@@ -1,15 +1,13 @@
 import enum
-from datetime import date, datetime
-from decimal import Decimal
+from datetime import datetime
 
 from sqlalchemy import (
-    Date,
+    JSON,
+    Boolean,
     DateTime,
     ForeignKey,
     Integer,
-    Numeric,
     String,
-    Text,
     func,
 )
 from sqlalchemy.orm import Mapped, mapped_column
@@ -58,7 +56,7 @@ class Report(Base):
     type: Mapped[str] = mapped_column(String(30), nullable=False, index=True)
     format: Mapped[str] = mapped_column(String(10), nullable=False, default="csv")
     status: Mapped[str] = mapped_column(String(20), nullable=False, default="pending", index=True)
-    parameters: Mapped[str | None] = mapped_column(Text, default=None, nullable=True)  # JSON
+    parameters: Mapped[dict | None] = mapped_column(JSON, default=None, nullable=True)
     file_path: Mapped[str | None] = None
     file_size: Mapped[int | None] = None
     generated_by: Mapped[int] = mapped_column(
@@ -85,12 +83,12 @@ class ReportSchedule(Base):
     name: Mapped[str] = mapped_column(String(200), nullable=False)
     type: Mapped[str] = mapped_column(String(30), nullable=False)
     format: Mapped[str] = mapped_column(String(10), nullable=False, default="csv")
-    parameters: Mapped[str | None] = mapped_column(Text, default=None, nullable=True)  # JSON
+    parameters: Mapped[dict | None] = mapped_column(JSON, default=None, nullable=True)
     cron_expression: Mapped[str] = None  # e.g., "0 0 * * 1" for weekly
-    is_active: bool = True
+    is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
     last_run_at: Mapped[datetime | None] = None
     next_run_at: Mapped[datetime | None] = None
-    recipients: Mapped[str | None] = mapped_column(Text, default=None, nullable=True)  # JSON
+    recipients: Mapped[list[str] | None] = mapped_column(JSON, default=None, nullable=True)
     created_by: Mapped[int] = mapped_column(
         ForeignKey("users.id", ondelete="SET NULL"), index=True, nullable=False
     )

@@ -31,7 +31,9 @@ async def create_report(
     background_tasks: BackgroundTasks,
     ctx: AuthContext = Depends(require_roles("hr_admin", "manager")),
 ):
-    return await service.create_report(ctx.session, ctx.tenant_id, ctx.user_id, payload, background_tasks)
+    return await service.create_report(
+        ctx.session, ctx.tenant_id, ctx.user_id, payload, background_tasks
+    )
 
 
 @router.get("/{report_id}", response_model=ReportOut)
@@ -84,7 +86,10 @@ async def update_schedule(
     return await service.update_schedule(ctx.session, ctx.tenant_id, schedule_id, payload)
 
 
-@router.post("/schedules/{schedule_id}/run", response_model=ReportOut, status_code=status.HTTP_201_CREATED)
+@router.post(
+    "/schedules/{schedule_id}/run", response_model=ReportOut,
+    status_code=status.HTTP_201_CREATED,
+)
 async def run_schedule(
     schedule_id: int,
     background_tasks: BackgroundTasks,

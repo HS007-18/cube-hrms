@@ -4,7 +4,6 @@ from app.core.deps import AuthContext, require_roles, require_tenant_user
 from app.modules.attendance import service
 from app.modules.attendance.schemas import (
     AttendanceOut,
-    ClockRequest,
     ClockResult,
     ManualAttendanceUpdate,
 )

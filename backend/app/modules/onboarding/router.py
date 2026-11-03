@@ -6,10 +6,10 @@ from app.modules.onboarding.schemas import (
     OnboardingCreate,
     OnboardingDetail,
     OnboardingOut,
-    OnboardingUpdate,
     OnboardingTaskCreate,
     OnboardingTaskOut,
     OnboardingTaskUpdate,
+    OnboardingUpdate,
 )
 
 router = APIRouter(prefix="/onboarding", tags=["onboarding"])
@@ -51,7 +51,10 @@ async def update_onboarding(
     return await service.update_onboarding(ctx.session, ctx.tenant_id, onboarding_id, payload)
 
 
-@router.post("/{onboarding_id}/tasks", response_model=OnboardingTaskOut, status_code=status.HTTP_201_CREATED)
+@router.post(
+    "/{onboarding_id}/tasks", response_model=OnboardingTaskOut,
+    status_code=status.HTTP_201_CREATED,
+)
 async def add_task(
     onboarding_id: int,
     payload: OnboardingTaskCreate,

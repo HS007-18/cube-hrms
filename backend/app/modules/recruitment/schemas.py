@@ -1,20 +1,18 @@
-from datetime import date, datetime
-from decimal import Decimal
-from typing import Optional, List
+from datetime import datetime
 
 from pydantic import BaseModel, ConfigDict, EmailStr
 
 
 class RecruitmentBase(BaseModel):
     title: str
-    department_id: Optional[int] = None
-    designation_id: Optional[int] = None
-    description: Optional[str] = None
-    requirements: Optional[str] = None
-    location: Optional[str] = None
+    department_id: int | None = None
+    designation_id: int | None = None
+    description: str | None = None
+    requirements: str | None = None
+    location: str | None = None
     employment_type: str = "full_time"
-    min_salary: Optional[int] = None
-    max_salary: Optional[int] = None
+    min_salary: int | None = None
+    max_salary: int | None = None
     openings: int = 1
 
 
@@ -23,17 +21,17 @@ class RecruitmentCreate(RecruitmentBase):
 
 
 class RecruitmentUpdate(BaseModel):
-    title: Optional[str] = None
-    department_id: Optional[int] = None
-    designation_id: Optional[int] = None
-    description: Optional[str] = None
-    requirements: Optional[str] = None
-    location: Optional[str] = None
-    employment_type: Optional[str] = None
-    min_salary: Optional[int] = None
-    max_salary: Optional[int] = None
-    openings: Optional[int] = None
-    status: Optional[str] = None
+    title: str | None = None
+    department_id: int | None = None
+    designation_id: int | None = None
+    description: str | None = None
+    requirements: str | None = None
+    location: str | None = None
+    employment_type: str | None = None
+    min_salary: int | None = None
+    max_salary: int | None = None
+    openings: int | None = None
+    status: str | None = None
 
 
 class RecruitmentOut(RecruitmentBase):
@@ -43,24 +41,24 @@ class RecruitmentOut(RecruitmentBase):
     tenant_id: int
     status: str
     posted_by: int
-    posted_at: str
-    closed_at: Optional[str] = None
-    created_at: str
-    updated_at: str
+    posted_at: datetime
+    closed_at: datetime | None = None
+    created_at: datetime
+    updated_at: datetime
 
 
 class ApplicationBase(BaseModel):
     recruitment_id: int
     full_name: str
     email: EmailStr
-    phone: Optional[str] = None
-    resume_url: Optional[str] = None
-    cover_letter: Optional[str] = None
-    current_company: Optional[str] = None
-    current_ctc: Optional[int] = None
-    expected_ctc: Optional[int] = None
-    notice_period_days: Optional[int] = None
-    source: Optional[str] = None
+    phone: str | None = None
+    resume_url: str | None = None
+    cover_letter: str | None = None
+    current_company: str | None = None
+    current_ctc: int | None = None
+    expected_ctc: int | None = None
+    notice_period_days: int | None = None
+    source: str | None = None
 
 
 class ApplicationCreate(ApplicationBase):
@@ -68,9 +66,9 @@ class ApplicationCreate(ApplicationBase):
 
 
 class ApplicationUpdate(BaseModel):
-    status: Optional[str] = None
-    interview_notes: Optional[str] = None
-    reviewed_by: Optional[int] = None
+    status: str | None = None
+    interview_notes: str | None = None
+    reviewed_by: int | None = None
 
 
 class ApplicationOut(ApplicationBase):
@@ -80,17 +78,17 @@ class ApplicationOut(ApplicationBase):
     tenant_id: int
     recruitment_id: int
     status: str
-    current_company: Optional[str] = None
-    current_ctc: Optional[int] = None
-    expected_ctc: Optional[int] = None
-    notice_period_days: Optional[int] = None
-    source: Optional[str] = None
-    reviewed_by: Optional[int] = None
-    reviewed_at: Optional[str] = None
-    interview_notes: Optional[str] = None
-    created_at: str
-    updated_at: str
+    current_company: str | None = None
+    current_ctc: int | None = None
+    expected_ctc: int | None = None
+    notice_period_days: int | None = None
+    source: str | None = None
+    reviewed_by: int | None = None
+    reviewed_at: datetime | None = None
+    interview_notes: str | None = None
+    created_at: datetime
+    updated_at: datetime
 
 
 class RecruitmentDetail(RecruitmentOut):
-    applications: List[ApplicationOut] = []
+    applications: list[ApplicationOut] = []

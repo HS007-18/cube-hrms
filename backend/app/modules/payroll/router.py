@@ -50,7 +50,10 @@ async def update_payroll(
     return await service.update_payroll(ctx.session, ctx.tenant_id, payroll_id, payload)
 
 
-@router.post("/{payroll_id}/items", response_model=PayrollItemOut, status_code=status.HTTP_201_CREATED)
+@router.post(
+    "/{payroll_id}/items", response_model=PayrollItemOut,
+    status_code=status.HTTP_201_CREATED,
+)
 async def add_payroll_item(
     payroll_id: int,
     payload: PayrollItemCreate,

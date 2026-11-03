@@ -2,7 +2,6 @@ import enum
 from datetime import date, datetime
 
 from sqlalchemy import (
-    Boolean,
     Date,
     DateTime,
     ForeignKey,

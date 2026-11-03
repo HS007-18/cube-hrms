@@ -44,7 +44,9 @@ class Subscription(Base):
     status: Mapped[str] = mapped_column(
         String(20), nullable=False, default="active", index=True
     )
-    billing_cycle: Mapped[str] = mapped_column(String(20), nullable=False, default="monthly")  # monthly, yearly
+    billing_cycle: Mapped[str] = mapped_column(
+        String(20), nullable=False, default="monthly"
+    )  # monthly, yearly
     amount: Mapped[Decimal] = mapped_column(Numeric(10, 2), nullable=False, default=Decimal("0"))
     currency: Mapped[str] = mapped_column(String(3), nullable=False, default="INR")
     current_period_start: Mapped[date | None] = None
@@ -52,7 +54,7 @@ class Subscription(Base):
     trial_end: Mapped[date | None] = None
     cancelled_at: Mapped[date | None] = None
     cancelled_reason: Mapped[str | None] = None
-    auto_renew: bool = True
+    auto_renew: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
     payment_method: Mapped[str | None] = None
     payment_provider: Mapped[str | None] = None  # stripe, razorpay, etc.
     external_subscription_id: Mapped[str | None] = None  # provider's subscription ID
@@ -77,14 +79,18 @@ class Invoice(Base):
     )
     invoice_number: Mapped[str] = mapped_column(String(50), nullable=False, unique=True, index=True)
     amount: Mapped[Decimal] = mapped_column(Numeric(10, 2), nullable=False)
-    tax_amount: Mapped[Decimal] = mapped_column(Numeric(10, 2), nullable=False, default=Decimal("0"))
+    tax_amount: Mapped[Decimal] = mapped_column(
+        Numeric(10, 2), nullable=False, default=Decimal("0")
+    )
     total_amount: Mapped[Decimal] = mapped_column(Numeric(10, 2), nullable=False)
     currency: Mapped[str] = mapped_column(String(3), nullable=False, default="INR")
     status: Mapped[str] = mapped_column(String(20), nullable=False, default="pending", index=True)
     issue_date: Mapped[date] = mapped_column(Date, nullable=False)
     due_date: Mapped[date] = mapped_column(Date, nullable=False)
     paid_at: Mapped[datetime | None] = None
-    paid_amount: Mapped[Decimal] = mapped_column(Numeric(10, 2), nullable=False, default=Decimal("0"))
+    paid_amount: Mapped[Decimal] = mapped_column(
+        Numeric(10, 2), nullable=False, default=Decimal("0")
+    )
     payment_method: Mapped[str | None] = None
     payment_reference: Mapped[str | None] = None
     notes: Mapped[str | None] = None

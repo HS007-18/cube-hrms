@@ -1,18 +1,10 @@
 # Recruitment service
-from datetime import date, datetime
-from typing import Optional, List
+from datetime import UTC, datetime
 
-from sqlalchemy import select, func, and_
-from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import select
 
 from app.core.errors import not_found
-from app.modules.recruitment.models import Recruitment, Application
-from app.modules.recruitment.schemas import (
-    RecruitmentCreate,
-    RecruitmentUpdate,
-    ApplicationCreate,
-    ApplicationUpdate,
-)
+from app.modules.recruitment.models import Recruitment
 
 
 async def list_recruitments(
@@ -63,7 +55,7 @@ async def update_recruitment(session, tenant_id: int, recruitment_id: int, paylo
     
     for key, value in payload.model_dump(exclude_unset=True).items():
         setattr(recruitment, key, value)
-    recruitment.updated_at = datetime.utcnow()
+    recruitment.updated_at = datetime.now(UTC)
     await session.flush()
     await session.refresh(recruitment)
     return recruitment

@@ -1,9 +1,6 @@
 # Platform Audit service
-from datetime import datetime
-from typing import Optional, List, Dict
 
-from sqlalchemy import select, func, and_
-from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import func, select
 
 from app.core.errors import not_found
 from app.modules.platform_audit.models import PlatformAuditLog

@@ -1,41 +1,40 @@
 from datetime import date, datetime
 from decimal import Decimal
-from typing import Optional, List
 
 from pydantic import BaseModel, ConfigDict
 
 
 class GoalBase(BaseModel):
     title: str
-    description: Optional[str] = None
+    description: str | None = None
     type: str = "individual"
     start_date: date
     end_date: date
-    target_value: Optional[Decimal] = None
-    unit: Optional[str] = None
+    target_value: Decimal | None = None
+    unit: str | None = None
     weight: int = 100
-    parent_goal_id: Optional[int] = None
-    reviewer_id: Optional[int] = None
+    parent_goal_id: int | None = None
+    reviewer_id: int | None = None
 
 
 class GoalCreate(GoalBase):
-    employee_id: Optional[int] = None
-    team_id: Optional[int] = None
+    employee_id: int | None = None
+    team_id: int | None = None
     owner_id: int
 
 
 class GoalUpdate(BaseModel):
-    title: Optional[str] = None
-    description: Optional[str] = None
-    type: Optional[str] = None
-    start_date: Optional[date] = None
-    end_date: Optional[date] = None
-    target_value: Optional[Decimal] = None
-    current_value: Optional[Decimal] = None
-    unit: Optional[str] = None
-    weight: Optional[int] = None
-    status: Optional[str] = None
-    reviewer_id: Optional[int] = None
+    title: str | None = None
+    description: str | None = None
+    type: str | None = None
+    start_date: date | None = None
+    end_date: date | None = None
+    target_value: Decimal | None = None
+    current_value: Decimal | None = None
+    unit: str | None = None
+    weight: int | None = None
+    status: str | None = None
+    reviewer_id: int | None = None
 
 
 class GoalOut(GoalBase):
@@ -43,26 +42,26 @@ class GoalOut(GoalBase):
 
     id: int
     tenant_id: int
-    employee_id: Optional[int] = None
-    team_id: Optional[int] = None
-    current_value: Optional[Decimal] = None
+    employee_id: int | None = None
+    team_id: int | None = None
+    current_value: Decimal | None = None
     weight: int
-    parent_goal_id: Optional[int] = None
+    parent_goal_id: int | None = None
     owner_id: int
-    reviewer_id: Optional[int] = None
+    reviewer_id: int | None = None
     status: str
-    created_at: str
-    updated_at: str
+    created_at: datetime
+    updated_at: datetime
 
 
 class GoalReviewBase(BaseModel):
     period_start: date
     period_end: date
-    rating: Optional[int] = None
-    achievements: Optional[str] = None
-    improvements: Optional[str] = None
-    reviewer_comments: Optional[str] = None
-    employee_self_assessment: Optional[str] = None
+    rating: int | None = None
+    achievements: str | None = None
+    improvements: str | None = None
+    reviewer_comments: str | None = None
+    employee_self_assessment: str | None = None
 
 
 class GoalReviewCreate(GoalReviewBase):
@@ -71,12 +70,12 @@ class GoalReviewCreate(GoalReviewBase):
 
 
 class GoalReviewUpdate(BaseModel):
-    rating: Optional[int] = None
-    achievements: Optional[str] = None
-    improvements: Optional[str] = None
-    reviewer_comments: Optional[str] = None
-    employee_self_assessment: Optional[str] = None
-    status: Optional[str] = None
+    rating: int | None = None
+    achievements: str | None = None
+    improvements: str | None = None
+    reviewer_comments: str | None = None
+    employee_self_assessment: str | None = None
+    status: str | None = None
 
 
 class GoalReviewOut(GoalReviewBase):
@@ -87,10 +86,10 @@ class GoalReviewOut(GoalReviewBase):
     goal_id: int
     reviewer_id: int
     status: str
-    reviewed_at: Optional[str] = None
-    created_at: str
-    updated_at: str
+    reviewed_at: datetime | None = None
+    created_at: datetime
+    updated_at: datetime
 
 
 class GoalDetail(GoalOut):
-    reviews: List[GoalReviewOut] = []
+    reviews: list[GoalReviewOut] = []

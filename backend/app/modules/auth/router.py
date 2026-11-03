@@ -3,11 +3,7 @@ from fastapi import APIRouter, Depends, HTTPException, Request, Response
 from app.core.config import get_settings
 from app.core.deps import ACCESS_TOKEN_COOKIE, AuthContext, get_auth_context
 from app.core.errors import unauthorized
-from app.core.rate_limit import get_redis_client, RateLimiter
-from app.core.security import (
-    create_access_token,
-    create_refresh_token,
-)
+from app.core.rate_limit import RateLimiter, get_redis_client
 from app.modules.auth import service
 from app.modules.auth.schemas import (
     LoginRequest,
@@ -67,7 +63,7 @@ async def login(
         raise
     except Exception:
         await limiter.record(str(payload.email).strip().lower())
-        raise unauthorized("Incorrect email or password")
+        raise unauthorized("Incorrect email or password") from None
     access_token, refresh_token = await service.issue_tokens(user)
     profile = await service.get_profile(user)
     _set_auth_cookies(response, access_token, refresh_token)

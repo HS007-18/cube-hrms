@@ -1,5 +1,4 @@
 from datetime import datetime
-from typing import Optional, List
 
 from pydantic import BaseModel, ConfigDict
 
@@ -22,8 +21,8 @@ class TicketCommentOut(TicketCommentBase):
     ticket_id: int
     user_id: int
     is_internal: bool
-    created_at: str
-    updated_at: str
+    created_at: datetime
+    updated_at: datetime
 
 
 class SupportTicketBase(BaseModel):
@@ -38,13 +37,13 @@ class SupportTicketCreate(SupportTicketBase):
 
 
 class SupportTicketUpdate(BaseModel):
-    title: Optional[str] = None
-    description: Optional[str] = None
-    category: Optional[str] = None
-    priority: Optional[str] = None
-    status: Optional[str] = None
-    assigned_to: Optional[int] = None
-    resolution_notes: Optional[str] = None
+    title: str | None = None
+    description: str | None = None
+    category: str | None = None
+    priority: str | None = None
+    status: str | None = None
+    assigned_to: int | None = None
+    resolution_notes: str | None = None
 
 
 class SupportTicketOut(SupportTicketBase):
@@ -55,20 +54,20 @@ class SupportTicketOut(SupportTicketBase):
     user_id: int
     priority: str
     status: str
-    assigned_to: Optional[int] = None
-    resolved_at: Optional[str] = None
-    closed_at: Optional[str] = None
-    resolution_notes: Optional[str] = None
-    created_at: str
-    updated_at: str
+    assigned_to: int | None = None
+    resolved_at: datetime | None = None
+    closed_at: datetime | None = None
+    resolution_notes: str | None = None
+    created_at: datetime
+    updated_at: datetime
 
 
 class SupportTicketDetail(SupportTicketOut):
-    comments: List[TicketCommentOut] = []
+    comments: list[TicketCommentOut] = []
 
 
 class SupportTicketList(BaseModel):
-    items: List[SupportTicketOut]
+    items: list[SupportTicketOut]
     total: int
     limit: int
     offset: int

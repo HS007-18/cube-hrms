@@ -1,18 +1,10 @@
 # Offboarding service
-from datetime import date, datetime
-from typing import Optional, List
+from datetime import UTC, datetime
 
-from sqlalchemy import select, func, and_
-from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import select
 
 from app.core.errors import not_found
 from app.modules.offboarding.models import Offboarding, OffboardingTask
-from app.modules.offboarding.schemas import (
-    OffboardingCreate,
-    OffboardingUpdate,
-    OffboardingTaskCreate,
-    OffboardingTaskUpdate,
-)
 
 
 async def list_offboardings(
@@ -81,7 +73,7 @@ async def update_offboarding(
     offboarding = await get_offboarding(session, tenant_id, offboarding_id)
     for key, value in payload.model_dump(exclude_unset=True).items():
         setattr(offboarding, key, value)
-    offboarding.updated_at = datetime.utcnow()
+    offboarding.updated_at = datetime.now(UTC)
     await session.flush()
     await session.refresh(offboarding)
     return offboarding
@@ -90,7 +82,8 @@ async def update_offboarding(
 async def add_task(
     session, tenant_id: int, offboarding_id: int, payload, user_id: int
 ) -> OffboardingTask:
-    offboarding = await get_offboarding(session, tenant_id, offboarding_id)
+    # Verifies the offboarding exists in this tenant before adding a task.
+    await get_offboarding(session, tenant_id, offboarding_id)
     task = OffboardingTask(
         tenant_id=tenant_id,
         offboarding_id=offboarding_id,
@@ -116,7 +109,7 @@ async def update_task(
     for key, value in payload.model_dump(exclude_unset=True).items():
         setattr(task, key, value)
     if payload.status == "completed":
-        task.completed_at = datetime.utcnow()
+        task.completed_at = datetime.now(UTC)
     await session.flush()
     await session.refresh(task)
     return task

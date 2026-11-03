@@ -2,6 +2,7 @@ import enum
 from datetime import datetime
 
 from sqlalchemy import (
+    JSON,
     Boolean,
     DateTime,
     ForeignKey,
@@ -45,9 +46,9 @@ class Announcement(Base):
     target_department_id: Mapped[int | None] = mapped_column(
         ForeignKey("departments.id", ondelete="SET NULL"), index=True
     )
-    target_user_ids: Mapped[str | None] = mapped_column(Text, default=None, nullable=True)  # JSON array of user IDs
-    is_pinned: bool = False
-    is_active: bool = True
+    target_user_ids: Mapped[list[int] | None] = mapped_column(JSON, default=None, nullable=True)
+    is_pinned: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
+    is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
     publish_at: Mapped[datetime | None] = None
     expires_at: Mapped[datetime | None] = None
     created_by: Mapped[int] = mapped_column(

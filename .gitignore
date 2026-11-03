@@ -11,6 +11,7 @@ htmlcov/
 # --- Node ---
 node_modules/
 dist/
+dist-*/
 .vite/
 coverage/
 

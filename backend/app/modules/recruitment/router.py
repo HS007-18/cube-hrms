@@ -22,7 +22,9 @@ async def list_recruitments(
     offset: int = Query(0, ge=0),
     ctx: AuthContext = Depends(require_tenant_user),
 ):
-    items = await service.list_recruitments(ctx.session, ctx.tenant_id, status_filter, limit, offset)
+    items = await service.list_recruitments(
+        ctx.session, ctx.tenant_id, status_filter, limit, offset
+    )
     return items
 
 
@@ -51,7 +53,10 @@ async def update_recruitment(
     return await service.update_recruitment(ctx.session, ctx.tenant_id, recruitment_id, payload)
 
 
-@router.post("/{recruitment_id}/apply", response_model=ApplicationOut, status_code=status.HTTP_201_CREATED)
+@router.post(
+    "/{recruitment_id}/apply", response_model=ApplicationOut,
+    status_code=status.HTTP_201_CREATED,
+)
 async def apply_to_recruitment(
     recruitment_id: int,
     payload: ApplicationCreate,

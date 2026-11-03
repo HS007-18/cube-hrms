@@ -1,39 +1,44 @@
-import { createBrowserRoute, createRouter } from '@tanstack/react-router'
+import { createBrowserRouter, Navigate, Outlet } from 'react-router-dom'
+import { AppShell } from '@/components/layout/app-shell'
+import { Splash } from '@/components/layout/splash'
+import { NotFoundPage } from '@/app/not-found-page'
+import { useAuth } from '@/lib/auth'
 import { SuperAdminLoginPage } from '@/features/auth/login-super-admin-page'
 import { SuperAdminDashboardPage } from '@/features/super-admin/dashboard-page'
 import { SuperAdminTenantsPage } from '@/features/super-admin/tenants-page'
-import { NotFoundPage } from '@/app/not-found-page'
-import { AuthLayout } from '@/components/layout/auth-layout'
-import { AppShell } from '@/components/layout/app-shell'
 
-const routeTree = createBrowserRoute({
-  id: 'root',
-  component: AppShell,
-  children: [
-    createBrowserRoute({
-      id: 'login',
-      path: '/login',
-      component: SuperAdminLoginPage,
-    }),
-    createBrowserRoute({
-      id: 'dashboard',
-      path: '/',
-      component: SuperAdminDashboardPage,
-    }),
-    createBrowserRoute({
-      id: 'tenants',
-      path: '/tenants',
-      component: SuperAdminTenantsPage,
-    }),
-    createBrowserRoute({
-      id: 'not-found',
-      path: '*',
-      component: NotFoundPage,
-    }),
-  ],
-})
+function RequireAuth() {
+  const { status, user } = useAuth()
+  if (status === 'loading') return <Splash />
+  if (status === 'anonymous' || !user) return <Navigate to="/login" replace />
+  return <Outlet />
+}
 
-export const superAdminRouter = createRouter({
-  routeTree,
-  defaultPreload: 'intent',
-})
+/** Only platform administrators may open the super-admin console. */
+function PlatformOnly() {
+  const { user } = useAuth()
+  if (!user?.is_platform_admin) return <Navigate to="/login" replace />
+  return <Outlet />
+}
+
+export const superAdminRouter = createBrowserRouter([
+  { path: '/login', element: <SuperAdminLoginPage /> },
+  {
+    element: <RequireAuth />,
+    children: [
+      {
+        element: <AppShell />,
+        children: [
+          {
+            element: <PlatformOnly />,
+            children: [
+              { index: true, element: <SuperAdminDashboardPage /> },
+              { path: 'tenants', element: <SuperAdminTenantsPage /> },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+  { path: '*', element: <NotFoundPage /> },
+])

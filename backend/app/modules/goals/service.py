@@ -1,19 +1,10 @@
 # Goals service
-from datetime import date, datetime
-from decimal import Decimal
-from typing import Optional, List
+from datetime import UTC, datetime
 
-from sqlalchemy import select, func, and_, or_
-from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import select
 
 from app.core.errors import not_found
 from app.modules.goals.models import Goal, GoalReview
-from app.modules.goals.schemas import (
-    GoalCreate,
-    GoalUpdate,
-    GoalReviewCreate,
-    GoalReviewUpdate,
-)
 
 
 async def list_goals(
@@ -89,7 +80,7 @@ async def update_goal(
     
     for key, value in payload.model_dump(exclude_unset=True).items():
         setattr(goal, key, value)
-    goal.updated_at = datetime.utcnow()
+    goal.updated_at = datetime.now(UTC)
     await session.flush()
     await session.refresh(goal)
     return goal
@@ -129,7 +120,7 @@ async def update_review(
     for key, value in payload.model_dump(exclude_unset=True).items():
         setattr(review, key, value)
     if payload.status == "completed":
-        review.reviewed_at = datetime.utcnow()
+        review.reviewed_at = datetime.now(UTC)
     await session.flush()
     await session.refresh(review)
     return review

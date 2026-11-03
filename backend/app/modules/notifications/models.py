@@ -44,7 +44,9 @@ class Notification(Base):
         ForeignKey("users.id", ondelete="CASCADE"), index=True, nullable=False
     )
     type: Mapped[str] = mapped_column(String(30), nullable=False, index=True)
-    priority: Mapped[str] = mapped_column(String(20), nullable=False, default=NotificationPriority.NORMAL.value)
+    priority: Mapped[str] = mapped_column(
+        String(20), nullable=False, default=NotificationPriority.NORMAL.value
+    )
     title: Mapped[str] = mapped_column(String(200), nullable=False)
     message: Mapped[str] = mapped_column(Text, nullable=False)
     action_url: Mapped[str | None] = mapped_column(String(500))

@@ -1,5 +1,4 @@
 from datetime import datetime
-from typing import Optional, Dict, List
 
 from pydantic import BaseModel, ConfigDict
 
@@ -8,30 +7,30 @@ class SystemHealthCheckBase(BaseModel):
     check_type: str
     component: str
     status: str
-    message: Optional[str] = None
-    details: Optional[Dict] = None
-    duration_ms: Optional[int] = None
+    message: str | None = None
+    details: dict | None = None
+    duration_ms: int | None = None
 
 
 class SystemHealthCheckOut(SystemHealthCheckBase):
     model_config = ConfigDict(from_attributes=True)
 
     id: int
-    checked_at: str
+    checked_at: datetime
 
 
 class SystemMetricBase(BaseModel):
     metric_name: str
     metric_value: float
-    unit: Optional[str] = None
-    tags: Optional[Dict] = None
+    unit: str | None = None
+    tags: dict | None = None
 
 
 class SystemMetricOut(SystemMetricBase):
     model_config = ConfigDict(from_attributes=True)
 
     id: int
-    recorded_at: str
+    recorded_at: datetime
 
 
 class SystemAlertBase(BaseModel):
@@ -39,7 +38,7 @@ class SystemAlertBase(BaseModel):
     severity: str
     title: str
     message: str
-    source: Optional[str] = None
+    source: str | None = None
 
 
 class SystemAlertCreate(SystemAlertBase):
@@ -47,8 +46,8 @@ class SystemAlertCreate(SystemAlertBase):
 
 
 class SystemAlertUpdate(BaseModel):
-    is_resolved: Optional[bool] = None
-    resolved_by: Optional[int] = None
+    is_resolved: bool | None = None
+    resolved_by: int | None = None
 
 
 class SystemAlertOut(SystemAlertBase):
@@ -56,13 +55,13 @@ class SystemAlertOut(SystemAlertBase):
 
     id: int
     is_resolved: bool
-    resolved_at: Optional[str] = None
-    resolved_by: Optional[int] = None
-    created_at: str
+    resolved_at: datetime | None = None
+    resolved_by: int | None = None
+    created_at: datetime
 
 
 class SystemHealthSummary(BaseModel):
     overall_status: str
-    checks: List[SystemHealthCheckOut]
-    metrics: List[SystemMetricOut]
-    alerts: List[SystemAlertOut]
+    checks: list[SystemHealthCheckOut]
+    metrics: list[SystemMetricOut]
+    alerts: list[SystemAlertOut]

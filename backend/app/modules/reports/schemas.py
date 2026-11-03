@@ -1,6 +1,4 @@
-from datetime import date, datetime
-from decimal import Decimal
-from typing import Optional, List, Dict
+from datetime import datetime
 
 from pydantic import BaseModel, ConfigDict
 
@@ -9,7 +7,7 @@ class ReportBase(BaseModel):
     name: str
     type: str
     format: str = "csv"
-    parameters: Optional[Dict] = None
+    parameters: dict | None = None
 
 
 class ReportCreate(ReportBase):
@@ -17,10 +15,10 @@ class ReportCreate(ReportBase):
 
 
 class ReportUpdate(BaseModel):
-    status: Optional[str] = None
-    file_path: Optional[str] = None
-    file_size: Optional[int] = None
-    error_message: Optional[str] = None
+    status: str | None = None
+    file_path: str | None = None
+    file_size: int | None = None
+    error_message: str | None = None
 
 
 class ReportOut(ReportBase):
@@ -30,15 +28,15 @@ class ReportOut(ReportBase):
     tenant_id: int
     status: str
     generated_by: int
-    generated_at: Optional[str] = None
-    expires_at: Optional[str] = None
-    error_message: Optional[str] = None
-    created_at: str
-    updated_at: str
+    generated_at: datetime | None = None
+    expires_at: datetime | None = None
+    error_message: str | None = None
+    created_at: datetime
+    updated_at: datetime
 
 
 class ReportList(BaseModel):
-    items: List["ReportOut"]
+    items: list["ReportOut"]
     total: int
     limit: int
     offset: int
@@ -50,9 +48,9 @@ class ReportScheduleBase(BaseModel):
     name: str
     type: str
     format: str = "csv"
-    parameters: Optional[Dict] = None
+    parameters: dict | None = None
     cron_expression: str
-    recipients: Optional[List[str]] = None
+    recipients: list[str] | None = None
 
 
 class ReportScheduleCreate(ReportScheduleBase):
@@ -60,9 +58,9 @@ class ReportScheduleCreate(ReportScheduleBase):
 
 
 class ReportScheduleUpdate(BaseModel):
-    is_active: Optional[bool] = None
-    cron_expression: Optional[str] = None
-    recipients: Optional[List[str]] = None
+    is_active: bool | None = None
+    cron_expression: str | None = None
+    recipients: list[str] | None = None
 
 
 class ReportScheduleOut(ReportScheduleBase):
@@ -71,8 +69,8 @@ class ReportScheduleOut(ReportScheduleBase):
     id: int
     tenant_id: int
     is_active: bool
-    last_run_at: Optional[str] = None
-    next_run_at: Optional[str] = None
+    last_run_at: datetime | None = None
+    next_run_at: datetime | None = None
     created_by: int
-    created_at: str
-    updated_at: str
+    created_at: datetime
+    updated_at: datetime

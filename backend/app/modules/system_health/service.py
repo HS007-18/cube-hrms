@@ -1,33 +1,146 @@
 # System Health service
-from datetime import datetime
-from typing import Optional, List, Dict
+import asyncio
+import shutil
+import time
+from datetime import UTC, datetime
 
-from sqlalchemy import select, func, and_
+from sqlalchemy import select, text
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.core.db import get_engine
 from app.core.errors import not_found
-from app.modules.system_health.models import SystemHealthCheck, SystemMetric, SystemAlert
+from app.core.rate_limit import get_redis_client
+from app.modules.system_health.models import (
+    HealthCheckType,
+    HealthStatus,
+    SystemAlert,
+    SystemHealthCheck,
+    SystemMetric,
+)
 from app.modules.system_health.schemas import (
-    SystemHealthCheckOut,
-    SystemMetricOut,
     SystemAlertCreate,
     SystemAlertUpdate,
 )
 
+# A health probe must fail fast: an unreachable dependency degrades to an
+# "unhealthy" result instead of hanging the request.
+PROBE_TIMEOUT_SECONDS = 3.0
 
-async def get_health_summary(session) -> dict:
+
+async def get_latest_checks(session: AsyncSession) -> list[SystemHealthCheck]:
+    """Latest recorded result per check type."""
+    stmt = (
+        select(SystemHealthCheck)
+        .distinct(SystemHealthCheck.check_type)
+        .order_by(SystemHealthCheck.check_type, SystemHealthCheck.checked_at.desc())
+    )
+    return list((await session.execute(stmt)).scalars().all())
+
+
+async def get_latest_metrics(session: AsyncSession) -> list[SystemMetric]:
+    """Latest recorded value per metric name."""
+    stmt = (
+        select(SystemMetric)
+        .distinct(SystemMetric.metric_name)
+        .order_by(SystemMetric.metric_name, SystemMetric.recorded_at.desc())
+    )
+    return list((await session.execute(stmt)).scalars().all())
+
+
+async def list_health_checks(
+    session: AsyncSession,
+    check_type: str | None = None,
+    component: str | None = None,
+    status_filter: str | None = None,
+    limit: int = 100,
+    offset: int = 0,
+) -> list[SystemHealthCheck]:
+    stmt = select(SystemHealthCheck)
+    if check_type:
+        stmt = stmt.where(SystemHealthCheck.check_type == check_type)
+    if component:
+        stmt = stmt.where(SystemHealthCheck.component == component)
+    if status_filter:
+        stmt = stmt.where(SystemHealthCheck.status == status_filter)
+    stmt = stmt.order_by(SystemHealthCheck.checked_at.desc()).limit(limit).offset(offset)
+    return list((await session.execute(stmt)).scalars().all())
+
+
+async def list_metrics(
+    session: AsyncSession,
+    metric_name: str | None = None,
+    limit: int = 100,
+    offset: int = 0,
+) -> list[SystemMetric]:
+    stmt = select(SystemMetric)
+    if metric_name:
+        stmt = stmt.where(SystemMetric.metric_name == metric_name)
+    stmt = stmt.order_by(SystemMetric.recorded_at.desc()).limit(limit).offset(offset)
+    return list((await session.execute(stmt)).scalars().all())
+
+
+async def list_alerts(
+    session: AsyncSession,
+    is_resolved: bool | None = None,
+    severity: str | None = None,
+    limit: int = 100,
+    offset: int = 0,
+) -> list[SystemAlert]:
+    stmt = select(SystemAlert)
+    if is_resolved is not None:
+        stmt = stmt.where(SystemAlert.is_resolved.is_(is_resolved))
+    if severity:
+        stmt = stmt.where(SystemAlert.severity == severity)
+    stmt = stmt.order_by(SystemAlert.created_at.desc()).limit(limit).offset(offset)
+    return list((await session.execute(stmt)).scalars().all())
+
+
+async def get_alert(session: AsyncSession, alert_id: int) -> SystemAlert:
+    stmt = select(SystemAlert).where(SystemAlert.id == alert_id)
+    alert = (await session.execute(stmt)).scalar_one_or_none()
+    if alert is None:
+        raise not_found("Alert")
+    return alert
+
+
+async def create_alert(
+    session: AsyncSession, payload: SystemAlertCreate
+) -> SystemAlert:
+    alert = SystemAlert(**payload.model_dump())
+    session.add(alert)
+    await session.flush()
+    await session.refresh(alert)
+    return alert
+
+
+async def update_alert(
+    session: AsyncSession, alert_id: int, payload: SystemAlertUpdate
+) -> SystemAlert:
+    alert = await get_alert(session, alert_id)
+    data = payload.model_dump(exclude_unset=True)
+    for key, value in data.items():
+        setattr(alert, key, value)
+    if data.get("is_resolved") and alert.resolved_at is None:
+        alert.resolved_at = datetime.now(UTC)
+    await session.flush()
+    await session.refresh(alert)
+    return alert
+
+
+async def get_health_summary(session: AsyncSession) -> dict:
     checks = await get_latest_checks(session)
     metrics = await get_latest_metrics(session)
     alerts = await list_alerts(session, is_resolved=False, limit=10)
-    
-    overall = "healthy"
-    for check in checks:
-        if check.status == "unhealthy":
-            overall = "unhealthy"
-            break
-        elif check.status == "degraded":
-            overall = "degraded"
-    
+
+    if not checks:
+        overall = HealthStatus.UNKNOWN.value
+    elif any(check.status == HealthStatus.UNHEALTHY.value for check in checks):
+        overall = HealthStatus.UNHEALTHY.value
+    elif any(check.status == HealthStatus.DEGRADED.value for check in checks):
+        overall = HealthStatus.DEGRADED.value
+    else:
+        overall = HealthStatus.HEALTHY.value
+
     return {
         "overall_status": overall,
         "checks": checks,
@@ -36,29 +149,117 @@ async def get_health_summary(session) -> dict:
     }
 
 
-async def get_latest_checks(session) -> list[SystemHealthCheckOut]:
-    stmt = select(SystemHealthCheck).order_by(
-        SystemHealthCheck.component, SystemHealthCheck.checked_at.desc()
+def _record(
+    check_type: HealthCheckType,
+    component: str,
+    status: HealthStatus,
+    message: str,
+    started: float,
+    details: dict | None = None,
+) -> SystemHealthCheck:
+    return SystemHealthCheck(
+        check_type=check_type.value,
+        component=component,
+        status=status.value,
+        message=message,
+        details=details,
+        duration_ms=round((time.perf_counter() - started) * 1000),
     )
-    checks = (await session.execute(stmt)).scalars().all()
-    
-    latest = {}
-    for check in checks:
-        if check.component not in latest:
-            latest[check.component] = check
-    
-    return list(latest.values())
 
 
-async def get_latest_metrics(session) -> list[SystemMetricOut]:
-    stmt = select(SystemMetric).order_by(
-        SystemMetric.metric_name, SystemMetric.recorded_at.desc()
+async def _check_database() -> SystemHealthCheck:
+    """Ping Postgres on a dedicated connection so a failure stays reportable."""
+    started = time.perf_counter()
+    try:
+        async with asyncio.timeout(PROBE_TIMEOUT_SECONDS):
+            async with get_engine().connect() as conn:
+                await conn.execute(text("SELECT 1"))
+    except Exception as exc:  # noqa: BLE001 - probe must capture any failure
+        return _record(
+            HealthCheckType.DATABASE,
+            "postgres",
+            HealthStatus.UNHEALTHY,
+            f"Database unreachable: {exc.__class__.__name__}",
+            started,
+        )
+    return _record(
+        HealthCheckType.DATABASE,
+        "postgres",
+        HealthStatus.HEALTHY,
+        "Database reachable",
+        started,
     )
-    metrics = (await session.execute(stmt)).scalars().all()
-    
-    latest = {}
-    for metric in metrics:
-        if metric.metric_name not in latest:
-            latest[metric.metric_name] = metric
-    
-    return list(latest.values())
+
+
+async def _check_redis() -> SystemHealthCheck:
+    started = time.perf_counter()
+    client = get_redis_client()
+    try:
+        async with asyncio.timeout(PROBE_TIMEOUT_SECONDS):
+            await client.ping()
+    except Exception as exc:  # noqa: BLE001 - probe must capture any failure
+        return _record(
+            HealthCheckType.REDIS,
+            "redis",
+            HealthStatus.UNHEALTHY,
+            f"Redis unreachable: {exc.__class__.__name__}",
+            started,
+        )
+    finally:
+        await client.aclose()
+    return _record(
+        HealthCheckType.REDIS,
+        "redis",
+        HealthStatus.HEALTHY,
+        "Redis reachable",
+        started,
+    )
+
+
+async def _check_disk_space() -> SystemHealthCheck:
+    started = time.perf_counter()
+    try:
+        usage = shutil.disk_usage("/")
+    except OSError as exc:
+        return _record(
+            HealthCheckType.DISK_SPACE,
+            "root-filesystem",
+            HealthStatus.UNKNOWN,
+            f"Disk usage unavailable: {exc.__class__.__name__}",
+            started,
+        )
+    used_percent = round(usage.used / usage.total * 100, 1)
+    details = {
+        "total_gb": round(usage.total / 1024**3, 1),
+        "used_gb": round(usage.used / 1024**3, 1),
+        "free_gb": round(usage.free / 1024**3, 1),
+        "used_percent": used_percent,
+    }
+    if used_percent >= 95:
+        status, message = HealthStatus.UNHEALTHY, "Disk nearly full"
+    elif used_percent >= 85:
+        status, message = HealthStatus.DEGRADED, "Disk running low on space"
+    else:
+        status, message = HealthStatus.HEALTHY, "Disk space OK"
+    return _record(
+        HealthCheckType.DISK_SPACE,
+        "root-filesystem",
+        status,
+        message,
+        started,
+        details,
+    )
+
+
+async def run_all_health_checks(session: AsyncSession) -> list[SystemHealthCheck]:
+    results = [
+        await _check_database(),
+        await _check_redis(),
+        await _check_disk_space(),
+    ]
+    for check in results:
+        session.add(check)
+    await session.flush()
+    for check in results:
+        await session.refresh(check)
+    return results

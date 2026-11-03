@@ -1,19 +1,10 @@
 # Subscriptions service
-from datetime import date, datetime
-from decimal import Decimal
-from typing import Optional, List, Dict
+from datetime import UTC, date, datetime
 
-from sqlalchemy import select, func, and_
-from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import select
 
 from app.core.errors import not_found
-from app.modules.subscriptions.models import Subscription, Invoice
-from app.modules.subscriptions.schemas import (
-    SubscriptionCreate,
-    SubscriptionUpdate,
-    InvoiceCreate,
-    InvoiceUpdate,
-)
+from app.modules.subscriptions.models import Invoice, Subscription
 
 
 async def list_subscriptions(session) -> list[Subscription]:
@@ -41,18 +32,20 @@ async def update_subscription(session, subscription_id: int, payload) -> Subscri
     subscription = await get_subscription(session, subscription_id)
     for key, value in payload.model_dump(exclude_unset=True).items():
         setattr(subscription, key, value)
-    subscription.updated_at = datetime.utcnow()
+    subscription.updated_at = datetime.now(UTC)
     await session.flush()
     await session.refresh(subscription)
     return subscription
 
 
-async def cancel_subscription(session, subscription_id: int, reason: str, user_id: int) -> Subscription:
+async def cancel_subscription(
+    session, subscription_id: int, reason: str, user_id: int
+) -> Subscription:
     subscription = await get_subscription(session, subscription_id)
     subscription.status = "cancelled"
     subscription.cancelled_at = date.today()
     subscription.cancelled_reason = reason
-    subscription.updated_at = datetime.utcnow()
+    subscription.updated_at = datetime.now(UTC)
     await session.flush()
     await session.refresh(subscription)
     return subscription
@@ -75,7 +68,7 @@ async def list_invoices(
 async def create_invoice(session, payload) -> Invoice:
     # Generate invoice number
     today = date.today()
-    invoice_number = f"INV-{today.strftime('%Y%m')}-{datetime.utcnow().strftime('%H%M%S')}"
+    invoice_number = f"INV-{today.strftime('%Y%m')}-{datetime.now(UTC).strftime('%H%M%S')}"
     
     invoice = Invoice(
         invoice_number=invoice_number,
@@ -95,7 +88,7 @@ async def update_invoice(session, invoice_id: int, payload) -> Invoice:
     
     for key, value in payload.model_dump(exclude_unset=True).items():
         setattr(invoice, key, value)
-    invoice.updated_at = datetime.utcnow()
+    invoice.updated_at = datetime.now(UTC)
     await session.flush()
     await session.refresh(invoice)
     return invoice
@@ -114,11 +107,11 @@ async def pay_invoice(
         raise not_found("Invoice")
     
     invoice.status = "paid"
-    invoice.paid_at = datetime.utcnow()
+    invoice.paid_at = datetime.now(UTC)
     invoice.paid_amount = invoice.total_amount
     invoice.payment_method = payment_method
     invoice.payment_reference = payment_reference
-    invoice.updated_at = datetime.utcnow()
+    invoice.updated_at = datetime.now(UTC)
     await session.flush()
     await session.refresh(invoice)
     return invoice

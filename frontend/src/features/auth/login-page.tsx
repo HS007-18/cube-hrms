@@ -1,5 +1,5 @@
 import { Eye, EyeOff, LockKeyhole, Mail } from 'lucide-react'
-import { useState, type FormEvent } from 'react'
+import { useEffect, useState, type FormEvent } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { AuthLayout } from '@/components/layout/auth-layout'
 import { Button } from '@/components/ui/button'
@@ -7,6 +7,10 @@ import { Field, Input } from '@/components/ui/input'
 import { useAuth } from '@/lib/auth'
 
 // Demo accounts removed — credentials are issued by HR administrator post-seeding.
+
+/** Cross-portal jump target; override per environment (e.g. production domains). */
+const SUPER_ADMIN_LOGIN_URL =
+  import.meta.env.VITE_SUPER_ADMIN_LOGIN_URL || 'http://localhost:5170/login'
 
 export function LoginPage() {
   const { login, status, user } = useAuth()
@@ -17,11 +21,16 @@ export function LoginPage() {
   const [error, setError] = useState('')
   const [submitting, setSubmitting] = useState(false)
 
-  if (status === 'authenticated' && user) {
-    if (user.is_platform_admin) {
-      window.location.href = 'http://localhost:5170/login'
-      return null
+  // Platform admins belong on the super-admin portal; redirect outside React
+  // because it is a full page change to a different origin/port.
+  useEffect(() => {
+    if (status === 'authenticated' && user?.is_platform_admin) {
+      window.location.href = SUPER_ADMIN_LOGIN_URL
     }
+  }, [status, user])
+
+  if (status === 'authenticated' && user) {
+    if (user.is_platform_admin) return null
     return <Navigate to='/dashboard' replace />
   }
 
@@ -32,7 +41,7 @@ export function LoginPage() {
     try {
       const profile = await login(email.trim(), password.trim())
       if (profile.is_platform_admin) {
-        window.location.href = 'http://localhost:5170/login'
+        window.location.href = SUPER_ADMIN_LOGIN_URL
         return
       }
       navigate('/dashboard', { replace: true })

@@ -85,7 +85,8 @@ def require_roles(*roles: str):
     """Allow only the listed tenant roles (platform admins use their own APIs)."""
 
     async def _dependency(ctx: AuthContext = Depends(get_auth_context)) -> AuthContext:
-        # Tenant endpoints are restricted to listed tenant roles; platform admins use their own APIs.
+        # Tenant endpoints are restricted to listed tenant roles;
+        # platform admins use their own APIs.
         if ctx.is_platform_admin or ctx.user.role not in roles:
             raise forbidden()
         return ctx

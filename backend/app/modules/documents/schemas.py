@@ -1,5 +1,4 @@
 from datetime import date, datetime
-from typing import Optional, List
 
 from pydantic import BaseModel, ConfigDict
 
@@ -7,7 +6,7 @@ from pydantic import BaseModel, ConfigDict
 class DocumentBase(BaseModel):
     category: str
     name: str
-    expiry_date: Optional[date] = None
+    expiry_date: date | None = None
 
 
 class DocumentCreate(DocumentBase):
@@ -19,10 +18,10 @@ class DocumentCreate(DocumentBase):
 
 
 class DocumentUpdate(BaseModel):
-    category: Optional[str] = None
-    name: Optional[str] = None
-    status: Optional[str] = None
-    expiry_date: Optional[date] = None
+    category: str | None = None
+    name: str | None = None
+    status: str | None = None
+    expiry_date: date | None = None
 
 
 class DocumentOut(DocumentBase):
@@ -36,9 +35,9 @@ class DocumentOut(DocumentBase):
     mime_type: str
     original_filename: str
     status: str
-    verified_by: Optional[int] = None
-    verified_at: Optional[str] = None
-    rejection_reason: Optional[str] = None
+    verified_by: int | None = None
+    verified_at: datetime | None = None
+    rejection_reason: str | None = None
     uploaded_by: int
-    created_at: str
-    updated_at: str
+    created_at: datetime
+    updated_at: datetime

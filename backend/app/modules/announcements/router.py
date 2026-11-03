@@ -20,7 +20,9 @@ async def list_announcements(
     offset: int = Query(0, ge=0),
     ctx: AuthContext = Depends(require_tenant_user),
 ):
-    return await service.list_announcements(ctx.session, ctx.tenant_id, is_active, audience, limit, offset)
+    return await service.list_announcements(
+        ctx.session, ctx.tenant_id, is_active, audience, limit, offset
+    )
 
 
 @router.post("", response_model=AnnouncementOut, status_code=status.HTTP_201_CREATED)

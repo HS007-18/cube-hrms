@@ -24,7 +24,10 @@ async def list_tickets(
     offset: int = Query(0, ge=0),
     ctx: AuthContext = Depends(require_tenant_user),
 ):
-    return await service.list_tickets(ctx.session, ctx.tenant_id, ctx.user_id, ctx.user.role, status_filter, category, priority, limit, offset)
+    return await service.list_tickets(
+        ctx.session, ctx.tenant_id, ctx.user_id, ctx.user.role,
+        status_filter, category, priority, limit, offset,
+    )
 
 
 @router.post("", response_model=SupportTicketOut, status_code=status.HTTP_201_CREATED)
@@ -40,7 +43,9 @@ async def get_ticket(
     ticket_id: int,
     ctx: AuthContext = Depends(require_tenant_user),
 ):
-    return await service.get_ticket(ctx.session, ctx.tenant_id, ticket_id, ctx.user_id, ctx.user.role)
+    return await service.get_ticket(
+        ctx.session, ctx.tenant_id, ticket_id, ctx.user_id, ctx.user.role
+    )
 
 
 @router.patch("/{ticket_id}", response_model=SupportTicketOut)
@@ -49,16 +54,23 @@ async def update_ticket(
     payload: SupportTicketUpdate,
     ctx: AuthContext = Depends(require_roles("hr_admin", "manager")),
 ):
-    return await service.update_ticket(ctx.session, ctx.tenant_id, ticket_id, payload, ctx.user.id, ctx.user.role)
+    return await service.update_ticket(
+        ctx.session, ctx.tenant_id, ticket_id, payload, ctx.user.id, ctx.user.role
+    )
 
 
-@router.post("/{ticket_id}/comments", response_model=TicketCommentOut, status_code=status.HTTP_201_CREATED)
+@router.post(
+    "/{ticket_id}/comments", response_model=TicketCommentOut,
+    status_code=status.HTTP_201_CREATED,
+)
 async def add_comment(
     ticket_id: int,
     payload: TicketCommentCreate,
     ctx: AuthContext = Depends(require_tenant_user),
 ):
-    return await service.add_comment(ctx.session, ctx.tenant_id, ticket_id, ctx.user_id, payload, ctx.user.role)
+    return await service.add_comment(
+        ctx.session, ctx.tenant_id, ticket_id, ctx.user_id, payload, ctx.user.role
+    )
 
 
 @router.patch("/{ticket_id}/assign", response_model=SupportTicketOut)
@@ -67,7 +79,9 @@ async def assign_ticket(
     assigned_to: int,
     ctx: AuthContext = Depends(require_roles("hr_admin", "manager")),
 ):
-    return await service.assign_ticket(ctx.session, ctx.tenant_id, ticket_id, assigned_to, ctx.user.id)
+    return await service.assign_ticket(
+        ctx.session, ctx.tenant_id, ticket_id, assigned_to, ctx.user.id
+    )
 
 
 @router.post("/{ticket_id}/resolve", response_model=SupportTicketOut)
@@ -76,7 +90,9 @@ async def resolve_ticket(
     resolution_notes: str,
     ctx: AuthContext = Depends(require_roles("hr_admin", "manager")),
 ):
-    return await service.resolve_ticket(ctx.session, ctx.tenant_id, ticket_id, resolution_notes, ctx.user.id)
+    return await service.resolve_ticket(
+        ctx.session, ctx.tenant_id, ticket_id, resolution_notes, ctx.user.id
+    )
 
 
 @router.post("/{ticket_id}/reopen", response_model=SupportTicketOut)

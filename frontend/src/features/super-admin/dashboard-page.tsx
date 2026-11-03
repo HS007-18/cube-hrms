@@ -3,10 +3,10 @@ import { Card } from '@/components/ui/card'
 import { StatCard } from '@/components/ui/stat-card'
 import { PageHeader } from '@/components/ui/page-header'
 import { Users, Building, Clock, ShieldAlert } from 'lucide-react'
-import { superAdminApi } from './api'
+import { superAdminApi, type TenantOut } from './api'
 
 export function SuperAdminDashboardPage() {
-  const [tenants, setTenants] = useState<any[]>([])
+  const [tenants, setTenants] = useState<TenantOut[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -50,28 +50,29 @@ export function SuperAdminDashboardPage() {
 
       <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-4'>
         <StatCard
-          title='Total Tenants'
+          label='Total Tenants'
           value={String(totalTenants)}
-          trend={`${activeTenants} active`}
-          icon={<Building className='size-5' />}
+          hint={`${activeTenants} active`}
+          icon={Building}
         />
         <StatCard
-          title='Total Users'
+          label='Total Users'
           value={String(totalUsers)}
-          trend='across all tenants'
-          icon={<Users className='size-5' />}
+          hint='across all tenants'
+          icon={Users}
         />
         <StatCard
-          title='Total Employees'
+          label='Total Employees'
           value={String(totalEmployees)}
-          trend='across all tenants'
-          icon={<Clock className='size-5' />}
+          hint='across all tenants'
+          icon={Clock}
         />
         <StatCard
-          title='Security Alerts'
+          label='Security Alerts'
           value='0'
-          trend='All clear'
-          icon={<ShieldAlert className='size-5' />}
+          hint='All clear'
+          icon={ShieldAlert}
+          tone='sage'
         />
       </div>
 

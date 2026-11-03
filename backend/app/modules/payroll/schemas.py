@@ -1,6 +1,5 @@
-from datetime import date
+from datetime import date, datetime
 from decimal import Decimal
-from typing import Optional, List
 
 from pydantic import BaseModel, ConfigDict
 
@@ -18,11 +17,11 @@ class PayrollItemCreate(PayrollItemBase):
 
 
 class PayrollItemUpdate(BaseModel):
-    name: Optional[str] = None
-    type: Optional[str] = None
-    amount: Optional[Decimal] = None
-    is_taxable: Optional[bool] = None
-    display_order: Optional[int] = None
+    name: str | None = None
+    type: str | None = None
+    amount: Decimal | None = None
+    is_taxable: bool | None = None
+    display_order: int | None = None
 
 
 class PayrollItemOut(PayrollItemBase):
@@ -32,13 +31,13 @@ class PayrollItemOut(PayrollItemBase):
     tenant_id: int
     payroll_id: int
     employee_id: int
-    created_at: str
+    created_at: datetime
 
 
 class PayrollBase(BaseModel):
     period_start: date
     period_end: date
-    notes: Optional[str] = None
+    notes: str | None = None
 
 
 class PayrollCreate(PayrollBase):
@@ -46,10 +45,10 @@ class PayrollCreate(PayrollBase):
 
 
 class PayrollUpdate(BaseModel):
-    period_start: Optional[date] = None
-    period_end: Optional[date] = None
-    status: Optional[str] = None
-    notes: Optional[str] = None
+    period_start: date | None = None
+    period_end: date | None = None
+    status: str | None = None
+    notes: str | None = None
 
 
 class PayrollOut(PayrollBase):
@@ -58,14 +57,14 @@ class PayrollOut(PayrollBase):
     id: int
     tenant_id: int
     status: str
-    processed_by: Optional[int] = None
-    processed_at: Optional[str] = None
-    created_at: str
-    updated_at: str
+    processed_by: int | None = None
+    processed_at: datetime | None = None
+    created_at: datetime
+    updated_at: datetime
 
 
 class PayrollDetail(PayrollOut):
-    items: List[PayrollItemOut] = []
+    items: list[PayrollItemOut] = []
 
 
 class PayrollProcessRequest(BaseModel):

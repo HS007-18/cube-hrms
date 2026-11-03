@@ -22,7 +22,9 @@ async def list_offboardings(
     offset: int = Query(0, ge=0),
     ctx: AuthContext = Depends(require_tenant_user),
 ):
-    items = await service.list_offboardings(ctx.session, ctx.tenant_id, status_filter, limit, offset)
+    items = await service.list_offboardings(
+        ctx.session, ctx.tenant_id, status_filter, limit, offset
+    )
     return items
 
 
@@ -51,7 +53,10 @@ async def update_offboarding(
     return await service.update_offboarding(ctx.session, ctx.tenant_id, offboarding_id, payload)
 
 
-@router.post("/{offboarding_id}/tasks", response_model=OffboardingTaskOut, status_code=status.HTTP_201_CREATED)
+@router.post(
+    "/{offboarding_id}/tasks", response_model=OffboardingTaskOut,
+    status_code=status.HTTP_201_CREATED,
+)
 async def add_task(
     offboarding_id: int,
     payload: OffboardingTaskCreate,
@@ -75,4 +80,6 @@ async def initiate_resignation(
     ctx: AuthContext = Depends(require_tenant_user),
 ):
     # Employee initiates their own resignation
-    return await service.create_offboarding(ctx.session, ctx.tenant_id, payload, ctx.user.id, is_resignation=True)
+    return await service.create_offboarding(
+        ctx.session, ctx.tenant_id, payload, ctx.user.id, is_resignation=True
+    )

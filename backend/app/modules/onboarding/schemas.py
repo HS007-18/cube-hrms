@@ -1,15 +1,14 @@
 from datetime import date, datetime
-from typing import Optional, List
 
 from pydantic import BaseModel, ConfigDict
 
 
 class OnboardingTaskBase(BaseModel):
     title: str
-    description: Optional[str] = None
+    description: str | None = None
     type: str
-    assigned_to: Optional[int] = None
-    due_date: Optional[date] = None
+    assigned_to: int | None = None
+    due_date: date | None = None
     display_order: int = 0
 
 
@@ -18,13 +17,13 @@ class OnboardingTaskCreate(OnboardingTaskBase):
 
 
 class OnboardingTaskUpdate(BaseModel):
-    title: Optional[str] = None
-    description: Optional[str] = None
-    type: Optional[str] = None
-    assigned_to: Optional[int] = None
-    due_date: Optional[date] = None
-    status: Optional[str] = None
-    display_order: Optional[int] = None
+    title: str | None = None
+    description: str | None = None
+    type: str | None = None
+    assigned_to: int | None = None
+    due_date: date | None = None
+    status: str | None = None
+    display_order: int | None = None
 
 
 class OnboardingTaskOut(OnboardingTaskBase):
@@ -33,33 +32,33 @@ class OnboardingTaskOut(OnboardingTaskBase):
     id: int
     tenant_id: int
     onboarding_id: int
-    assigned_to: Optional[int] = None
-    due_date: Optional[str] = None
+    assigned_to: int | None = None
+    due_date: date | None = None
     status: str
-    completed_at: Optional[str] = None
-    created_at: str
-    updated_at: str
+    completed_at: datetime | None = None
+    created_at: datetime
+    updated_at: datetime
 
 
 class OnboardingBase(BaseModel):
     employee_id: int
-    assigned_to: Optional[int] = None
+    assigned_to: int | None = None
     start_date: date
-    expected_completion_date: Optional[date] = None
-    notes: Optional[str] = None
+    expected_completion_date: date | None = None
+    notes: str | None = None
 
 
 class OnboardingCreate(OnboardingBase):
-    tasks: List[OnboardingTaskCreate] = []
+    tasks: list[OnboardingTaskCreate] = []
 
 
 class OnboardingUpdate(BaseModel):
-    assigned_to: Optional[int] = None
-    start_date: Optional[date] = None
-    expected_completion_date: Optional[date] = None
-    actual_completion_date: Optional[date] = None
-    status: Optional[str] = None
-    notes: Optional[str] = None
+    assigned_to: int | None = None
+    start_date: date | None = None
+    expected_completion_date: date | None = None
+    actual_completion_date: date | None = None
+    status: str | None = None
+    notes: str | None = None
 
 
 class OnboardingOut(OnboardingBase):
@@ -67,15 +66,15 @@ class OnboardingOut(OnboardingBase):
 
     id: int
     tenant_id: int
-    assigned_to: Optional[int] = None
-    start_date: str
-    expected_completion_date: Optional[str] = None
-    actual_completion_date: Optional[str] = None
+    assigned_to: int | None = None
+    start_date: date
+    expected_completion_date: date | None = None
+    actual_completion_date: date | None = None
     status: str
-    notes: Optional[str] = None
-    created_at: str
-    updated_at: str
+    notes: str | None = None
+    created_at: datetime
+    updated_at: datetime
 
 
 class OnboardingDetail(OnboardingOut):
-    tasks: List[OnboardingTaskOut] = []
+    tasks: list[OnboardingTaskOut] = []

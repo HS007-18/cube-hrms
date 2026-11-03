@@ -1,13 +1,10 @@
 # Notifications service
-from datetime import datetime
-from typing import Optional, List
+from datetime import UTC, datetime
 
-from sqlalchemy import select, func, and_
-from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import func, select
 
 from app.core.errors import not_found
 from app.modules.notifications.models import Notification
-from app.modules.notifications.schemas import NotificationCreate, NotificationUpdate
 
 
 async def list_notifications(
@@ -41,7 +38,7 @@ async def mark_as_read(session, user_id: int, notification_id: int):
         raise not_found("Notification")
     
     notification.is_read = True
-    notification.read_at = datetime.utcnow()
+    notification.read_at = datetime.now(UTC)
     await session.flush()
     await session.refresh(notification)
     return notification
@@ -50,13 +47,13 @@ async def mark_as_read(session, user_id: int, notification_id: int):
 async def mark_all_read(session, user_id: int) -> int:
     stmt = select(Notification).where(
         Notification.user_id == user_id,
-        Notification.is_read == False,
+        Notification.is_read.is_(False),
     )
     notifications = (await session.execute(stmt)).scalars().all()
     count = 0
     for notification in notifications:
         notification.is_read = True
-        notification.read_at = datetime.utcnow()
+        notification.read_at = datetime.now(UTC)
         count += 1
     await session.flush()
     return count
@@ -67,5 +64,14 @@ async def get_preferences(session, user_id: int):
     return {
         "email_enabled": True,
         "push_enabled": True,
-        "types": ["info", "success", "warning", "error", "announcement", "reminder", "approval_request", "system"]
+        "types": [
+            "info",
+            "success",
+            "warning",
+            "error",
+            "announcement",
+            "reminder",
+            "approval_request",
+            "system",
+        ],
     }

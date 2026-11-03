@@ -1,18 +1,10 @@
 # Onboarding service
-from datetime import date, datetime
-from typing import Optional, List
+from datetime import UTC, datetime
 
-from sqlalchemy import select, func, and_
-from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import select
 
 from app.core.errors import not_found
 from app.modules.onboarding.models import Onboarding, OnboardingTask
-from app.modules.onboarding.schemas import (
-    OnboardingCreate,
-    OnboardingUpdate,
-    OnboardingTaskCreate,
-    OnboardingTaskUpdate,
-)
 
 
 async def list_onboardings(
@@ -75,7 +67,7 @@ async def update_onboarding(
     onboarding = await get_onboarding(session, tenant_id, onboarding_id)
     for key, value in payload.model_dump(exclude_unset=True).items():
         setattr(onboarding, key, value)
-    onboarding.updated_at = datetime.utcnow()
+    onboarding.updated_at = datetime.now(UTC)
     await session.flush()
     await session.refresh(onboarding)
     return onboarding
@@ -84,7 +76,8 @@ async def update_onboarding(
 async def add_task(
     session, tenant_id: int, onboarding_id: int, payload, user_id: int
 ) -> OnboardingTask:
-    onboarding = await get_onboarding(session, tenant_id, onboarding_id)
+    # Verifies the onboarding exists in this tenant before adding a task.
+    await get_onboarding(session, tenant_id, onboarding_id)
     task = OnboardingTask(
         tenant_id=tenant_id,
         onboarding_id=onboarding_id,
@@ -110,7 +103,7 @@ async def update_task(
     for key, value in payload.model_dump(exclude_unset=True).items():
         setattr(task, key, value)
     if payload.status == "completed":
-        task.completed_at = datetime.utcnow()
+        task.completed_at = datetime.now(UTC)
     await session.flush()
     await session.refresh(task)
     return task

@@ -23,8 +23,12 @@ class RateLimiter:
     ):
         settings = get_settings()
         self._redis = redis_client
-        self._max_attempts = max_attempts if max_attempts is not None else settings.rate_limit_max_attempts
-        self._window = window_seconds if window_seconds is not None else settings.rate_limit_window_seconds
+        self._max_attempts = (
+            max_attempts if max_attempts is not None else settings.rate_limit_max_attempts
+        )
+        self._window = (
+            window_seconds if window_seconds is not None else settings.rate_limit_window_seconds
+        )
 
     async def check(self, key: str) -> None:
         """Raise if the key has exceeded its attempt budget."""

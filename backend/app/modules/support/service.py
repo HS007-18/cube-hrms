@@ -1,17 +1,10 @@
 # Support service
-from datetime import datetime
-from typing import Optional, List
+from datetime import UTC, datetime
 
-from sqlalchemy import select, func, and_
-from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import func, select
 
 from app.core.errors import not_found
 from app.modules.support.models import SupportTicket, TicketComment
-from app.modules.support.schemas import (
-    SupportTicketCreate,
-    SupportTicketUpdate,
-    TicketCommentCreate,
-)
 
 
 async def list_tickets(
@@ -74,20 +67,25 @@ async def create_ticket(session, tenant_id: int, user_id: int, payload):
     return ticket
 
 
-async def update_ticket(session, tenant_id: int, ticket_id: int, payload, user_id: int, user_role: str):
+async def update_ticket(
+    session, tenant_id: int, ticket_id: int, payload, user_id: int, user_role: str
+):
     ticket = await get_ticket(session, tenant_id, ticket_id, user_id, user_role)
     
     for key, value in payload.model_dump(exclude_unset=True).items():
         setattr(ticket, key, value)
-    ticket.updated_at = datetime.utcnow()
+    ticket.updated_at = datetime.now(UTC)
     await session.flush()
     await session.refresh(ticket)
     return ticket
 
 
-async def add_comment(session, tenant_id: int, ticket_id: int, user_id: int, payload, user_role: str):
-    ticket = await get_ticket(session, tenant_id, ticket_id, user_id, user_role)
-    
+async def add_comment(
+    session, tenant_id: int, ticket_id: int, user_id: int, payload, user_role: str
+):
+    # Authorizes access to the ticket (404/403 side effects) before commenting.
+    await get_ticket(session, tenant_id, ticket_id, user_id, user_role)
+
     comment = TicketComment(
         tenant_id=tenant_id,
         ticket_id=ticket_id,
@@ -103,16 +101,18 @@ async def add_comment(session, tenant_id: int, ticket_id: int, user_id: int, pay
 async def assign_ticket(session, tenant_id: int, ticket_id: int, assigned_to: int, user_id: int):
     ticket = await get_ticket(session, tenant_id, ticket_id, user_id, "hr_admin")
     ticket.assigned_to = assigned_to
-    ticket.updated_at = datetime.utcnow()
+    ticket.updated_at = datetime.now(UTC)
     await session.flush()
     await session.refresh(ticket)
     return ticket
 
 
-async def resolve_ticket(session, tenant_id: int, ticket_id: int, resolution_notes: str, user_id: int):
+async def resolve_ticket(
+    session, tenant_id: int, ticket_id: int, resolution_notes: str, user_id: int
+):
     ticket = await get_ticket(session, tenant_id, ticket_id, user_id, "hr_admin")
     ticket.status = "resolved"
-    ticket.resolved_at = datetime.utcnow()
+    ticket.resolved_at = datetime.now(UTC)
     ticket.resolution_notes = resolution_notes
     await session.flush()
     await session.refresh(ticket)

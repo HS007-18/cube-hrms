@@ -1,13 +1,9 @@
 # Holidays service
-from datetime import date
-from typing import Optional, List
 
-from sqlalchemy import select, func, and_
-from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import func, select
 
 from app.core.errors import not_found
 from app.modules.holidays.models import Holiday
-from app.modules.holidays.schemas import HolidayCreate, HolidayUpdate
 
 
 async def list_holidays(

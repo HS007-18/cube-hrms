@@ -63,7 +63,9 @@ async def update_goal(
     return await service.update_goal(ctx.session, ctx.tenant_id, goal_id, payload, ctx.user.id)
 
 
-@router.post("/{goal_id}/reviews", response_model=GoalReviewOut, status_code=status.HTTP_201_CREATED)
+@router.post(
+    "/{goal_id}/reviews", response_model=GoalReviewOut, status_code=status.HTTP_201_CREATED
+)
 async def create_review(
     goal_id: int,
     payload: GoalReviewCreate,

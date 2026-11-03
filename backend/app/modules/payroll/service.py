@@ -1,18 +1,10 @@
 # Payroll service
-from datetime import date, datetime
-from decimal import Decimal
-from typing import Optional, List
+from datetime import UTC, datetime
 
-from sqlalchemy import select, func, and_
-from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import select
 
 from app.core.errors import not_found
 from app.modules.payroll.models import Payroll, PayrollItem
-from app.modules.payroll.schemas import (
-    PayrollCreate,
-    PayrollUpdate,
-    PayrollItemCreate,
-)
 
 
 async def list_payrolls(
@@ -59,7 +51,7 @@ async def update_payroll(session, tenant_id: int, payroll_id: int, payload, user
     
     for key, value in payload.model_dump(exclude_unset=True).items():
         setattr(payroll, key, value)
-    payroll.updated_at = datetime.utcnow()
+    payroll.updated_at = datetime.now(UTC)
     await session.flush()
     await session.refresh(payroll)
     return payroll
@@ -96,7 +88,7 @@ async def process_payroll(session, tenant_id: int, payroll_id: int, user_id: int
     
     payroll.status = "completed"
     payroll.processed_by = user_id
-    payroll.processed_at = datetime.utcnow()
+    payroll.processed_at = datetime.now(UTC)
     await session.flush()
     await session.refresh(payroll)
     return payroll

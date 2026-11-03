@@ -1,20 +1,19 @@
 from datetime import datetime
-from typing import Optional, Dict, List
 
 from pydantic import BaseModel, ConfigDict
 
 
 class PlatformAuditLogBase(BaseModel):
     actor_user_id: int
-    tenant_id: Optional[int] = None
+    tenant_id: int | None = None
     action: str
-    entity_type: Optional[str] = None
-    entity_id: Optional[str] = None
-    old_values: Optional[Dict] = None
-    new_values: Optional[Dict] = None
-    ip_address: Optional[str] = None
-    user_agent: Optional[str] = None
-    request_id: Optional[str] = None
+    entity_type: str | None = None
+    entity_id: str | None = None
+    old_values: dict | None = None
+    new_values: dict | None = None
+    ip_address: str | None = None
+    user_agent: str | None = None
+    request_id: str | None = None
 
 
 class PlatformAuditLogCreate(PlatformAuditLogBase):
@@ -25,11 +24,11 @@ class PlatformAuditLogOut(PlatformAuditLogBase):
     model_config = ConfigDict(from_attributes=True)
 
     id: int
-    created_at: str
+    created_at: datetime
 
 
 class PlatformAuditLogList(BaseModel):
-    items: List["PlatformAuditLogOut"]
+    items: list["PlatformAuditLogOut"]
     total: int
     limit: int
     offset: int

@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, File, Form, Query, UploadFile, status
 
 from app.core.deps import AuthContext, require_roles, require_tenant_user
 from app.modules.documents import service
-from app.modules.documents.schemas import DocumentCreate, DocumentOut, DocumentUpdate
+from app.modules.documents.schemas import DocumentOut, DocumentUpdate
 
 router = APIRouter(prefix="/documents", tags=["documents"])
 

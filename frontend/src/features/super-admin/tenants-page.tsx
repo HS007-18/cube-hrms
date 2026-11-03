@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Card } from '@/components/ui/card'
 import { PageHeader } from '@/components/ui/page-header'
-import { Table } from '@/components/ui/table'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { Building, Clock } from 'lucide-react'
 import { superAdminApi, type TenantOut } from './api'
 
@@ -74,21 +74,21 @@ export function SuperAdminTenantsPage() {
       <Card>
         <div className='overflow-x-auto'>
           <Table>
-            <thead>
+            <TableHeader>
               <tr>
-                <th>Tenant</th>
-                <th>Plan</th>
-                <th>Status</th>
-                <th>Users</th>
-                <th>Employees</th>
-                <th>Created</th>
-                <th>Action</th>
+                <TableHead>Tenant</TableHead>
+                <TableHead>Plan</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead>Users</TableHead>
+                <TableHead>Employees</TableHead>
+                <TableHead>Created</TableHead>
+                <TableHead>Action</TableHead>
               </tr>
-            </thead>
-            <Table.Body>
+            </TableHeader>
+            <TableBody>
               {tenants.map((row) => (
-                <Table.Row key={row.id}>
-                  <Table.Cell>
+                <TableRow key={row.id}>
+                  <TableCell>
                     <div className='flex items-center gap-3'>
                       <Building className='size-4 text-[#64748B]' />
                       <div>
@@ -100,29 +100,29 @@ export function SuperAdminTenantsPage() {
                         </div>
                       </div>
                     </div>
-                  </Table.Cell>
-                  <Table.Cell>{row.plan}</Table.Cell>
-                  <Table.Cell>
+                  </TableCell>
+                  <TableCell>{row.plan}</TableCell>
+                  <TableCell>
                     <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full ${statusColors[row.status]} text-[10px] font-medium`}>
                       <span className='w-1.5 h-1.5 rounded-full' />
                       {row.status}
                     </span>
-                  </Table.Cell>
-                  <Table.Cell>{row.user_count}</Table.Cell>
-                  <Table.Cell>{row.employee_count}</Table.Cell>
-                  <Table.Cell>
+                  </TableCell>
+                  <TableCell>{row.user_count}</TableCell>
+                  <TableCell>{row.employee_count}</TableCell>
+                  <TableCell>
                     <div className='text-xs text-[#64748B]'>
                       {new Date(row.created_at).toLocaleDateString()}
                     </div>
-                  </Table.Cell>
-                  <Table.Cell>
+                  </TableCell>
+                  <TableCell>
                     <button className='text-[12px] font-medium text-cube-primary hover:text-cube-primary-hover'>
                       Open tenant
                     </button>
-                  </Table.Cell>
-                </Table.Row>
+                  </TableCell>
+                </TableRow>
               ))}
-            </Table.Body>
+            </TableBody>
           </Table>
         </div>
       </Card>

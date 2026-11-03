@@ -28,7 +28,9 @@ async def list_health_checks(
     offset: int = Query(0, ge=0),
     ctx: AuthContext = Depends(require_platform_admin),
 ):
-    return await service.list_health_checks(ctx.session, check_type, component, status_filter, limit, offset)
+    return await service.list_health_checks(
+        ctx.session, check_type, component, status_filter, limit, offset
+    )
 
 
 @router.get("/metrics", response_model=list[SystemMetricOut])

@@ -6,6 +6,10 @@ import { Button } from '@/components/ui/button'
 import { Field, Input } from '@/components/ui/input'
 import { useAuth } from '@/lib/auth'
 
+/** Cross-portal jump target; override per environment (e.g. production domains). */
+const COMPANY_LOGIN_URL =
+  import.meta.env.VITE_COMPANY_LOGIN_URL || 'http://localhost:5173/login'
+
 export function SuperAdminLoginPage() {
   const { login, status, user } = useAuth()
   const navigate = useNavigate()
@@ -15,7 +19,10 @@ export function SuperAdminLoginPage() {
   const [error, setError] = useState('')
   const [submitting, setSubmitting] = useState(false)
 
-  if (status === 'authenticated' && user) {
+  // Only platform admins get bounced into the console; a tenant user with an
+  // active session (cookies are shared across localhost ports) keeps the form
+  // so they are sent to the company portal on submit instead of looping.
+  if (status === 'authenticated' && user?.is_platform_admin) {
     return <Navigate to='/' replace />
   }
 
@@ -26,11 +33,11 @@ export function SuperAdminLoginPage() {
     try {
       const profile = await login(email.trim(), password.trim())
       if (!profile.is_platform_admin) {
-        // Not a super admin — redirect to company portal on 5173
-        window.location.href = 'http://localhost:5173/login?error=not_super_admin'
+        // Not a super admin — redirect to the company portal.
+        window.location.href = `${COMPANY_LOGIN_URL}?error=not_super_admin`
         return
       }
-      navigate('/', { replace })
+      navigate('/', { replace: true })
     } catch (caught) {
       setError(caught instanceof Error ? caught.message : 'Unable to sign in')
     } finally {

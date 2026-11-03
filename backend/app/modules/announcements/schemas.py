@@ -1,5 +1,4 @@
 from datetime import datetime
-from typing import Optional, List
 
 from pydantic import BaseModel, ConfigDict
 
@@ -9,12 +8,12 @@ class AnnouncementBase(BaseModel):
     content: str
     type: str = "general"
     audience: str = "all"
-    target_department_id: Optional[int] = None
-    target_user_ids: Optional[List[int]] = None
+    target_department_id: int | None = None
+    target_user_ids: list[int] | None = None
     is_pinned: bool = False
     is_active: bool = True
-    publish_at: Optional[datetime] = None
-    expires_at: Optional[datetime] = None
+    publish_at: datetime | None = None
+    expires_at: datetime | None = None
 
 
 class AnnouncementCreate(AnnouncementBase):
@@ -22,16 +21,16 @@ class AnnouncementCreate(AnnouncementBase):
 
 
 class AnnouncementUpdate(BaseModel):
-    title: Optional[str] = None
-    content: Optional[str] = None
-    type: Optional[str] = None
-    audience: Optional[str] = None
-    target_department_id: Optional[int] = None
-    target_user_ids: Optional[List[int]] = None
-    is_pinned: Optional[bool] = None
-    is_active: Optional[bool] = None
-    publish_at: Optional[datetime] = None
-    expires_at: Optional[datetime] = None
+    title: str | None = None
+    content: str | None = None
+    type: str | None = None
+    audience: str | None = None
+    target_department_id: int | None = None
+    target_user_ids: list[int] | None = None
+    is_pinned: bool | None = None
+    is_active: bool | None = None
+    publish_at: datetime | None = None
+    expires_at: datetime | None = None
 
 
 class AnnouncementOut(AnnouncementBase):
@@ -41,15 +40,15 @@ class AnnouncementOut(AnnouncementBase):
     tenant_id: int
     is_pinned: bool
     is_active: bool
-    publish_at: Optional[str] = None
-    expires_at: Optional[str] = None
+    publish_at: datetime | None = None
+    expires_at: datetime | None = None
     created_by: int
-    created_at: str
-    updated_at: str
+    created_at: datetime
+    updated_at: datetime
 
 
 class AnnouncementList(BaseModel):
-    items: List[AnnouncementOut]
+    items: list[AnnouncementOut]
     total: int
     limit: int
     offset: int

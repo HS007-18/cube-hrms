@@ -1,19 +1,10 @@
 # Reports service
-from datetime import date, datetime
-from decimal import Decimal
-from typing import Optional, List, Dict
+from datetime import UTC, datetime
 
-from sqlalchemy import select, func, and_
-from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import func, select
 
 from app.core.errors import not_found
 from app.modules.reports.models import Report, ReportSchedule
-from app.modules.reports.schemas import (
-    ReportCreate,
-    ReportUpdate,
-    ReportScheduleCreate,
-    ReportScheduleUpdate,
-)
 
 
 async def list_reports(
@@ -37,17 +28,6 @@ async def list_reports(
     return {"items": items, "total": total, "limit": limit, "offset": offset}
 
 
-async def get_report(session, tenant_id: int, report_id: int):
-    stmt = select(Report).where(
-        Report.id == report_id,
-        Report.tenant_id == tenant_id,
-    )
-    report = (await session.execute(stmt)).scalar_one_or_none()
-    if report is None:
-        raise not_found("Report")
-    return report
-
-
 async def create_report(session, tenant_id: int, user_id: int, payload, background_tasks):
     report = Report(
         tenant_id=tenant_id,
@@ -65,23 +45,6 @@ async def create_report(session, tenant_id: int, user_id: int, payload, backgrou
     return report
 
 
-async def update_report(session, tenant_id: int, report_id: int, payload):
-    stmt = select(Report).where(
-        Report.id == report_id,
-        Report.tenant_id == tenant_id,
-    )
-    report = (await session.execute(stmt)).scalar_one_or_none()
-    if report is None:
-        raise not_found("Report")
-    
-    for key, value in payload.model_dump(exclude_unset=True).items():
-        setattr(report, key, value)
-    report.updated_at = datetime.utcnow()
-    await session.flush()
-    await session.refresh(report)
-    return report
-
-
 async def generate_report(session, tenant_id: int, report_id: int, background_tasks):
     report = await get_report(session, tenant_id, report_id)
     report.status = "generating"
@@ -90,7 +53,7 @@ async def generate_report(session, tenant_id: int, report_id: int, background_ta
     # In production, this would generate the actual report
     # For now, just mark as completed
     report.status = "completed"
-    report.generated_at = datetime.utcnow()
+    report.generated_at = datetime.now(UTC)
     await session.flush()
     return report
 
@@ -115,7 +78,7 @@ async def update_report(session, tenant_id: int, report_id: int, payload):
     report = await get_report(session, tenant_id, report_id)
     for key, value in payload.model_dump(exclude_unset=True).items():
         setattr(report, key, value)
-    report.updated_at = datetime.utcnow()
+    report.updated_at = datetime.now(UTC)
     await session.flush()
     await session.refresh(report)
     return report
@@ -149,7 +112,7 @@ async def update_schedule(session, tenant_id: int, schedule_id: int, payload):
     
     for key, value in payload.model_dump(exclude_unset=True).items():
         setattr(schedule, key, value)
-    schedule.updated_at = datetime.utcnow()
+    schedule.updated_at = datetime.now(UTC)
     await session.flush()
     await session.refresh(schedule)
     return schedule

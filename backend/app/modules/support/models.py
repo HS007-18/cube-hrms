@@ -86,7 +86,9 @@ class TicketComment(Base):
         ForeignKey("users.id", ondelete="CASCADE"), index=True, nullable=False
     )
     content: Mapped[str] = mapped_column(Text, nullable=False)
-    is_internal: bool = False  # internal note vs customer-facing
+    is_internal: Mapped[bool] = mapped_column(
+        Boolean, default=False, nullable=False
+    )  # internal note vs customer-facing
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now(), nullable=False
     )

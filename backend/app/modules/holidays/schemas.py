@@ -1,5 +1,5 @@
 from datetime import date, datetime
-from typing import Optional, List
+from datetime import date as date_type  # noqa: I001 - alias for HolidayUpdate.date
 
 from pydantic import BaseModel, ConfigDict
 
@@ -8,7 +8,7 @@ class HolidayBase(BaseModel):
     name: str
     date: date
     type: str = "public"
-    description: Optional[str] = None
+    description: str | None = None
     is_recurring: bool = False
     applies_to_all: bool = True
 
@@ -18,12 +18,15 @@ class HolidayCreate(HolidayBase):
 
 
 class HolidayUpdate(BaseModel):
-    name: Optional[str] = None
-    date: Optional[date] = None
-    type: Optional[str] = None
-    description: Optional[str] = None
-    is_recurring: Optional[bool] = None
-    applies_to_all: Optional[bool] = None
+    name: str | None = None
+    # Annotated through an alias: the field is named ``date`` too, and the
+    # class body stores the default before evaluating the annotation, which
+    # would resolve ``date`` to None and break update validation.
+    date: date_type | None = None
+    type: str | None = None
+    description: str | None = None
+    is_recurring: bool | None = None
+    applies_to_all: bool | None = None
 
 
 class HolidayOut(HolidayBase):
@@ -31,5 +34,5 @@ class HolidayOut(HolidayBase):
 
     id: int
     tenant_id: int
-    created_at: str
-    updated_at: str
+    created_at: datetime
+    updated_at: datetime

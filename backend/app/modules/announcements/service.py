@@ -1,13 +1,10 @@
 # Announcements service
-from datetime import datetime
-from typing import Optional, List
+from datetime import UTC, datetime
 
-from sqlalchemy import select, func, or_, and_
-from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import func, select
 
 from app.core.errors import not_found
 from app.modules.announcements.models import Announcement
-from app.modules.announcements.schemas import AnnouncementCreate, AnnouncementUpdate
 
 
 async def list_announcements(
@@ -57,11 +54,13 @@ async def create_announcement(session, tenant_id: int, payload, created_by: int)
     return announcement
 
 
-async def update_announcement(session, tenant_id: int, announcement_id: int, payload, user_id: int) -> Announcement:
+async def update_announcement(
+    session, tenant_id: int, announcement_id: int, payload, user_id: int
+) -> Announcement:
     announcement = await get_announcement(session, tenant_id, announcement_id)
     for key, value in payload.model_dump(exclude_unset=True).items():
         setattr(announcement, key, value)
-    announcement.updated_at = datetime.utcnow()
+    announcement.updated_at = datetime.now(UTC)
     await session.flush()
     await session.refresh(announcement)
     return announcement
