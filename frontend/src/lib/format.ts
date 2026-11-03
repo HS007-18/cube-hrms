@@ -107,7 +107,7 @@ export function workingDaysBetween(from: string, to: string) {
 export function isoDateWithOffset(days: number) {
   const date = new Date()
   date.setDate(date.getDate() + days)
-  return date.toISOString().slice(0, 10)
+  return date.toLocaleDateString('en-CA', { timeZone: 'Asia/Kolkata' })
 }
 
 export function greeting() {

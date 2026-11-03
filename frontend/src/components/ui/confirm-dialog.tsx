@@ -44,7 +44,7 @@ export function ConfirmDialog({
         <span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-primary-light text-primary">
           <AlertTriangle className="size-4" aria-hidden />
         </span>
-        <p className="pt-1 text-[13px] leading-relaxed text-text-muted">{description}</p>
+        <p className="pt-1 text-[14px] leading-relaxed text-text-muted">{description}</p>
       </div>
     </Dialog>
   )

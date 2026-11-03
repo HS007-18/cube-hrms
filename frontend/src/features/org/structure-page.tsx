@@ -110,7 +110,7 @@ export function StructurePage() {
           />
           <div className="mt-5">
             {departments.data && departments.data.length > 0 ? (
-              <ul className="divide-y divide-on-background/10">
+              <ul className="divide-y divide-[#E2E8F0]">
                 {departments.data.map((department) => (
                   <DepartmentRow
                     key={department.id}
@@ -144,7 +144,7 @@ export function StructurePage() {
           />
           <div className="mt-5">
             {designations.data && designations.data.length > 0 ? (
-              <ul className="divide-y divide-on-background/10">
+              <ul className="divide-y divide-[#E2E8F0]">
                 {designations.data.map((designation) => (
                   <DesignationRow key={designation.id} designation={designation} />
                 ))}
@@ -161,14 +161,14 @@ export function StructurePage() {
         </Card>
       </div>
 
-      <Card className="flex flex-col gap-3 p-5 sm:flex-row sm:items-center sm:justify-between">
+      <Card className="flex flex-col gap-3 p-5 sm:flex-row sm:items-center sm:justify-between bg-[#F8FAFC] border border-[#E2E8F0]">
         <div className="flex items-start gap-3">
-          <span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-pine-100 text-pine-800">
+          <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-[#EBF5FF] text-cube-blue-electric">
             <Network className="size-4" aria-hidden />
           </span>
           <div>
-            <p className="text-[13px] font-semibold text-on-background">Reporting lines live on people</p>
-            <p className="mt-0.5 text-[11px] leading-relaxed text-text-muted">
+            <p className="text-[13px] font-semibold text-[#111D36]">Reporting lines live on people</p>
+            <p className="mt-0.5 text-[11px] leading-relaxed text-[#64748B]">
               Set a manager on each employee from the People directory. Managers review only their
               direct reports’ leave requests.
             </p>
@@ -284,12 +284,12 @@ function DepartmentRow({ department, parent }: { department: Department; parent?
   return (
     <li className="flex items-center justify-between gap-3 py-3 first:pt-0 last:pb-0">
       <div className="flex min-w-0 items-center gap-3">
-        <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-pine-100/80 text-pine-800">
-          <Building2 className="size-3.5" aria-hidden />
+        <span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-[#EBF5FF] text-cube-blue-electric">
+          <Building2 className="size-4" aria-hidden />
         </span>
         <div className="min-w-0">
-          <p className="truncate text-[13px] font-semibold text-on-background">{department.name}</p>
-          <p className="truncate text-[11px] text-text-muted">
+          <p className="truncate text-[13.5px] font-semibold text-[#111D36]">{department.name}</p>
+          <p className="truncate text-[11.5px] text-[#64748B]">
             {department.code ? `Code ${department.code}` : 'Top-level department'}
             {parent ? ` · Under ${parent.name}` : ''}
           </p>
@@ -303,12 +303,12 @@ function DesignationRow({ designation }: { designation: Designation }) {
   return (
     <li className="flex items-center justify-between gap-3 py-3 first:pt-0 last:pb-0">
       <div className="flex min-w-0 items-center gap-3">
-        <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-primary-light text-primary">
-          <Layers3 className="size-3.5" aria-hidden />
+        <span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-[#CFFAFE] text-cyan-700">
+          <Layers3 className="size-4" aria-hidden />
         </span>
-        <p className="truncate text-[13px] font-semibold text-on-background">{designation.title}</p>
+        <p className="truncate text-[13.5px] font-semibold text-[#111D36]">{designation.title}</p>
       </div>
-      <Badge tone={designation.level >= 4 ? 'pending' : 'neutral'}>Level {designation.level}</Badge>
+      <Badge tone={designation.level >= 4 ? 'pending' : 'cyan'}>Level {designation.level}</Badge>
     </li>
   )
 }

@@ -207,22 +207,22 @@ export function LeavePage() {
                   <Card key={balance.leave_type_id} className="p-5">
                     <div className="flex items-start justify-between gap-3">
                       <div>
-                        <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-text-muted">
+                        <p className="text-[10.5px] font-bold uppercase tracking-[0.16em] text-[#64748B]">
                           {balance.leave_type_name}
                         </p>
-                        <p className="numeric mt-2 text-3xl font-semibold leading-none text-on-background">
+                        <p className="mt-2 text-3xl font-extrabold leading-none text-[#111D36] tracking-tight">
                           {formatDays(remaining)}
-                          <span className="ml-1 text-[12px] font-medium text-text-muted">left</span>
+                          <span className="ml-1 text-[13px] font-medium text-[#64748B]">left</span>
                         </p>
                       </div>
-                      <span className="flex size-9 items-center justify-center rounded-xl bg-primary-light text-primary">
-                        <CalendarDays className="size-4" aria-hidden />
+                      <span className="flex size-10 items-center justify-center rounded-2xl bg-[#EBF5FF] text-cube-blue-electric ring-1 ring-cube-blue-electric/20">
+                        <CalendarDays className="size-5" aria-hidden />
                       </span>
                     </div>
-                    <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-on-background/8">
-                      <div className="h-full rounded-full bg-primary-light" style={{ width: `${percent}%` }} />
+                    <div className="mt-4 h-2 overflow-hidden rounded-full bg-[#E2E8F0]">
+                      <div className="h-full rounded-full bg-gradient-to-r from-cube-blue-electric to-cube-cyan transition-all duration-300" style={{ width: `${percent}%` }} />
                     </div>
-                    <p className="mt-2 text-[11px] text-text-muted">
+                    <p className="mt-2 text-[11.5px] text-[#64748B]">
                       {formatDays(used)} used of {formatDays(total)} days in {balance.year}
                     </p>
                   </Card>
@@ -257,20 +257,20 @@ export function LeavePage() {
                 />
               ) : myRequests.data && myRequests.data.length > 0 ? (
                 <div className="overflow-x-auto">
-                  <table className="w-full min-w-[680px] text-left text-[13px]">
-                    <thead className="border-y border-on-background/10 bg-surface/40 text-[10px] font-bold uppercase tracking-[0.14em] text-text-muted">
+                  <table className="w-full min-w-[680px] text-left text-[13.5px]">
+                    <thead className="border-y border-[#E2E8F0] bg-[#F8FAFC] text-[12.5px] font-semibold uppercase tracking-[0.03em] text-[#64748B]">
                       <tr>
-                        <th className="px-5 py-3">Type</th>
-                        <th className="px-4 py-3">Dates</th>
-                        <th className="px-4 py-3">Days</th>
-                        <th className="px-4 py-3">Reason</th>
-                        <th className="px-4 py-3">Status</th>
-                        <th className="px-5 py-3 text-right">Action</th>
+                        <th className="px-5 py-3.5">Type</th>
+                        <th className="px-4 py-3.5">Dates</th>
+                        <th className="px-4 py-3.5">Days</th>
+                        <th className="px-4 py-3.5">Reason</th>
+                        <th className="px-4 py-3.5">Status</th>
+                        <th className="px-5 py-3.5 text-right">Action</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-on-background/10">
+                    <tbody className="divide-y divide-[#E2E8F0]">
                       {myRequests.data.map((request) => (
-                        <tr key={request.id} className="transition-colors hover:bg-surface">
+                        <tr key={request.id} className="transition-colors hover:bg-[#F8FAFC]/80">
                           <td className="whitespace-nowrap px-5 py-3 font-semibold text-on-background">
                             {request.leave_type_name}
                           </td>
@@ -361,8 +361,8 @@ export function LeavePage() {
               />
             ) : approvals.data && approvals.data.length > 0 ? (
               <div className="overflow-x-auto">
-                <table className="w-full min-w-[760px] text-left text-[13px]">
-                  <thead className="border-y border-on-background/10 bg-surface/40 text-[10px] font-bold uppercase tracking-[0.14em] text-text-muted">
+                <table className="w-full min-w-[760px] text-left text-[13.5px]">
+                  <thead className="border-y border-[#E2E8F0] bg-[#F8FAFC] text-[12.5px] font-semibold uppercase tracking-[0.03em] text-[#64748B]">
                     <tr>
                       <th className="px-5 py-3">Employee</th>
                       <th className="px-4 py-3">Type</th>
@@ -464,8 +464,8 @@ export function LeavePage() {
           <div className="mt-4">
             {types.data && types.data.length > 0 ? (
               <div className="overflow-x-auto">
-                <table className="w-full min-w-[620px] text-left text-[13px]">
-                  <thead className="border-y border-on-background/10 bg-surface/40 text-[10px] font-bold uppercase tracking-[0.14em] text-text-muted">
+                <table className="w-full min-w-[620px] text-left text-[13.5px]">
+                  <thead className="border-y border-[#E2E8F0] bg-[#F8FAFC] text-[12.5px] font-semibold uppercase tracking-[0.03em] text-[#64748B]">
                     <tr>
                       <th className="px-5 py-3">Type</th>
                       <th className="px-4 py-3">Code</th>

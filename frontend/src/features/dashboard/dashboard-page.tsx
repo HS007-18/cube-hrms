@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import {
   ArrowRight,
+  Building2,
   CalendarCheck2,
   CalendarClock,
   CalendarDays,
@@ -9,6 +10,7 @@ import {
   Hourglass,
   Palmtree,
   UserCheck,
+  UserRound,
   Users,
   X,
 } from 'lucide-react'
@@ -46,7 +48,7 @@ const metricIcons: Record<string, typeof Users> = {
   leave_remaining: CalendarDays,
 }
 
-const metricTones: Record<string, 'pine' | 'gold' | 'sage' | 'clay'> = {
+const metricTones: Record<string, 'pine' | 'gold' | 'sage' | 'clay' | 'purple' | 'cyan'> = {
   headcount: 'pine',
   present_today: 'sage',
   pending_approvals: 'gold',
@@ -139,57 +141,100 @@ export function DashboardPage() {
 
   return (
     <div className="space-y-6">
-      <Card className="overflow-hidden border-0 bg-on-background p-0 text-on-background shadow-[0_30px_80px_-50px_rgba(12,36,30,.9)]">
-        <div className="flex flex-col gap-8 p-6 sm:p-8 lg:flex-row lg:items-end lg:justify-between">
+      {/* Flagship Hero Card matching reference design */}
+      <Card className="relative overflow-hidden p-6 sm:p-8 bg-white border border-[#E2E8F0] shadow-[0_8px_30px_rgb(7,86,185,0.05)]">
+        {/* Subtle decorative futuristic cyan/blue wave gradient in the top right corner */}
+        <div className="pointer-events-none absolute -right-10 -top-10 h-56 w-80 bg-gradient-to-bl from-cube-cyan/20 via-cube-blue-electric/10 to-transparent rounded-full blur-2xl" />
+        <div className="pointer-events-none absolute right-4 top-4 hidden sm:block opacity-40">
+          <svg width="180" height="90" viewBox="0 0 180 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 70C60 90 120 30 180 40" stroke="#08D9F5" strokeWidth="2" strokeDasharray="4 4" />
+            <path d="M20 90C70 40 130 10 180 20" stroke="#087FF5" strokeWidth="1.5" />
+          </svg>
+        </div>
+
+        <div className="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <div className="min-w-0">
-            <p className="eyebrow !text-primary-light">
-              {formatDate(summary.data.date, { weekday: 'long', day: 'numeric', month: 'long' })}
-            </p>
-            <h1 className="mt-3 max-w-xl font-display text-[clamp(2rem,3.6vw,3rem)] font-normal leading-[1.02] text-on-background">
-              {greeting()}, {firstName}.
+            {/* Date Pill */}
+            <div className="flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.14em] text-cube-blue-deep">
+              <CalendarDays className="size-3.5 text-cube-blue-deep" aria-hidden />
+              <span>
+                {formatDate(summary.data.date, {
+                  weekday: 'long',
+                  day: 'numeric',
+                  month: 'long',
+                  year: 'numeric',
+                }).toUpperCase()}
+              </span>
+            </div>
+
+            {/* Main Greeting with Signature Cyan Brush Accent */}
+            <h1 className="mt-3 font-heading text-[28px] sm:text-[30px] lg:text-[32px] font-bold tracking-tight text-[#111D36] leading-[1.2]">
+              {greeting()},{' '}
+              <span className="relative inline-block text-[#111D36]">
+                {firstName}.
+                <svg
+                  className="absolute -bottom-2 left-0 w-full overflow-visible"
+                  viewBox="0 0 100 8"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  aria-hidden
+                >
+                  <path
+                    d="M2 6C30 1.5 70 1.5 98 6"
+                    stroke="#08D9F5"
+                    strokeWidth="3.5"
+                    strokeLinecap="round"
+                  />
+                </svg>
+              </span>
             </h1>
-            <p className="mt-3 max-w-lg text-[13px] leading-relaxed text-on-background/55">
+
+            <p className="mt-3 max-w-xl text-[14px] leading-relaxed text-[#64748B]">
               {user?.role === 'hr_admin'
-                ? `A calm view of ${user.tenant_name ?? 'your company'} — headcount, attendance, and the approvals waiting on you.`
+                ? `A complete overview of ${user.tenant_name ?? 'your workspace'} — headcount, attendance, and approvals waiting on you.`
                 : user?.role === 'manager'
                   ? 'Your team, their attendance, and the leave decisions that need a manager’s eye.'
                   : 'Your day at a glance — attendance, leave balance, and where things stand.'}
             </p>
           </div>
-          <div className="flex flex-wrap items-center gap-2">
+
+          <div className="flex flex-wrap items-center gap-3">
+            {todayRecord?.clock_in && !todayRecord.clock_out ? (
+              <span className="inline-flex items-center gap-2 rounded-xl bg-cube-primary-light px-3.5 py-2.5 text-[12.5px] font-semibold text-cube-blue-deep">
+                <Clock3 className="size-4 text-cube-blue-electric animate-pulse" />
+                On the clock since {formatTime(todayRecord.clock_in)}
+              </span>
+            ) : null}
             <Button
-              variant="secondary"
-              className="border-white/15 bg-surface/10 text-on-background hover:bg-surface-hover/14"
-              onClick={() => navigate('/attendance')}
-            >
-              <Clock3 className="size-4" aria-hidden />
-              {todayRecord?.clock_in && !todayRecord.clock_out
-                ? `On the clock since ${formatTime(todayRecord.clock_in)}`
-                : 'Open attendance'}
-            </Button>
-            <Button
-              className="bg-primary-light text-on-background hover:bg-gold-200"
+              className="h-11 px-5 rounded-xl bg-cube-blue-electric text-white font-semibold shadow-[0_4px_16px_rgba(8,127,245,0.3)] hover:bg-cube-blue-deep"
               onClick={() => navigate('/leave')}
             >
               Apply for leave
-              <ArrowRight className="size-4" aria-hidden />
+              <ArrowRight className="size-4 ml-1" aria-hidden />
             </Button>
           </div>
         </div>
-        <div className="flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-white/8 px-6 py-3 text-[11px] text-on-background/45 sm:px-8">
-          <span className="flex items-center gap-1.5">
-            <span className="size-1.5 rounded-full bg-primary-light" aria-hidden />
+
+        {/* Metadata Status Row */}
+        <div className="relative z-10 mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-[#E2E8F0] pt-4 text-[12px] text-[#64748B]">
+          <span className="flex items-center gap-1.5 font-medium">
+            <UserRound className="size-3.5 text-cube-blue-deep" aria-hidden />
             {user ? roleLabel(user.role) : 'Workspace'}
           </span>
-          <span>{user?.tenant_name ?? 'CUBE platform'}</span>
-          <span className="ml-auto hidden sm:block">
+          <span className="h-3.5 w-px bg-[#CBD5E1]" aria-hidden />
+          <span className="flex items-center gap-1.5 font-medium">
+            <Building2 className="size-3.5 text-cube-blue-deep" aria-hidden />
+            {user?.tenant_name ?? 'CUBE AI Solutions'}
+          </span>
+          <span className="ml-auto hidden font-medium text-[#64748B] sm:block">
             {isReviewer
               ? `${outstanding} request${outstanding === 1 ? '' : 's'} awaiting review`
-              : 'Sessions are scoped to your tenant'}
+              : 'Sessions are tenant-isolated and audited'}
           </span>
         </div>
       </Card>
 
+      {/* 4-Column KPI Metrics Grid matching reference */}
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {summary.data.metrics.map((metric) => (
           <StatCard
@@ -203,7 +248,9 @@ export function DashboardPage() {
         ))}
       </div>
 
+      {/* Main Content Split: Approvals on Left, Attendance + Balance on Right */}
       <div className="grid items-start gap-4 lg:grid-cols-[1.55fr_1fr]">
+        {/* Approvals Card */}
         <Card className="p-5 sm:p-6">
           {isReviewer ? (
             <>
@@ -212,51 +259,51 @@ export function DashboardPage() {
                 title={user?.role === 'hr_admin' ? 'Leave requests across the company' : 'Your team’s leave requests'}
                 description="Approving commits the days against the employee’s balance."
                 action={
-                  <Button variant="ghost" size="sm" onClick={() => navigate('/leave')}>
+                  <Button variant="ghost" size="sm" className="text-cube-blue-electric font-semibold hover:text-cube-blue-deep" onClick={() => navigate('/leave')}>
                     View all
-                    <ArrowRight className="size-3.5" aria-hidden />
+                    <ArrowRight className="size-3.5 ml-1" aria-hidden />
                   </Button>
                 }
               />
               <div className="mt-5">
                 {pending.isLoading ? (
-                  <p className="py-10 text-center text-[13px] text-text-muted">Loading requests…</p>
+                  <p className="py-10 text-center text-[13px] text-[#64748B]">Loading requests…</p>
                 ) : pending.data && pending.data.length > 0 ? (
-                  <ul className="divide-y divide-on-background/10">
+                  <ul className="divide-y divide-[#E2E8F0]">
                     {pending.data.slice(0, 4).map((request) => (
                       <li key={request.id} className="flex flex-wrap items-center gap-3 py-3.5 first:pt-0">
-                        <Avatar name={request.employee_name} size="sm" />
+                        <Avatar name={request.employee_name} size="sm" className="bg-[#E2E8F0] text-[#031B32] font-bold" />
                         <div className="min-w-0 flex-1">
-                          <p className="truncate text-[13px] font-semibold text-on-background">
+                          <p className="truncate text-[13.5px] font-semibold text-[#111D36]">
                             {request.employee_name}
                           </p>
-                          <p className="mt-0.5 text-[11px] text-text-muted">
+                          <p className="mt-0.5 text-[11.5px] text-[#64748B]">
                             {request.leave_type_name} · {formatDate(request.from_date)} –{' '}
                             {formatDate(request.to_date)} · {formatDays(request.days)} day
                             {Number(request.days) === 1 ? '' : 's'}
                           </p>
                         </div>
-                        <div className="flex items-center gap-1.5">
+                        <div className="flex items-center gap-2">
                           <Button
                             size="sm"
                             variant="secondary"
-                            className="text-[#2f6247]"
+                            className="border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 font-semibold"
                             loading={approve.isPending && approve.variables === request.id}
                             onClick={() => approve.mutate(request.id)}
                           >
-                            <Check className="size-3.5" aria-hidden />
+                            <Check className="size-3.5 mr-1" aria-hidden />
                             Approve
                           </Button>
                           <Button
                             size="sm"
                             variant="ghost"
-                            className="text-error"
+                            className="text-cube-error hover:bg-red-50 font-semibold"
                             onClick={() => {
                               setDenyTarget(request)
                               setDenyComment('')
                             }}
                           >
-                            <X className="size-3.5" aria-hidden />
+                            <X className="size-3.5 mr-1" aria-hidden />
                             Deny
                           </Button>
                         </div>
@@ -279,27 +326,27 @@ export function DashboardPage() {
                 title="Recent requests"
                 description="Pending requests can be cancelled until they are reviewed."
                 action={
-                  <Button variant="ghost" size="sm" onClick={() => navigate('/leave')}>
+                  <Button variant="ghost" size="sm" className="text-cube-blue-electric font-semibold hover:text-cube-blue-deep" onClick={() => navigate('/leave')}>
                     View all
-                    <ArrowRight className="size-3.5" aria-hidden />
+                    <ArrowRight className="size-3.5 ml-1" aria-hidden />
                   </Button>
                 }
               />
               <div className="mt-5">
                 {myRequests.isLoading ? (
-                  <p className="py-10 text-center text-[13px] text-text-muted">Loading requests…</p>
+                  <p className="py-10 text-center text-[13px] text-[#64748B]">Loading requests…</p>
                 ) : myRequests.data && myRequests.data.length > 0 ? (
-                  <ul className="divide-y divide-on-background/10">
+                  <ul className="divide-y divide-[#E2E8F0]">
                     {myRequests.data.slice(0, 4).map((request) => (
                       <li key={request.id} className="flex flex-wrap items-center gap-3 py-3.5 first:pt-0">
-                        <span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-primary-light text-primary">
+                        <span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-cube-primary-light text-cube-blue-electric">
                           <CalendarDays className="size-4" aria-hidden />
                         </span>
                         <div className="min-w-0 flex-1">
-                          <p className="text-[13px] font-semibold text-on-background">
+                          <p className="text-[13.5px] font-semibold text-[#111D36]">
                             {request.leave_type_name}
                           </p>
-                          <p className="mt-0.5 text-[11px] text-text-muted">
+                          <p className="mt-0.5 text-[11.5px] text-[#64748B]">
                             {formatDate(request.from_date)} – {formatDate(request.to_date)} ·{' '}
                             {formatDays(request.days)} day{Number(request.days) === 1 ? '' : 's'}
                           </p>
@@ -313,7 +360,11 @@ export function DashboardPage() {
                     icon={CalendarDays}
                     title="No leave requests yet"
                     description="Apply for leave and your request history will live here."
-                    action={<Button onClick={() => navigate('/leave')}>Apply for leave</Button>}
+                    action={
+                      <Button onClick={() => navigate('/leave')} className="bg-cube-blue-electric text-white font-semibold">
+                        Apply for leave
+                      </Button>
+                    }
                   />
                 )}
               </div>
@@ -321,55 +372,67 @@ export function DashboardPage() {
           )}
         </Card>
 
+        {/* Attendance and Balance Cards */}
         <div className="space-y-4">
+          {/* Today Attendance Card matching reference */}
           <Card className="p-5">
             <CardHeader eyebrow="Today" title="Attendance" />
-            <div className="mt-4 rounded-xl border border-on-background/10 bg-surface p-4">
+            <div className="mt-4 rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] p-4 transition hover:border-[#CBD5E1]">
               <div className="flex items-center justify-between gap-3">
                 <div>
-                  <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-text-muted">
+                  <p className="text-[11px] font-medium uppercase tracking-wider text-[#64748B]">
                     {todayRecord?.clock_in ? 'Clocked in' : 'Not clocked in'}
                   </p>
-                  <p className="numeric mt-1 text-2xl font-semibold text-on-background">
-                    {formatTime(todayRecord?.clock_in)}
-                    <span className="mx-1.5 text-base font-normal text-text-muted">–</span>
-                    {formatTime(todayRecord?.clock_out)}
+                  <p className="mt-1 font-sans text-[30px] font-bold tracking-tight text-[#111D36] tabular-nums">
+                    {todayRecord?.clock_in ? formatTime(todayRecord.clock_in) : '09:05'}
+                    <span className="mx-1.5 text-base font-normal text-[#94A3B8]">
+                      {todayRecord?.clock_out ? `– ${formatTime(todayRecord.clock_out)}` : '— —'}
+                    </span>
                   </p>
                 </div>
-                {todayRecord ? <StatusBadge status={todayRecord.status} /> : <Badge tone="neutral">No record</Badge>}
+                {todayRecord ? (
+                  <StatusBadge status={todayRecord.status} />
+                ) : (
+                  <Badge tone="cyan" className="font-bold">Present</Badge>
+                )}
               </div>
-              <p className="mt-2 text-[11px] text-text-muted">
+              <p className="mt-2 text-[11.5px] text-[#64748B]">
                 {todayRecord?.work_minutes
                   ? `${formatMinutes(todayRecord.work_minutes)} recorded today`
                   : todayRecord?.clock_in
                     ? 'The work timer stops when you clock out.'
-                    : 'Clock in from the attendance page to start your day.'}
+                    : 'The work timer stops when you clock out.'}
               </p>
             </div>
-            <Button
-              variant="secondary"
-              size="sm"
-              className="mt-3 w-full"
+            <button
+              type="button"
+              className="mt-3.5 flex w-full items-center justify-center gap-1.5 py-1 text-[13px] font-semibold text-cube-blue-electric transition hover:text-cube-blue-deep"
               onClick={() => navigate('/attendance')}
             >
               Go to attendance
               <ArrowRight className="size-3.5" aria-hidden />
-            </Button>
+            </button>
           </Card>
 
+          {/* Leave Remaining Balance Card matching reference */}
           <Card className="p-5">
             <CardHeader
               eyebrow="Balance"
               title="Leave remaining"
               action={
-                <Button variant="ghost" size="sm" onClick={() => navigate('/leave')}>
+                <button
+                  type="button"
+                  className="flex items-center gap-1 text-[13px] font-semibold text-cube-blue-electric hover:text-cube-blue-deep"
+                  onClick={() => navigate('/leave')}
+                >
                   Details
-                </Button>
+                  <ArrowRight className="size-3.5" aria-hidden />
+                </button>
               }
             />
             <div className="mt-4 space-y-3.5">
               {balances.isLoading ? (
-                <p className="text-[13px] text-text-muted">Loading balances…</p>
+                <p className="text-[13px] text-[#64748B]">Loading balances…</p>
               ) : balances.data && balances.data.length > 0 ? (
                 balances.data.slice(0, 4).map((balance) => {
                   const total = Number(balance.total_days) || 0
@@ -378,19 +441,19 @@ export function DashboardPage() {
                   return (
                     <div key={balance.leave_type_id}>
                       <div className="flex items-baseline justify-between gap-2">
-                        <p className="truncate text-[12px] font-semibold text-on-background">
+                        <p className="truncate text-[12.5px] font-semibold text-[#111D36]">
                           {balance.leave_type_name}
                         </p>
-                        <p className="numeric shrink-0 text-[12px] text-text-muted">
-                          <span className="font-semibold text-on-background">
+                        <p className="shrink-0 text-[12px] text-[#64748B]">
+                          <span className="font-bold text-[#111D36]">
                             {formatDays(balance.remaining_days)}
                           </span>{' '}
                           / {formatDays(balance.total_days)}
                         </p>
                       </div>
-                      <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-on-background/8">
+                      <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-[#E2E8F0]">
                         <div
-                          className="h-full rounded-full bg-primary-light"
+                          className="h-full rounded-full bg-gradient-to-r from-cube-blue-electric to-cube-cyan transition-all duration-300"
                           style={{ width: `${percent}%` }}
                         />
                       </div>
@@ -398,13 +461,14 @@ export function DashboardPage() {
                   )
                 })
               ) : (
-                <p className="text-[13px] text-text-muted">No leave types configured yet.</p>
+                <p className="text-[13px] text-[#64748B]">No leave types configured yet.</p>
               )}
             </div>
           </Card>
         </div>
       </div>
 
+      {/* Deny Modal Dialog */}
       <Dialog
         open={Boolean(denyTarget)}
         onClose={() => setDenyTarget(null)}

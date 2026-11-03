@@ -1,4 +1,4 @@
-import { ShieldCheck } from 'lucide-react'
+import { ShieldCheck, Sparkles } from 'lucide-react'
 import type { ReactNode } from 'react'
 
 export function AuthLayout({
@@ -11,65 +11,78 @@ export function AuthLayout({
   children: ReactNode
 }) {
   return (
-    <div className="min-h-screen lg:grid lg:grid-cols-[1.05fr_1fr]">
-      <section className="relative hidden overflow-hidden bg-cube-background px-12 py-14 text-cube-on-background lg:flex lg:flex-col">
-        <div className="flex items-center gap-3">
-          <span className="flex size-11 items-center justify-center rounded-xl ring-1 ring-cube-primary/10">
-            <img src="/cube-icon.webp" alt="CUBE" className="size-7" />
-          </span>
-          <div>
-            <p className="font-display text-2xl font-semibold tracking-wide">CUBE</p>
-            <p className="text-[9px] font-bold uppercase tracking-[0.32em] text-cube-primary-light">
-              Human capital
-            </p>
-          </div>
+    <div className="min-h-screen lg:grid lg:grid-cols-[1.1fr_1fr] bg-[#F0F5FF]">
+      {/* Futuristic Deep Navy Brand Showcase Panel */}
+      <section className="relative hidden overflow-hidden bg-cube-navy-primary px-12 py-14 text-white lg:flex lg:flex-col justify-between">
+        {/* Subtle Ambient Glowing Background Mesh */}
+        <div className="pointer-events-none absolute -left-20 -top-20 size-96 rounded-full bg-cube-blue-deep/25 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-20 -right-20 size-96 rounded-full bg-cube-cyan/15 blur-3xl" />
+
+        <div className="relative z-10 flex items-center gap-3">
+          <img
+            src="/cubeai-logo-dark.png"
+            alt="CubeAI Solutions"
+            className="h-11 w-auto object-contain"
+          />
         </div>
 
-        <div className="my-auto max-w-lg py-16">
-          <p className="eyebrow !text-cube-primary">People operations, composed</p>
-          <h1 className="mt-5 font-display text-[clamp(2.6rem,4.4vw,4.2rem)] font-normal leading-[0.98] text-cube-on-background">
-            The quiet engine behind a well-run company.
+        <div className="relative z-10 my-auto max-w-lg py-12">
+          <div className="inline-flex items-center gap-2 rounded-full border border-cube-cyan/30 bg-cube-cyan/10 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.2em] text-cube-cyan mb-6">
+            <Sparkles className="size-3 text-cube-cyan" />
+            <span>Futuristic Human Capital</span>
+          </div>
+
+          <h1 className="font-heading text-[30px] lg:text-[32px] font-bold leading-[1.15] tracking-tight text-white">
+            The intelligent engine behind high-performing enterprises.
           </h1>
-          <p className="mt-6 max-w-md text-[15px] leading-relaxed text-cube-text-muted">
-            Attendance, leave, and employee records for Indian teams — one accountable
-            workspace, built for the way HR actually works.
+
+          <p className="mt-6 max-w-md text-[14.5px] leading-relaxed text-[#94A3B8]">
+            Attendance, leave, employee records, and payroll governance — one unified workspace designed for modern enterprise workflows.
           </p>
-          <div className="mt-10 h-px w-24 bg-cube-primary-light" />
-          <ul className="mt-8 space-y-3 text-[13px] text-cube-text-muted">
+
+          <div className="mt-8 h-px w-24 bg-gradient-to-r from-cube-cyan to-transparent" />
+
+          <ul className="mt-8 space-y-3.5 text-[13px] text-[#CBD5E1]">
             <li className="flex items-center gap-3">
-              <ShieldCheck className="size-4 text-cube-primary" aria-hidden />
-              Tenant-isolated by Postgres row-level security
+              <span className="flex size-6 items-center justify-center rounded-lg bg-white/10 text-cube-cyan">
+                <ShieldCheck className="size-4" aria-hidden />
+              </span>
+              <span>Tenant-isolated with PostgreSQL row-level security</span>
             </li>
             <li className="flex items-center gap-3">
-              <ShieldCheck className="size-4 text-cube-primary" aria-hidden />
-              India-first dates, leave policy, and statutory records
+              <span className="flex size-6 items-center justify-center rounded-lg bg-white/10 text-cube-cyan">
+                <ShieldCheck className="size-4" aria-hidden />
+              </span>
+              <span>Role-based access control and audited compliance</span>
             </li>
           </ul>
         </div>
 
-        <p className="text-[10px] uppercase tracking-[0.22em] text-cube-text-muted">
-          CUBE HRMS · Foundation release
+        <p className="relative z-10 text-[10.5px] font-bold uppercase tracking-[0.22em] text-slate-500">
+          CubeAI Solutions HRMS · Enterprise Edition
         </p>
       </section>
 
+      {/* Clean Light Sign-in Form Section */}
       <section className="flex min-h-screen items-center justify-center px-4 py-12 sm:px-8">
-        <div className="w-full max-w-[420px]">
-          <div className="mb-12 flex items-center gap-3 lg:hidden">
-            <span className="flex size-10 items-center justify-center rounded-xl bg-cube-background ring-1 ring-cube-primary/10">
-              <img src="/cube-icon.webp" alt="CUBE" className="size-6" />
-            </span>
-            <div>
-              <p className="font-display text-xl font-semibold text-cube-on-background">CUBE</p>
-              <p className="text-[9px] font-bold uppercase tracking-[0.28em] text-cube-primary">
-                Human capital
-              </p>
-            </div>
+        <div className="w-full max-w-[420px] rounded-3xl bg-white p-8 sm:p-10 shadow-[0_12px_40px_rgba(7,86,185,0.06)] border border-[#E2E8F0]">
+          {/* Mobile Brand Logo */}
+          <div className="mb-8 flex items-center gap-3 lg:hidden">
+            <img
+              src="/cubeai-logo.png"
+              alt="CubeAI Solutions"
+              className="h-9 w-auto object-contain"
+            />
           </div>
 
-          <p className="eyebrow mb-6">Welcome back</p>
-          <h2 className="mt-0 text-[clamp(2rem,4vw,2.6rem)] leading-[1.02] text-cube-on-background">{title}</h2>
-          <p className="mt-4 text-sm leading-relaxed text-cube-text-muted">{subtitle}</p>
-          <div className="mt-10">{children}</div>
+          <p className="mb-1 text-small-label uppercase tracking-wider text-cube-blue-deep">
+            Welcome back
+          </p>
+          <h2 className="font-heading text-[22px] sm:text-[24px] font-semibold tracking-tight text-[#111D36] leading-tight">
+            {title}
+          </h2>
+          <p className="mt-2 text-[14px] leading-relaxed text-[#64748B]">{subtitle}</p>
+          <div className="mt-8">{children}</div>
         </div>
       </section>
     </div>

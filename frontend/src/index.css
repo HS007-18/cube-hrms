@@ -2,102 +2,224 @@
 @import './styles/colors.css';
 
 @theme {
-  --font-sans: 'Manrope', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-display: 'Fraunces', 'Iowan Old Style', Georgia, serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-heading: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 
   --radius-xl: 1rem;
-  --radius-2xl: 1.5rem;
-  --radius-3xl: 2rem;
+  --radius-2xl: 1.25rem;
+  --radius-3xl: 1.75rem;
 
   --animate-rise: rise 0.36s cubic-bezier(0.22, 0.7, 0.3, 1) both;
+
+  /* Theme Color Utilities */
+  --color-primary: var(--cube-primary);
+  --color-primary-hover: var(--cube-primary-hover);
+  --color-primary-light: var(--cube-primary-light);
+  --color-on-primary: var(--cube-on-primary);
+
+  --color-secondary: var(--cube-secondary);
+  --color-secondary-hover: var(--cube-secondary-hover);
+  --color-secondary-light: var(--cube-secondary-light);
+  --color-on-secondary: var(--cube-on-secondary);
+
+  --color-background: var(--cube-background);
+  --color-surface: var(--cube-surface);
+  --color-surface-hover: var(--cube-surface-hover);
+  --color-on-background: var(--cube-on-background);
+  --color-on-surface: var(--cube-on-surface);
+  --color-text-muted: var(--cube-text-muted);
+
+  --color-error: var(--cube-error);
+  --color-error-light: var(--cube-error-light);
+  --color-on-error: var(--cube-on-error);
+
+  --color-warning: var(--cube-warning);
+  --color-warning-light: var(--cube-warning-light);
+  --color-success: var(--cube-success);
+  --color-success-light: var(--cube-success-light);
+
+  --color-border: var(--cube-border);
+  --color-border-hover: var(--cube-border-hover);
+
+  /* Cube Brand Specific Utilities */
+  --color-cube-navy-primary: var(--cube-navy-primary);
+  --color-cube-navy-secondary: var(--cube-navy-secondary);
+  --color-cube-blue-deep: var(--cube-blue-deep);
+  --color-cube-blue-electric: var(--cube-blue-electric);
+  --color-cube-cyan: var(--cube-cyan);
+  --color-cube-purple: var(--cube-purple);
+
+  /* Cube-prefixed variants used across components */
+  --color-cube-primary: var(--cube-primary);
+  --color-cube-primary-hover: var(--cube-primary-hover);
+  --color-cube-primary-light: var(--cube-primary-light);
+  --color-cube-on-primary: var(--cube-on-primary);
+
+  --color-cube-secondary: var(--cube-secondary);
+  --color-cube-secondary-hover: var(--cube-secondary-hover);
+  --color-cube-secondary-light: var(--cube-secondary-light);
+  --color-cube-on-secondary: var(--cube-on-secondary);
+
+  --color-cube-background: var(--cube-background);
+  --color-cube-surface: var(--cube-surface);
+  --color-cube-surface-hover: var(--cube-surface-hover);
+  --color-cube-on-background: var(--cube-on-background);
+  --color-cube-on-surface: var(--cube-on-surface);
+  --color-cube-text-muted: var(--cube-text-muted);
+
+  --color-cube-error: var(--cube-error);
+  --color-cube-error-light: var(--cube-error-light);
+  --color-cube-on-error: var(--cube-on-error);
+
+  --color-cube-border: var(--cube-border);
+  --color-cube-border-hover: var(--cube-border-hover);
+
+  /* Natural and analytics tones */
+  --color-pine-100: var(--cube-pine-100);
+  --color-pine-800: var(--cube-pine-800);
+  --color-sage-50: var(--cube-sage-50);
+  --color-sage-600: var(--cube-sage-600);
+  --color-gold-200: var(--cube-gold-200);
+  --color-gold-800: var(--cube-gold-800);
+  --color-purple-100: var(--cube-purple-100);
+  --color-purple-800: var(--cube-purple-800);
+  --color-cyan-100: var(--cube-cyan-100);
+  --color-cyan-800: var(--cube-cyan-800);
+  --color-ivory-100: var(--cube-ivory-100);
 }
 
-@layer base {
-  html {
-    color-scheme: light;
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
   }
-
-  body {
-    margin: 0;
-    min-height: 100vh;
-    background-color: var(--cube-background);
-    background-image: none;
-    color: var(--cube-on-background);
-    font-family: var(--font-sans);
-    font-feature-settings: 'ss01' on;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-
-  h1, h2, h3 {
-    font-family: var(--font-display);
-    font-weight: 500;
-    letter-spacing: -0.015em;
-    color: var(--cube-on-background);
-  }
-
-  ::selection {
-    background: var(--cube-secondary);
-    color: var(--cube-on-secondary);
-  }
-
-  :focus-visible {
-    outline: 2px solid var(--cube-primary);
-    outline-offset: 2px;
-  }
-
-  ::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: rgba(15, 23, 42, 0.1);
-    border-radius: 999px;
-    border: 3px solid transparent;
-    background-clip: content-box;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-/* ── Liquid Morphism Utilities ── */
 @utility glass {
-  background-color: var(--cube-glass);
-  backdrop-filter: blur(20px) saturate(120%);
-  -webkit-backdrop-filter: blur(20px) saturate(120%);
-  border: 1px solid var(--cube-glass-border);
+  background-color: var(--cube-surface);
+  border: 1px solid var(--cube-border);
   box-shadow: var(--cube-glass-shadow);
 }
 
 @utility glass-strong {
-  background-color: var(--cube-glass-strong);
-  backdrop-filter: blur(28px) saturate(140%);
-  -webkit-backdrop-filter: blur(28px) saturate(140%);
-  border: 1px solid var(--cube-glass-border);
-  box-shadow: var(--cube-glass-shadow);
+  background-color: var(--cube-surface);
+  border: 1px solid var(--cube-border);
+  box-shadow: 0 12px 36px -4px rgba(7, 86, 185, 0.08), 0 2px 6px -1px rgba(0, 0, 0, 0.02);
 }
 
 @utility eyebrow {
   font-size: 0.6875rem;
   font-weight: 700;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--cube-primary);
+  color: var(--cube-blue-deep);
 }
 
-@utility numeric {
-  font-variant-numeric: tabular-nums;
-  letter-spacing: -0.02em;
+@utility glow-electric {
+  box-shadow: 0 0 20px rgba(8, 127, 245, 0.35);
 }
 
-/* ── Hover & Transition Utilities ── */
+@utility glow-cyan {
+  box-shadow: 0 0 20px rgba(8, 217, 245, 0.35);
+}
+
 @utility hover-lift {
-  transition: var(--cube-transition-base);
+  transition: transform 0.2s cubic-bezier(0.2, 0, 0.2, 1), box-shadow 0.2s cubic-bezier(0.2, 0, 0.2, 1);
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--cube-shadow-lift);
+  }
 }
 
 @utility press-scale {
-  transform: scale(0.98);
+  &:active {
+    transform: scale(0.98);
+  }
 }
 
-@utility fade-in {
-  animation: var(--animate-rise);
+@utility text-page-heading {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: clamp(1.75rem, 2.5vw, 2rem);
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+
+@utility text-section-heading {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: clamp(1.25rem, 2vw, 1.5rem);
+  line-height: 1.3;
+  letter-spacing: -0.015em;
+}
+
+@utility text-card-heading {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 1rem;
+  line-height: 1.375;
+  letter-spacing: -0.01em;
+}
+
+@utility text-body {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+@utility text-nav-item {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1.25;
+}
+
+@utility text-button {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.875rem;
+  line-height: 1.25;
+}
+
+@utility text-table-header {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.78125rem;
+  line-height: 1.25;
+  letter-spacing: 0.02em;
+}
+
+@utility text-kpi-value {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: clamp(1.875rem, 2.5vw, 2.25rem);
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum';
+  letter-spacing: -0.02em;
+}
+
+@utility text-small-label {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 0.71875rem;
+  line-height: 1.25;
+  letter-spacing: 0.04em;
+}
+
+@utility tnum {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum';
+}
+
+dialog::backdrop {
+  background: rgba(3, 27, 50, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }

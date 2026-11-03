@@ -3,13 +3,15 @@ import type { ReactNode } from 'react'
 import { cn } from '@/lib/cn'
 import { Card } from './card'
 
-type Tone = 'pine' | 'gold' | 'sage' | 'clay'
+type Tone = 'pine' | 'gold' | 'sage' | 'clay' | 'purple' | 'cyan'
 
 const tones: Record<Tone, string> = {
-  pine: 'bg-pine-100/80 text-pine-800',
-  gold: 'bg-primary-light text-primary',
-  sage: 'bg-sage-50 text-sage-600',
-  clay: 'bg-error-light text-error',
+  pine: 'bg-[#EBF5FF] text-cube-blue-electric ring-1 ring-cube-blue-electric/20',
+  sage: 'bg-[#ECFDF5] text-cube-success ring-1 ring-cube-success/20',
+  gold: 'bg-[#FEF3C7] text-amber-600 ring-1 ring-amber-500/20',
+  clay: 'bg-[#CFFAFE] text-cyan-600 ring-1 ring-cyan-500/20',
+  purple: 'bg-[#EDE9FE] text-cube-purple ring-1 ring-cube-purple/20',
+  cyan: 'bg-[#CFFAFE] text-cube-cyan ring-1 ring-cube-cyan/20',
 }
 
 interface StatCardProps {
@@ -22,25 +24,25 @@ interface StatCardProps {
 
 export function StatCard({ label, value, hint, icon: Icon, tone = 'pine' }: StatCardProps) {
   return (
-    <Card className="group relative overflow-hidden p-5">
-      <div className="flex items-start justify-between gap-4">
-        <div className="min-w-0">
-          <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-text-muted">
-            {label}
-          </p>
-          <p className="numeric mt-2 text-[1.9rem] font-semibold leading-none text-on-background">
-            {value}
-          </p>
-          {hint ? <p className="mt-2 text-[12px] leading-snug text-text-muted">{hint}</p> : null}
-        </div>
+    <Card className="group relative overflow-hidden p-5 transition-all duration-200 hover:shadow-[0_12px_36px_rgba(7,86,185,0.08)] hover:-translate-y-0.5">
+      <div className="flex items-center gap-4">
         <span
           className={cn(
-            'flex size-9 shrink-0 items-center justify-center rounded-xl border border-white/60',
-            tones[tone],
+            'flex size-12 shrink-0 items-center justify-center rounded-2xl transition-transform duration-200 group-hover:scale-105',
+            tones[tone] ?? tones.pine,
           )}
         >
-          <Icon className="size-[18px]" aria-hidden />
+          <Icon className="size-5" aria-hidden />
         </span>
+        <div className="min-w-0 flex-1">
+          <p className="truncate text-small-label uppercase tracking-wider text-cube-text-muted">
+            {label}
+          </p>
+          <p className="mt-1 text-[32px] font-bold leading-none text-cube-on-background tracking-tight tabular-nums font-sans">
+            {value}
+          </p>
+          {hint ? <p className="mt-1.5 truncate text-[11.5px] text-cube-text-muted">{hint}</p> : null}
+        </div>
       </div>
     </Card>
   )

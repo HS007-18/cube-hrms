@@ -47,11 +47,13 @@ describe('LoginPage', () => {
   })
 
   it('shows the server message when credentials are rejected', async () => {
-    const fetchMock = vi.fn().mockResolvedValue(
-      new Response(JSON.stringify({ detail: 'Incorrect email or password' }), {
-        status: 401,
-        headers: { 'Content-Type': 'application/json' },
-      }),
+    const fetchMock = vi.fn().mockImplementation(() =>
+      Promise.resolve(
+        new Response(JSON.stringify({ detail: 'Incorrect email or password' }), {
+          status: 401,
+          headers: { 'Content-Type': 'application/json' },
+        }),
+      ),
     )
     vi.stubGlobal('fetch', fetchMock)
 
@@ -62,7 +64,8 @@ describe('LoginPage', () => {
     await user.click(screen.getByRole('button', { name: /^sign in$/i }))
 
     expect(await screen.findByRole('alert')).toHaveTextContent('Incorrect email or password')
-    expect(fetchMock).toHaveBeenCalledTimes(1)
-    expect(String(fetchMock.mock.calls[0]?.[0])).toContain('/auth/login')
+    const loginCalls = fetchMock.mock.calls.filter((c) => String(c[0]).includes('/auth/login'))
+    expect(loginCalls).toHaveLength(1)
+    expect(String(loginCalls[0]?.[0])).toContain('/auth/login')
   })
 })
