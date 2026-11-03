@@ -1,30 +1,68 @@
+import { useEffect, useState } from 'react'
 import { Card } from '@/components/ui/card'
 import { PageHeader } from '@/components/ui/page-header'
 import { Table } from '@/components/ui/table'
-import { Building, Users, Clock } from 'lucide-react'
+import { Building, Clock } from 'lucide-react'
+import { superAdminApi, type TenantOut } from './api'
 
-const tenantRows = [
-  {
-    name: 'TechNova Solutions Pvt Ltd',
-    slug: 'technova',
-    plan: 'Scale',
-    status: 'Active',
-    users: 17,
-    employees: 16,
-    lastActivity: 'Today, 10:32 AM',
-  },
-  {
-    name: 'GreenField Logistics Pvt Ltd',
-    slug: 'greenfield',
-    plan: 'Basic',
-    status: 'Active',
-    users: 17,
-    employees: 16,
-    lastActivity: 'Today, 09:45 AM',
-  },
-]
+const statusColors: Record<string, string> = {
+  active: 'bg-[#DCFCE7] text-[#15803D]',
+  pending: 'bg-[#FEF3C7] text-[#92400E]',
+  suspended: 'bg-[#FEE2E2] text-[#991B1B]',
+  cancelled: 'bg-[#F3F4F6] text-[#4B5563]',
+}
 
 export function SuperAdminTenantsPage() {
+  const [tenants, setTenants] = useState<TenantOut[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    superAdminApi
+      .listTenants({ limit: 50 })
+      .then((data) => {
+        setTenants(data.items)
+        setLoading(false)
+      })
+      .catch((err) => {
+        setError(err.message)
+        setLoading(false)
+      })
+  }, [])
+
+  if (loading) {
+    return (
+      <div className='space-y-6'>
+        <PageHeader
+          eyebrow='Super Admin Portal'
+          title='Tenant Management'
+          description='View and manage all companies using the Cube AI Solutions HRMS platform.'
+        />
+        <div className='animate-pulse flex items-center gap-2 text-[#64748B]'>
+          <Clock className='size-4' />
+          <span>Loading tenants...</span>
+        </div>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className='space-y-6'>
+        <PageHeader
+          eyebrow='Super Admin Portal'
+          title='Tenant Management'
+          description='View and manage all companies using the Cube AI Solutions HRMS platform.'
+        />
+        <Card>
+          <div className='p-6 text-[#991B1B] bg-[#FEE2E2] border border-[#FECACA] rounded-xl'>
+            Failed to load tenants: {error}
+          </div>
+        </Card>
+      </div>
+    )
+  }
+
   return (
     <div className='space-y-6'>
       <PageHeader
@@ -43,38 +81,48 @@ export function SuperAdminTenantsPage() {
                 <th>Status</th>
                 <th>Users</th>
                 <th>Employees</th>
-                <th>Last Activity</th>
+                <th>Created</th>
                 <th>Action</th>
               </tr>
             </thead>
-            <tbody>
-              {tenantRows.map((row) => (
-                <tr key={row.slug}>
-                  <td className='flex items-center gap-3'>
-                    <Building className='size-4 text-[#64748B]' />
-                    <div>
-                      <div className='font-medium text-[#111D36]'>{row.name}</div>
-                      <div className='text-xs text-[#64748B]'>{row.slug}</div>
+            <Table.Body>
+              {tenants.map((row) => (
+                <Table.Row key={row.id}>
+                  <Table.Cell>
+                    <div className='flex items-center gap-3'>
+                      <Building className='size-4 text-[#64748B]' />
+                      <div>
+                        <div className='font-medium text-[#111D36]'>
+                          {row.name}
+                        </div>
+                        <div className='text-xs text-[#64748B]'>
+                          {row.slug}
+                        </div>
+                      </div>
                     </div>
-                  </td>
-                  <td>{row.plan}</td>
-                  <td>
-                    <span className='inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#DCFCE7] text-[10px] font-medium text-[#15803D]'>
-                      <span className='w-1.5 h-1.5 rounded-full bg-[#15803D]' />
+                  </Table.Cell>
+                  <Table.Cell>{row.plan}</Table.Cell>
+                  <Table.Cell>
+                    <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full ${statusColors[row.status]} text-[10px] font-medium`}>
+                      <span className='w-1.5 h-1.5 rounded-full' />
                       {row.status}
                     </span>
-                  </td>
-                  <td>{row.users}</td>
-                  <td>{row.employees}</td>
-                  <td>{row.lastActivity}</td>
-                  <td>
+                  </Table.Cell>
+                  <Table.Cell>{row.user_count}</Table.Cell>
+                  <Table.Cell>{row.employee_count}</Table.Cell>
+                  <Table.Cell>
+                    <div className='text-xs text-[#64748B]'>
+                      {new Date(row.created_at).toLocaleDateString()}
+                    </div>
+                  </Table.Cell>
+                  <Table.Cell>
                     <button className='text-[12px] font-medium text-cube-primary hover:text-cube-primary-hover'>
                       Open tenant
                     </button>
-                  </td>
-                </tr>
+                  </Table.Cell>
+                </Table.Row>
               ))}
-            </tbody>
+            </Table.Body>
           </Table>
         </div>
       </Card>
