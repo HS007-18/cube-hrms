@@ -2,6 +2,7 @@
 import asyncio
 import shutil
 import time
+from dataclasses import dataclass
 from datetime import UTC, datetime
 
 from sqlalchemy import select, text
@@ -120,8 +121,16 @@ async def update_alert(
     data = payload.model_dump(exclude_unset=True)
     for key, value in data.items():
         setattr(alert, key, value)
-    if data.get("is_resolved") and alert.resolved_at is None:
-        alert.resolved_at = datetime.now(UTC)
+    if "is_resolved" in data:
+        if data["is_resolved"]:
+            if alert.resolved_at is None:
+                alert.resolved_at = datetime.now(UTC)
+        else:
+            # Re-opening: drop the stale resolution stamp so the alert does
+            # not reappear as resolved with a timestamp from its last close.
+            alert.resolved_at = None
+            if "resolved_by" not in data:
+                alert.resolved_by = None
     await session.flush()
     await session.refresh(alert)
     return alert
@@ -149,25 +158,30 @@ async def get_health_summary(session: AsyncSession) -> dict:
     }
 
 
-def _record(
-    check_type: HealthCheckType,
-    component: str,
-    status: HealthStatus,
-    message: str,
-    started: float,
-    details: dict | None = None,
+@dataclass(frozen=True)
+class ProbeOutcome:
+    """Raw result of one probe, before it becomes a persisted check row."""
+
+    status: HealthStatus
+    message: str
+    started: float
+    details: dict | None = None
+
+
+def _build_check(
+    check_type: HealthCheckType, component: str, outcome: ProbeOutcome
 ) -> SystemHealthCheck:
     return SystemHealthCheck(
         check_type=check_type.value,
         component=component,
-        status=status.value,
-        message=message,
-        details=details,
-        duration_ms=round((time.perf_counter() - started) * 1000),
+        status=outcome.status.value,
+        message=outcome.message,
+        details=outcome.details,
+        duration_ms=round((time.perf_counter() - outcome.started) * 1000),
     )
 
 
-async def _check_database() -> SystemHealthCheck:
+async def _check_database() -> ProbeOutcome:
     """Ping Postgres on a dedicated connection so a failure stays reportable."""
     started = time.perf_counter()
     try:
@@ -175,55 +189,37 @@ async def _check_database() -> SystemHealthCheck:
             async with get_engine().connect() as conn:
                 await conn.execute(text("SELECT 1"))
     except Exception as exc:  # noqa: BLE001 - probe must capture any failure
-        return _record(
-            HealthCheckType.DATABASE,
-            "postgres",
+        return ProbeOutcome(
             HealthStatus.UNHEALTHY,
             f"Database unreachable: {exc.__class__.__name__}",
             started,
         )
-    return _record(
-        HealthCheckType.DATABASE,
-        "postgres",
-        HealthStatus.HEALTHY,
-        "Database reachable",
-        started,
-    )
+    return ProbeOutcome(HealthStatus.HEALTHY, "Database reachable", started)
 
 
-async def _check_redis() -> SystemHealthCheck:
+async def _check_redis() -> ProbeOutcome:
     started = time.perf_counter()
     client = get_redis_client()
     try:
         async with asyncio.timeout(PROBE_TIMEOUT_SECONDS):
             await client.ping()
     except Exception as exc:  # noqa: BLE001 - probe must capture any failure
-        return _record(
-            HealthCheckType.REDIS,
-            "redis",
+        return ProbeOutcome(
             HealthStatus.UNHEALTHY,
             f"Redis unreachable: {exc.__class__.__name__}",
             started,
         )
     finally:
         await client.aclose()
-    return _record(
-        HealthCheckType.REDIS,
-        "redis",
-        HealthStatus.HEALTHY,
-        "Redis reachable",
-        started,
-    )
+    return ProbeOutcome(HealthStatus.HEALTHY, "Redis reachable", started)
 
 
-async def _check_disk_space() -> SystemHealthCheck:
+async def _check_disk_space() -> ProbeOutcome:
     started = time.perf_counter()
     try:
         usage = shutil.disk_usage("/")
     except OSError as exc:
-        return _record(
-            HealthCheckType.DISK_SPACE,
-            "root-filesystem",
+        return ProbeOutcome(
             HealthStatus.UNKNOWN,
             f"Disk usage unavailable: {exc.__class__.__name__}",
             started,
@@ -241,21 +237,16 @@ async def _check_disk_space() -> SystemHealthCheck:
         status, message = HealthStatus.DEGRADED, "Disk running low on space"
     else:
         status, message = HealthStatus.HEALTHY, "Disk space OK"
-    return _record(
-        HealthCheckType.DISK_SPACE,
-        "root-filesystem",
-        status,
-        message,
-        started,
-        details,
-    )
+    return ProbeOutcome(status, message, started, details)
 
 
 async def run_all_health_checks(session: AsyncSession) -> list[SystemHealthCheck]:
     results = [
-        await _check_database(),
-        await _check_redis(),
-        await _check_disk_space(),
+        _build_check(HealthCheckType.DATABASE, "postgres", await _check_database()),
+        _build_check(HealthCheckType.REDIS, "redis", await _check_redis()),
+        _build_check(
+            HealthCheckType.DISK_SPACE, "root-filesystem", await _check_disk_space()
+        ),
     ]
     for check in results:
         session.add(check)
