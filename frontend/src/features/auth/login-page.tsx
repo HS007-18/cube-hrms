@@ -18,7 +18,11 @@ export function LoginPage() {
   const [submitting, setSubmitting] = useState(false)
 
   if (status === 'authenticated' && user) {
-    return <Navigate to={user.is_platform_admin ? '/tenants' : '/dashboard'} replace />
+    if (user.is_platform_admin) {
+      window.location.href = 'http://localhost:5170/login'
+      return null
+    }
+    return <Navigate to='/dashboard' replace />
   }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -26,8 +30,12 @@ export function LoginPage() {
     setError('')
     setSubmitting(true)
     try {
-      const profile = await login(email.trim(), password)
-      navigate(profile.is_platform_admin ? '/tenants' : '/dashboard', { replace: true })
+      const profile = await login(email.trim(), password.trim())
+      if (profile.is_platform_admin) {
+        window.location.href = 'http://localhost:5170/login'
+        return
+      }
+      navigate('/dashboard', { replace: true })
     } catch (caught) {
       setError(caught instanceof Error ? caught.message : 'Unable to sign in')
     } finally {

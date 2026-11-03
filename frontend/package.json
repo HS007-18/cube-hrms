@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:super-admin": "vite --config vite.super-admin.config.ts",
     "build": "tsc -b && vite build",
+    "build:super-admin": "tsc -b && vite build --config vite.super-admin.config.ts",
     "lint": "oxlint",
     "preview": "vite preview",
     "test": "vitest run",
