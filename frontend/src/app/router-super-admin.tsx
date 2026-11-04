@@ -6,6 +6,10 @@ import { useAuth } from '@/lib/auth'
 import { SuperAdminLoginPage } from '@/features/auth/login-super-admin-page'
 import { SuperAdminDashboardPage } from '@/features/super-admin/dashboard-page'
 import { SuperAdminTenantsPage } from '@/features/super-admin/tenants-page'
+import { SubscriptionsPage } from '@/features/super-admin/subscriptions/subscriptions-page'
+import { TenantAnalyticsPage } from '@/features/super-admin/tenant-analytics/tenant-analytics-page'
+import { PlatformAuditPage } from '@/features/super-admin/platform-audit/platform-audit-page'
+import { SystemHealthPage } from '@/features/super-admin/system-health/system-health-page'
 
 function RequireAuth() {
   const { status, user } = useAuth()
@@ -34,6 +38,10 @@ export const superAdminRouter = createBrowserRouter([
             children: [
               { index: true, element: <SuperAdminDashboardPage /> },
               { path: 'tenants', element: <SuperAdminTenantsPage /> },
+              { path: 'subscriptions', element: <SubscriptionsPage /> },
+              { path: 'tenant-analytics', element: <TenantAnalyticsPage /> },
+              { path: 'platform-audit', element: <PlatformAuditPage /> },
+              { path: 'system-health', element: <SystemHealthPage /> },
             ],
           },
         ],

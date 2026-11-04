@@ -1,0 +1,113 @@
+# Strix Test Suite: Authentication Flows
+# Tests login/logout for all 4 roles
+
+config:
+  base_url: "http://127.0.0.1:8081"
+  timeout: 30000
+  retries: 2
+
+test_suites:
+  - name: "Authentication - Super Admin"
+    tags: ["auth", "super-admin"]
+    tests:
+      - name: "Super Admin Login Success"
+        steps:
+          - goto: "/super-admin/"
+          - wait_for: "input[type='email']"
+          - fill:
+              selector: "input[type='email']"
+              value: "superadmin@cubeai.example"
+          - fill:
+              selector: "input[type='password']"
+              value: "SuperAdmin@2026"
+          - click:
+              selector: "button[type='submit']"
+          - wait_for_url: "/super-admin/"
+          - assert_visible: "text=Platform Overview"
+
+      - name: "Super Admin Logout"
+        steps:
+          - click:
+              selector: "button[aria-label='Sign out']"
+          - wait_for_url: "/login"
+
+  - name: "Authentication - HR Admin"
+    tags: ["auth", "hr-admin"]
+    tests:
+      - name: "HR Admin Login Success"
+        steps:
+          - goto: "/"
+          - wait_for: "input[type='email']"
+          - fill:
+              selector: "input[type='email']"
+              value: "priya.sharma@technova.example"
+          - fill:
+              selector: "input[type='password']"
+              value: "HrAdmin@2026"
+          - click:
+              selector: "button[type='submit']"
+          - wait_for_url: "/dashboard"
+          - assert_visible: "text=Overview"
+
+      - name: "HR Admin Logout"
+        steps:
+          - click:
+              selector: "button[aria-label='Sign out']"
+          - wait_for_url: "/login"
+
+  - name: "Authentication - Manager"
+    tags: ["auth", "manager"]
+    tests:
+      - name: "Manager Login Success"
+        steps:
+          - goto: "/"
+          - wait_for: "input[type='email']"
+          - fill:
+              selector: "input[type='email']"
+              value: "rohit.verma@technova.example"
+          - fill:
+              selector: "input[type='password']"
+              value: "MgrAdmin@2026"
+          - click:
+              selector: "button[type='submit']"
+          - wait_for_url: "/dashboard"
+
+  - name: "Authentication - Employee"
+    tags: ["auth", "employee"]
+    tests:
+      - name: "Employee Login Success"
+        steps:
+          - goto: "/"
+          - wait_for: "input[type='email']"
+          - fill:
+              selector: "input[type='email']"
+              value: "amit.kumar@technova.example"
+          - fill:
+              selector: "input[type='password']"
+              value: "Employee@2026"
+          - click:
+              selector: "button[type='submit']"
+          - wait_for_url: "/dashboard"
+
+  - name: "Authentication - Invalid Credentials"
+    tags: ["auth", "negative"]
+    tests:
+      - name: "Invalid Email"
+        steps:
+          - goto: "/"
+          - fill:
+              selector: "input[type='email']"
+              value: "invalid@example.com"
+          - fill:
+              selector: "input[type='password']"
+              value: "wrongpassword"
+          - click:
+              selector: "button[type='submit']"
+          - assert_visible: "text=Invalid credentials"
+
+      - name: "Empty Fields"
+        steps:
+          - goto: "/"
+          - click:
+              selector: "button[type='submit']"
+          - assert_visible: "text=required"

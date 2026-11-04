@@ -1,0 +1,51 @@
+# Strix Test Suite: Platform Admin Module Workflows
+
+config:
+  base_url: "http://127.0.0.1:8081"
+  timeout: 30000
+  retries: 2
+
+test_suites:
+  - name: "Platform Admin - Subscriptions"
+    tags: ["subscriptions", "platform-admin"]
+    prerequisites:
+      - login_as: "super-admin"
+    tests:
+      - name: "View Subscriptions"
+        steps:
+          - goto: "/super-admin/subscriptions"
+          - wait_for: "table"
+          - assert_visible: "text=Subscription"
+
+  - name: "Platform Admin - Tenant Analytics"
+    tags: ["tenant-analytics", "platform-admin"]
+    prerequisites:
+      - login_as: "super-admin"
+    tests:
+      - name: "View Tenant Analytics"
+        steps:
+          - goto: "/super-admin/tenant-analytics"
+          - wait_for: "table"
+          - assert_visible: "text=Tenant"
+
+  - name: "Platform Admin - Platform Audit"
+    tags: ["platform-audit", "platform-admin"]
+    prerequisites:
+      - login_as: "super-admin"
+    tests:
+      - name: "View Platform Audit"
+        steps:
+          - goto: "/super-admin/platform-audit"
+          - wait_for: "table"
+          - assert_visible: "text=Platform Audit"
+
+  - name: "Platform Admin - System Health"
+    tags: ["system-health", "platform-admin"]
+    prerequisites:
+      - login_as: "super-admin"
+    tests:
+      - name: "View System Health"
+        steps:
+          - goto: "/super-admin/system-health"
+          - wait_for: "table"
+          - assert_visible: "text=System Health"

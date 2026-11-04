@@ -1,0 +1,51 @@
+# Strix Test Suite: Employee Lifecycle Module Workflows
+
+config:
+  base_url: "http://127.0.0.1:8081"
+  timeout: 30000
+  retries: 2
+
+test_suites:
+  - name: "Employee Lifecycle - Goals"
+    tags: ["goals", "all"]
+    prerequisites:
+      - login_as: "hr-admin"
+    tests:
+      - name: "View Goals"
+        steps:
+          - goto: "/goals"
+          - wait_for: "table"
+          - assert_visible: "text=Goals"
+
+  - name: "Employee Lifecycle - Offboarding"
+    tags: ["offboarding", "hr-admin"]
+    prerequisites:
+      - login_as: "hr-admin"
+    tests:
+      - name: "View Offboarding"
+        steps:
+          - goto: "/offboarding"
+          - wait_for: "table"
+          - assert_visible: "text=Employee Exit"
+
+  - name: "Employee Lifecycle - Support"
+    tags: ["support", "all"]
+    prerequisites:
+      - login_as: "employee"
+    tests:
+      - name: "View Support"
+        steps:
+          - goto: "/support"
+          - wait_for: "table"
+          - assert_visible: "text=Help"
+
+  - name: "Employee Lifecycle - Announcements"
+    tags: ["announcements", "all"]
+    prerequisites:
+      - login_as: "hr-admin"
+    tests:
+      - name: "View Announcements"
+        steps:
+          - goto: "/announcements"
+          - wait_for: "table"
+          - assert_visible: "text=Company Announcements"

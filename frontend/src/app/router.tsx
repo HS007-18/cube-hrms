@@ -15,6 +15,17 @@ import { AttendancePage } from '@/features/attendance/attendance-page'
 import { LeavePage } from '@/features/leave/leave-page'
 import { TenantsPage } from '@/features/tenants/tenants-page'
 import { ProfilePage } from '@/features/profile/profile-page'
+import { PayrollPage } from '@/features/payroll/payroll-page'
+import { RecruitmentPage } from '@/features/recruitment/recruitment-page'
+import { OnboardingPage } from '@/features/onboarding/onboarding-page'
+import { ReportsPage } from '@/features/reports/reports-page'
+import { DocumentsPage } from '@/features/documents/documents-page'
+import { NotificationsPage } from '@/features/notifications/notifications-page'
+import { HolidaysPage } from '@/features/holidays/holidays-page'
+import { GoalsPage } from '@/features/goals/goals-page'
+import { OffboardingPage } from '@/features/offboarding/offboarding-page'
+import { SupportPage } from '@/features/support/support-page'
+import { AnnouncementsPage } from '@/features/announcements/announcements-page'
 import { NotFoundPage } from '@/app/not-found-page'
 
 export const router = createBrowserRouter([
@@ -37,6 +48,17 @@ export const router = createBrowserRouter([
                 children: [
                   { path: 'employees', element: <EmployeesPage /> },
                   { path: 'structure', element: <StructurePage /> },
+                  { path: 'payroll', element: <PayrollPage /> },
+                  { path: 'recruitment', element: <RecruitmentPage /> },
+                  { path: 'onboarding', element: <OnboardingPage /> },
+                  { path: 'reports', element: <ReportsPage /> },
+                  { path: 'documents', element: <DocumentsPage /> },
+                  { path: 'notifications', element: <NotificationsPage /> },
+                  { path: 'holidays', element: <HolidaysPage /> },
+                  { path: 'goals', element: <GoalsPage /> },
+                  { path: 'offboarding', element: <OffboardingPage /> },
+                  { path: 'support', element: <SupportPage /> },
+                  { path: 'announcements', element: <AnnouncementsPage /> },
                 ],
               },
             ],

@@ -1,0 +1,118 @@
+# Strix Test Suite: Core HR Module Workflows
+
+config:
+  base_url: "http://127.0.0.1:8081"
+  timeout: 30000
+  retries: 2
+
+test_suites:
+  - name: "Core HR - Payroll"
+    tags: ["payroll", "hr-admin"]
+    prerequisites:
+      - login_as: "hr-admin"
+    tests:
+      - name: "View Payroll List"
+        steps:
+          - goto: "/payroll"
+          - wait_for: "table"
+          - assert_visible: "text=Payroll Management"
+
+      - name: "Create Payroll Run"
+        steps:
+          - click: "button:has-text('Create Payroll Run')"
+          - wait_for: "dialog"
+          - fill:
+              selector: "input[name='period_start']"
+              value: "2026-01-01"
+          - fill:
+              selector: "input[name='period_end']"
+              value: "2026-01-31"
+          - click: "button[type='submit']:has-text('Create Payroll')"
+          - wait_for: "toast:has-text('Payroll created')"
+
+      - name: "Add Payroll Item"
+        steps:
+          - click: "button:has-text('Add Item')"
+          - wait_for: "dialog"
+          - fill:
+              selector: "input[name='employee_id']"
+              value: "1"
+          - fill:
+              selector: "input[name='name']"
+              value: "Base Salary"
+          - select:
+              selector: "select[name='type']"
+              value: "earning"
+          - fill:
+              selector: "input[name='amount']"
+              value: "50000"
+          - click: "button[type='submit']:has-text('Add Item')"
+          - wait_for: "toast:has-text('Item added')"
+
+      - name: "Process Payroll"
+        steps:
+          - click: "button:has-text('Process Payroll')"
+          - wait_for: "toast:has-text('Payroll processed')"
+
+  - name: "Core HR - Recruitment"
+    tags: ["recruitment", "hr-admin"]
+    prerequisites:
+      - login_as: "hr-admin"
+    tests:
+      - name: "View Job Postings"
+        steps:
+          - goto: "/recruitment"
+          - wait_for: "table"
+          - assert_visible: "text=Recruitment Management"
+
+      - name: "Create Job Posting"
+        steps:
+          - click: "button:has-text('Create Job Posting')"
+          - wait_for: "dialog"
+          - fill:
+              selector: "input[name='title']"
+              value: "Senior Developer"
+          - select:
+              selector: "select[name='employment_type']"
+              value: "full_time"
+          - fill:
+              selector: "input[name='location']"
+              value: "Remote"
+          - fill:
+              selector: "input[name='min_salary']"
+              value: "80000"
+          - fill:
+              selector: "input[name='max_salary']"
+              value: "120000"
+          - click: "button[type='submit']:has-text('Create Job Posting')"
+          - wait_for: "toast:has-text('Job posting created')"
+
+      - name: "View Job Detail"
+        steps:
+          - click: "table tbody tr:first-child button:has-text('View')"
+          - wait_for: "dialog"
+          - assert_visible: "text=Senior Developer"
+
+  - name: "Core HR - Onboarding"
+    tags: ["onboarding", "hr-admin"]
+    prerequisites:
+      - login_as: "hr-admin"
+    tests:
+      - name: "View Onboarding List"
+        steps:
+          - goto: "/onboarding"
+          - wait_for: "table"
+          - assert_visible: "text=Employee Onboarding"
+
+      - name: "Create Onboarding"
+        steps:
+          - click: "button:has-text('Create Onboarding')"
+          - wait_for: "dialog"
+          - fill:
+              selector: "input[name='employee_id']"
+              value: "5"
+          - fill:
+              selector: "input[name='start_date']"
+              value: "2026-02-01"
+          - click: "button[type='submit']:has-text('Create Onboarding')"
+          - wait_for: "toast:has-text('Onboarding created')"

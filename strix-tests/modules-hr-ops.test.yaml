@@ -1,0 +1,61 @@
+# Strix Test Suite: HR Operations Module Workflows
+
+config:
+  base_url: "http://127.0.0.1:8081"
+  timeout: 30000
+  retries: 2
+
+test_suites:
+  - name: "HR Operations - Reports"
+    tags: ["reports", "hr-admin"]
+    prerequisites:
+      - login_as: "hr-admin"
+    tests:
+      - name: "View Reports"
+        steps:
+          - goto: "/reports"
+          - wait_for: "table"
+          - assert_visible: "text=Reports"
+
+      - name: "Create Report"
+        steps:
+          - click: "button:has-text('Create Report')"
+          - wait_for: "dialog"
+          - fill:
+              selector: "input[name='name']"
+              value: "Monthly Attendance Report"
+          - click: "button[type='submit']:has-text('Create Report')"
+          - wait_for: "toast:has-text('Report created')"
+
+  - name: "HR Operations - Documents"
+    tags: ["documents", "hr-admin"]
+    prerequisites:
+      - login_as: "hr-admin"
+    tests:
+      - name: "View Documents"
+        steps:
+          - goto: "/documents"
+          - wait_for: "table"
+          - assert_visible: "text=Document Management"
+
+  - name: "HR Operations - Notifications"
+    tags: ["notifications", "all"]
+    prerequisites:
+      - login_as: "hr-admin"
+    tests:
+      - name: "View Notifications"
+        steps:
+          - goto: "/notifications"
+          - wait_for: "table"
+          - assert_visible: "text=Notifications"
+
+  - name: "HR Operations - Holidays"
+    tags: ["holidays", "all"]
+    prerequisites:
+      - login_as: "hr-admin"
+    tests:
+      - name: "View Holidays"
+        steps:
+          - goto: "/holidays"
+          - wait_for: "table"
+          - assert_visible: "text=Holiday Calendar"

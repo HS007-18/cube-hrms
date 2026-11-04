@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-11-04 05:39:07 UTC",
+  "run_id": "host-docker-internal-8081_c0d5",
+  "run_name": "host-docker-internal-8081_c0d5",
+  "scope": {
+    "targets": [
+      {
+        "type": "web_application",
+        "details": {
+          "target_url": "http://host.docker.internal:8081"
+        },
+        "original": "http://127.0.0.1:8081"
+      }
+    ],
+    "scan_mode": "deep",
+    "scope_mode": "auto",
+    "diff_scope": {
+      "active": false,
+      "mode": "auto"
+    },
+    "instruction": "Quick security scan of HRMS login page and authentication endpoints. Check for authentication bypass, XSS, CSRF, rate limiting on login."
+  },
+  "summary": {
+    "surfaces_reviewed": 0,
+    "outcomes": {},
+    "findings_filed": 0,
+    "gaps": 1
+  },
+  "machine_observed": {
+    "agents": [
+      {
+        "agent_id": "bd2e078a",
+        "agent_name": "Root Agent",
+        "status": "running",
+        "skills": [],
+        "task": "\n\nURLs: - http://host.docker.internal:8081\n\nSpecial instructions: Quick security scan of HRMS login page and authentication endpoints. Check for authentication bypass, XSS, CSRF, rate limiting on login.",
+        "is_root": true
+      }
+    ],
+    "skills_exercised": [],
+    "findings_filed": 0,
+    "source": "runtime"
+  },
+  "completeness": {
+    "complete": false,
+    "scan_status": "interrupted",
+    "exit_reason": "user_exit",
+    "caveats": [
+      "The scan ended with status 'interrupted' rather than completing, so coverage reflects only the work finished before it stopped.",
+      "1 agent(s) did not finish cleanly (Root Agent); any surface they held is under-covered.",
+      "The run terminated via 'user_exit' rather than the root agent finishing, so remaining scope was not reached."
+    ]
+  },
+  "entries": [],
+  "gaps": [
+    {
+      "kind": "agent_recorded_no_coverage",
+      "agent_name": "Root Agent",
+      "detail": "Root Agent ran (status: running) without recording any coverage. Whatever it examined is absent from this record."
+    }
+  ]
+}

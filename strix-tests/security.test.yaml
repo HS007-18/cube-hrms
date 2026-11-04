@@ -1,0 +1,109 @@
+# Strix Test Suite: RBAC & Security Tests
+
+config:
+  base_url: "http://127.0.0.1:8081"
+  timeout: 30000
+  retries: 2
+
+test_suites:
+  - name: "RBAC - Role Restrictions"
+    tags: ["rbac", "security"]
+    tests:
+      - name: "Employee Cannot Access HR Admin Routes"
+        steps:
+          - login_as: "employee"
+          - goto: "/payroll"
+          - assert_url_not: "/payroll"
+          - assert_visible: "text=Access denied"
+
+      - name: "Employee Cannot Access Recruitment"
+        steps:
+          - login_as: "employee"
+          - goto: "/recruitment"
+          - assert_url_not: "/recruitment"
+
+      - name: "Employee Cannot Access Onboarding"
+        steps:
+          - login_as: "employee"
+          - goto: "/onboarding"
+          - assert_url_not: "/onboarding"
+
+      - name: "Manager Cannot Access Platform Admin Routes"
+        steps:
+          - login_as: "manager"
+          - goto: "/super-admin/subscriptions"
+          - assert_url_not: "/super-admin/subscriptions"
+
+      - name: "Manager Cannot Access Tenant Analytics"
+        steps:
+          - login_as: "manager"
+          - goto: "/super-admin/tenant-analytics"
+          - assert_url_not: "/super-admin/tenant-analytics"
+
+      - name: "HR Admin Cannot Access Platform Admin Routes"
+        steps:
+          - login_as: "hr-admin"
+          - goto: "/super-admin/system-health"
+          - assert_url_not: "/super-admin/system-health"
+
+      - name: "HR Admin Cannot Access Subscriptions"
+        steps:
+          - login_as: "hr-admin"
+          - goto: "/super-admin/subscriptions"
+          - assert_url_not: "/super-admin/subscriptions"
+
+      - name: "Super Admin Can Access All Routes"
+        steps:
+          - login_as: "super-admin"
+          - goto: "/payroll"
+          - assert_url: "/payroll"
+          - goto: "/super-admin/subscriptions"
+          - assert_url: "/super-admin/subscriptions"
+
+  - name: "Security - Input Validation"
+    tags: ["security", "validation"]
+    prerequisites:
+      - login_as: "hr-admin"
+    tests:
+      - name: "XSS in Payroll Name"
+        steps:
+          - goto: "/payroll"
+          - click: "button:has-text('Create Payroll Run')"
+          - wait_for: "dialog"
+          - fill:
+              selector: "input[name='period_start']"
+              value: "2026-01-01"
+          - fill:
+              selector: "input[name='period_end']"
+              value: "2026-01-31"
+          - fill:
+              selector: "input[name='notes']"
+              value: "<script>alert('xss')</script>"
+          - click: "button[type='submit']:has-text('Create Payroll')"
+          - wait_for: "toast:has-text('Payroll created')"
+
+      - name: "SQL Injection in Search"
+        steps:
+          - goto: "/payroll"
+          - fill:
+              selector: "input[placeholder='Search payrolls...']"
+              value: "'; DROP TABLE payrolls; --"
+          - wait_for: "table"
+
+  - name: "Security - Rate Limiting"
+    tags: ["security", "rate-limiting"]
+    tests:
+      - name: "Login Rate Limit"
+        steps:
+          - goto: "/"
+          - repeat: 6
+            steps:
+              - fill:
+                  selector: "input[type='email']"
+                  value: "wrong@example.com"
+              - fill:
+                  selector: "input[type='password']"
+                  value: "wrongpassword"
+              - click: "button[type='submit']"
+              - wait: 500
+          - assert_visible: "text=rate limit"

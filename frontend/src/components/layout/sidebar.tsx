@@ -1,11 +1,21 @@
 import {
+  Activity,
+  BarChart3,
+  Bell,
   Building2,
   CalendarDays,
+  CheckCircle2,
   Clock3,
+  DollarSign,
+  FolderOpen,
+  HelpCircle,
   Home,
   LayoutDashboard,
   LogOut,
+  Megaphone,
   Network,
+  ShieldAlert,
+  Target,
   UserRound,
   Users,
 } from 'lucide-react'
@@ -41,8 +51,30 @@ const sections: NavSection[] = [
     ],
   },
   {
+    label: 'HR Operations',
+    items: [
+      { to: '/payroll', label: 'Payroll', icon: DollarSign, roles: ['hr_admin'] },
+      { to: '/recruitment', label: 'Recruitment', icon: Users, roles: ['hr_admin'] },
+      { to: '/onboarding', label: 'Onboarding', icon: CheckCircle2, roles: ['hr_admin'] },
+      { to: '/offboarding', label: 'Offboarding', icon: LogOut, roles: ['hr_admin'] },
+      { to: '/reports', label: 'Reports', icon: BarChart3, roles: ['hr_admin'] },
+      { to: '/documents', label: 'Documents', icon: FolderOpen, roles: ['hr_admin'] },
+      { to: '/notifications', label: 'Notifications', icon: Bell, roles: ['hr_admin', 'manager', 'employee'] },
+      { to: '/holidays', label: 'Holidays', icon: CalendarDays, roles: ['hr_admin', 'manager', 'employee'] },
+      { to: '/goals', label: 'Goals', icon: Target, roles: ['hr_admin', 'manager', 'employee'] },
+      { to: '/support', label: 'Support', icon: HelpCircle, roles: ['hr_admin', 'manager', 'employee'] },
+      { to: '/announcements', label: 'Announcements', icon: Megaphone, roles: ['hr_admin', 'manager', 'employee'] },
+    ],
+  },
+  {
     label: 'Platform',
-    items: [{ to: '/tenants', label: 'Tenants', icon: Building2, platformOnly: true }],
+    items: [
+      { to: '/tenants', label: 'Tenants', icon: Building2, platformOnly: true },
+      { to: '/subscriptions', label: 'Subscriptions', icon: DollarSign, platformOnly: true },
+      { to: '/tenant-analytics', label: 'Tenant Analytics', icon: BarChart3, platformOnly: true },
+      { to: '/platform-audit', label: 'Platform Audit', icon: ShieldAlert, platformOnly: true },
+      { to: '/system-health', label: 'System Health', icon: Activity, platformOnly: true },
+    ],
   },
 ]
 
